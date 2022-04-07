@@ -1,4 +1,5 @@
 <template>
+  <NavBar/>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
@@ -31,8 +32,13 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 export default {
   name: 'HelloWorld',
+  components: {
+    NavBar
+  },
   props: {
     msg: String
   }
