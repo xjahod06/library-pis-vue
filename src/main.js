@@ -1,12 +1,11 @@
-import { createApp } from 'vue'
-// import the root component App from a single-file component.
+import '@babel/polyfill'
+import 'mutationobserver-shim'
+import Vue from 'vue'
+import './plugins/bootstrap-vue'
 import App from './App.vue'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.config.productionTip = false
 
-const app = createApp(App)
-
-app.mount('#app')
-
-console.log(app)
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
