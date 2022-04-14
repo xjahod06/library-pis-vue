@@ -1,13 +1,13 @@
 <template>
 
-<!--    <b-nav-form >-->
-      <div class="grid-container">
-
-      <b-form-input class="grid-item search-bar" placeholder="Search"></b-form-input>
-      <b-button class="grid-item" variant="primary" type="submit">Search</b-button>
-      </div>
-<!--    </b-nav-form>-->
-
+      <b-container id="mynavbar">
+        <!--    <b-nav-form >-->
+        <b-row no-gutters>
+          <b-col cols="11" ><b-form-input  placeholder="Search"></b-form-input></b-col>
+          <b-col cols="1"><b-button  variant="primary" type="submit">Search</b-button></b-col>
+        </b-row>
+        <!--    </b-nav-form>-->
+      </b-container>
 
 </template>
 
@@ -16,21 +16,3 @@ export default {
   name: 'SearchBar',
 }
 </script>
-
-<style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto ;
-  background-color: #24433e;
-  padding: 10px;
-}
-.grid-item {
-  text-align: left;
-}
-.search-bar {
-  text-align: left;
-  grid-column: 1 / span 8;
-}
-
-
-</style>

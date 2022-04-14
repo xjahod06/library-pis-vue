@@ -62,20 +62,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-h1{
-  color: #333!important;
-  font-weight: bold;
-}
-
-h3 {
-  color: #777!important;
-  font-weight: bold;
-  padding-top: 10px;
-}
-
-
-
-</style>

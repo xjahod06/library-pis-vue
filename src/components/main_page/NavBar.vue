@@ -1,5 +1,8 @@
 <template>
-  <div class="MyNavBar">
+  <div id="mynavbar">
+    <b-container>
+
+
     <b-navbar toggleable="lg" variant="info">
       <b-navbar-brand left href="#">
         <b-img class="navbar-logo" src="@/assets/library_logo.png" alt="Responsive image" ></b-img>
@@ -12,7 +15,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#">Catalog</b-nav-item>
-          <b-nav-item-dropdown class="my-dropdown" text="Genre" right>
+          <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre href="#" genre="Beletria" />
           </b-nav-item-dropdown>
           <b-nav-item href="#">Login/Register</b-nav-item>
@@ -21,6 +24,7 @@
       </b-collapse>
 
     </b-navbar>
+    </b-container>
     <SearchBar></SearchBar>
   </div>
 
@@ -39,27 +43,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.navbar {
-  background-color: #24433e!important;
-}
-
-.navbar-logo {
-  width: 200px;
-  padding: 0px;
-}
-
-.navbar-nav .nav-item .nav-link {
-  color: #d0d3d3!important;
-  font-size: 20px;
-  font-weight: normal;
-}
-
-.my-dropdown {
-  color: #d0d3d3!important;
-  font-size: 20px;
-  font-weight: normal;
-}
-
-</style>
