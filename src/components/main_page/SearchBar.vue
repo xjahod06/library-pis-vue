@@ -2,6 +2,7 @@
 
 <!--    <b-nav-form >-->
       <div class="grid-container">
+
       <b-form-input class="grid-item search-bar" placeholder="Search"></b-form-input>
       <b-button class="grid-item" variant="primary" type="submit">Search</b-button>
       </div>
