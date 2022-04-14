@@ -1,6 +1,6 @@
 <template>
   <b-col>
-    <b-img id="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
+    <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
     <div id="type">
       <h5>{{ type }}</h5>
     </div>

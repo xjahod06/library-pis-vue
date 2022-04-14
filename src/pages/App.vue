@@ -16,7 +16,6 @@ import MainSection from "@/components/main_page/MainSection";
 
 import BookService from "@/services/BookService";
 
-
 export default {
   name: 'App',
   components: {

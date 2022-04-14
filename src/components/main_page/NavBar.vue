@@ -4,7 +4,7 @@
 
 
     <b-navbar toggleable="lg" variant="info">
-      <b-navbar-brand left href="#">
+      <b-navbar-brand left href="/">
         <b-img class="navbar-logo" src="@/assets/library_logo.png" alt="Responsive image" ></b-img>
       </b-navbar-brand>
 
