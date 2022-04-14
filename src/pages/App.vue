@@ -3,6 +3,11 @@
   <NavBar></NavBar>
     <MainSection name="Books" :data="books"></MainSection>
     <!-- <MainSection name="E-Books"></MainSection> -->
+    <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
+    <b-button @click="books[1].name='Harry Potter';putBook(books[0])">PUT</b-button>
+    <div>
+      {{ book }}
+    </div>
     <MainSection name="Magazines" :data="magazines"></MainSection>
     <MyFooter></MyFooter>
   </div>
@@ -29,6 +34,7 @@ export default {
     return {
       books: [],
       magazines: [],
+      book: {},
     }
   },
   methods: {
@@ -39,11 +45,24 @@ export default {
     getMagazines(){
       MagazineService.get().then((response) =>
           this.magazines = response.data,
-      )}
+      )},
+    postBook(json){
+      BookService.post(json).then((response) =>
+          console.log(response),
+      )},
+    putBook(json){
+      BookService.put(json).then((response) =>
+          console.log(response),
+      )},
+    getBook(id){
+      BookService.getId(id).then((response) =>
+          this.book = response.data,
+      )},
   },
   created() {
     this.getBooks();
-    this.getMagazines()
+    this.getMagazines();
+    this.getBook(1);
   },
 }
 </script>

@@ -1,11 +1,12 @@
 import axios from 'axios';
+import serviceConfig from "@/services/serviceConfig";
 
-const API_BASE_URL = 'http://localhost:8080/pis-library/api/v1/magazines/';
+const SERVICE_URL = serviceConfig.hostname+'/magazines/';
 
 class MagazineService{
 
     get(){
-        return axios.get(API_BASE_URL);
+        return axios.get(SERVICE_URL);
     }
 }
 
