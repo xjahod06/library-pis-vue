@@ -1,9 +1,9 @@
 <template>
   <div id="app">
   <NavBar></NavBar>
-    <MainSection name="Books"></MainSection>
-    <MainSection name="E-Books"></MainSection>
-    <MainSection name="Magazines"></MainSection>
+    <MainSection name="Books" :data="books"></MainSection>
+    <!-- <MainSection name="E-Books"></MainSection> -->
+    <MainSection name="Magazines" :data="magazines"></MainSection>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -16,7 +16,7 @@ import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 
 import BookService from "@/services/BookService";
-
+import MagazineService from "@/services/MagazineService";
 
 export default {
   name: 'App',
@@ -27,18 +27,23 @@ export default {
   },
   data(){
     return {
-      books: []
+      books: [],
+      magazines: [],
     }
   },
   methods: {
     getBooks(){
-      BookService.getBooks().then((response) =>
-          //console.log(response),
+      BookService.get().then((response) =>
           this.books = response.data,
-    )}
+    )},
+    getMagazines(){
+      MagazineService.get().then((response) =>
+          this.magazines = response.data,
+      )}
   },
   created() {
     this.getBooks();
+    this.getMagazines()
   },
 }
 </script>

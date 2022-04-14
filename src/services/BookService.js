@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:8080/pis-library/api/v1/books';
 
 class BookService{
 
-    getBooks(){
+    get(){
         return axios.get(API_BASE_URL);
     }
 }
