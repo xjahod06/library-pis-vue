@@ -11,9 +11,12 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import NavBar from "../components/main_page/NavBar";
-import MyFooter from "../components/main_page/MyFooter" ;
-import MainSection from "../components/main_page/MainSection";
+import NavBar from "@/components/main_page/NavBar";
+import MyFooter from "@/components/main_page/MyFooter" ;
+import MainSection from "@/components/main_page/MainSection";
+
+import BookService from "@/services/BookService";
+
 export default {
   name: 'App',
   components: {
@@ -21,7 +24,22 @@ export default {
     NavBar,
     MyFooter,
     MainSection
-  }
+  },
+  data(){
+    return {
+      books: []
+    }
+  },
+  methods: {
+    getBooks(){
+      BookService.getBooks().then((response) =>
+          //console.log(response),
+          this.books = response.data,
+    )}
+  },
+  created() {
+    this.getBooks();
+  },
 }
 </script>
 
