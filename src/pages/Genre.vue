@@ -13,8 +13,7 @@
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
-import BookService from "@/services/BookService";
-import GenreService from "@/services/GenreService";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: "Genre",
@@ -34,12 +33,13 @@ export default {
 
   methods: {
     getBooks(name){
-      BookService.getBooks(name).then((response) =>
+      let params = {params:{"genres": name}};
+      ApiConnect.get('books/',params).then((response) =>
           this.books = response.data,
       )},
 
     getName(){
-      GenreService.getName(this.$route.params.id).then((response) =>
+      ApiConnect.get('genres/'+this.$route.params.id).then((response) =>
       {
         this.genre_name = response.data;
         this.getBooks(this.genre_name.name);

@@ -5,9 +5,6 @@
     <!-- <MainSection name="E-Books"></MainSection> -->
     <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
     <b-button @click="books[1].name='Harry Potter';putBook(books[0])">PUT</b-button>
-    <div>
-      {{ book }}
-    </div>
     <MainSection name="Magazines" :data="magazines"></MainSection>
 
     <MyFooter></MyFooter>
@@ -20,8 +17,7 @@ import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 
-import BookService from "@/services/BookService";
-import MagazineService from "@/services/MagazineService";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: 'App',
@@ -39,23 +35,23 @@ export default {
   },
   methods: {
     getBooks(){
-      BookService.getBooks().then((response) =>
+      ApiConnect.get('books/').then((response) =>
           this.books = response.data,
-    )},
+      )},
     getMagazines(){
-      MagazineService.get().then((response) =>
+      ApiConnect.get('magazines/').then((response) =>
           this.magazines = response.data,
       )},
     postBook(json){
-      BookService.post(json).then((response) =>
+      ApiConnect.post('books/',json).then((response) =>
           console.log(response),
       )},
     putBook(json){
-      BookService.put(json).then((response) =>
+      ApiConnect.put('books/',json).then((response) =>
           console.log(response),
       )},
     getBook(id){
-      BookService.getId(id).then((response) =>
+      ApiConnect.get('books/'+id).then((response) =>
           this.book = response.data,
       )},
   },
