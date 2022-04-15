@@ -5,6 +5,7 @@
     <!-- <MainSection name="E-Books"></MainSection> -->
     <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
     <b-button @click="books[1].name='Harry Potter';putBook(books[0])">PUT</b-button>
+    <b-button @click="delBook(0)">DEL</b-button>
     <MainSection name="Magazines" :data="magazines"></MainSection>
 
     <MyFooter></MyFooter>
@@ -53,6 +54,10 @@ export default {
     getBook(id){
       ApiConnect.get('books/'+id).then((response) =>
           this.book = response.data,
+      )},
+    delBook(id){
+      ApiConnect.delete('books/'+id).then((response) =>
+          console.log(response),
       )},
   },
   created() {
