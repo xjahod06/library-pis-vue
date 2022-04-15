@@ -6,7 +6,8 @@
     </div>
     <h3>{{ name }}</h3>
     <p>{{ author }}</p>
-    <p>{{ genre }}</p>
+    <p v-if="genre != undefined">{{ genre[0].name }}</p>
+    <p v-if="field != undefined">{{ field[0].name }}</p>
   </b-col>
 </template>
 
@@ -17,8 +18,9 @@ name: 'MainTile',
     type: String,
     name: String,
     author: String,
-    genre: String,
-    img: String
+    genre: {},
+    img: String,
+    field: {},
   }
 }
 </script>
