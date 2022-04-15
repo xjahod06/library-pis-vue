@@ -19,8 +19,7 @@ const Routes = [
     component: About
   },
   {
-    path: '/user/:id?',
-    //name: 'about',
+    path: '/readers/:id?',
     component: User
   },
   {

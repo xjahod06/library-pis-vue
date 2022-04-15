@@ -24,6 +24,11 @@ export default {
     MyFooter,
     BookList,
     UserForm
+  },
+  computed: {
+    id() {
+      return this.$route.params.id
+    }
   }
 }
 </script>
