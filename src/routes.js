@@ -1,4 +1,6 @@
 export default {
     '/': 'App',
-    '/about': 'About'
+    '/about': 'About',
+    '/genre': 'Genre'
 }
+

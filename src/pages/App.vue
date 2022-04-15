@@ -9,13 +9,13 @@
       {{ book }}
     </div>
     <MainSection name="Magazines" :data="magazines"></MainSection>
+
     <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 
-// import HelloWorld from './components/HelloWorld.vue'
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getBooks(){
-      BookService.get().then((response) =>
+      BookService.getBooks().then((response) =>
           this.books = response.data,
     )},
     getMagazines(){

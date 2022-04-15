@@ -2,28 +2,14 @@ import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
-import routes from './routes'
+import router from './router'
+import Home from "@/pages/Home";
 
 Vue.config.productionTip = false
 
-const app = new Vue({
+new Vue({
   el: '#app',
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      const matchingView = routes[this.currentRoute]
-      return matchingView
-          ? require('./pages/' + matchingView + '.vue').default
-          : require('./pages/404.vue')
-    }
-  },
-  render (h) {
-    return h(this.ViewComponent)
-  }
-})
+  router,
 
-window.addEventListener('popstate', () => {
-  app.currentRoute = window.location.pathname
-})
+  render: h => h(Home)
+}).$mount('#app')

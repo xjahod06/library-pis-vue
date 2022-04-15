@@ -5,8 +5,9 @@ const SERVICE_URL = serviceConfig.hostname+'books';
 
 class BookService{
 
-    get() {
-        return axios.get(SERVICE_URL + '/');
+    getBooks(genre){
+        let params = {params:{"genres": genre}};
+        return axios.get(API_BASE_URL, params);
     }
     post(jsonData){
         return axios.post(SERVICE_URL,jsonData);
