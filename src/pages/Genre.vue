@@ -1,6 +1,7 @@
 <template>
   <div id="Genre">
     <NavBar></NavBar>
+    <h1>{{this.$route.params}}</h1>
     <MainSection name="Books"></MainSection>
     <MainSection name="Authors"></MainSection>
     <MyFooter></MyFooter>
@@ -14,11 +15,16 @@ import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 
 export default {
-  name: "Genre.vue",
+  name: "Genre",
   components: {
     NavBar,
     MyFooter,
     MainSection
+  },
+  computed: {
+    id() {
+      return this.$route.params.id
+    }
   }
 }
 </script>

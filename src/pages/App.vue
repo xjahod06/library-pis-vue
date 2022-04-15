@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <NavBar></NavBar>
+    <NavBar></NavBar>
     <MainSection name="Books"></MainSection>
     <MainSection name="E-Books"></MainSection>
     <MainSection name="Magazines"></MainSection>
@@ -10,7 +10,6 @@
 
 <script>
 
-// import HelloWorld from './components/HelloWorld.vue'
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
