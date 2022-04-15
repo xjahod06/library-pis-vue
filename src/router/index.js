@@ -18,7 +18,7 @@ const Routes = [
     component: About
   },
   {
-    path: '/genre/:id',
+    path: '/genre/:id?',
     //name: 'genre',
     component: Genre
   }

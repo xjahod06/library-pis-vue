@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown-item href="#">{{ genre }}</b-dropdown-item>
+  <b-dropdown-item> <router-link to="/genre">{{genre}}</router-link></b-dropdown-item>
 </template>
 
 <script>
