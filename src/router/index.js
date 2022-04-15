@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import App from '@/pages/App.vue'
 import Genre from "@/pages/Genre"
 import About from "@/pages/About"
+import User from "@/pages/User";
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ const Routes = [
     path: '/about',
     //name: 'about',
     component: About
+  },
+  {
+    path: '/user/:id?',
+    //name: 'about',
+    component: User
   },
   {
     path: '/genre/:id?',
