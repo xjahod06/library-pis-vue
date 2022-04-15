@@ -2,8 +2,8 @@
   <div>
   <b-container class="bv-example-row">
     <b-row>
-      <b-col><h1 align="left">{{ name }}</h1></b-col>
-      <b-col><h3 align="right">More ></h3></b-col>
+      <b-col><h1>{{ name }}</h1></b-col>
+      <b-col><h3>More ></h3></b-col>
     </b-row>
 
     <b-row>
