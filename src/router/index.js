@@ -21,7 +21,7 @@ const Routes = [
     path: '/genre/:id?',
     //name: 'genre',
     component: Genre
-  }
+  },
 ]
 
 const router = new VueRouter({
