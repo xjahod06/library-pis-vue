@@ -3,10 +3,35 @@
     <NavBar></NavBar>
     <b-container>
       <UserForm  :user="user"></UserForm>
-      <BookList type="Reservations" name="Harry Potter" date="2022-05-31" state="OK"></BookList>
-      <BookList type="Borrowings"  name="Harry Potter" date="2022-05-31" state="OK"></BookList>
-    </b-container>
+      <div v-if="user.reservations != undefined">
+        <div v-if="user.reservations.length != 0">
+          <BookList type="Reservations"
+                    :data="user.reservations"
+                    :borrowing="false"
+          ></BookList>
+        </div>
+      </div>
 
+      <div v-if="user.hardCopyBorrowings != undefined">
+        <div v-if="user.hardCopyBorrowings.length != 0">
+          <BookList type="Borrowings"
+                    :data="user.hardCopyBorrowings"
+                    :borrowing="true"
+          ></BookList>
+        </div>
+      </div>
+
+      <div v-if="user.electronicCopyBorrowings != undefined ">
+        <div v-if="user.electronicCopyBorrowings.length != 0">
+          <BookList type="Electronic Borrowings"
+                    :data="user.electronicCopyBorrowings"
+                    :borrowing="true"
+          ></BookList>
+        </div>
+      </div>
+
+      <!--      <BookList type="Borrowings"  name="Harry Potter" date="2022-05-31" state="OK"></BookList>-->
+    </b-container>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -34,7 +59,8 @@ export default {
   },
   data(){
     return{
-      user: {}
+      user: {},
+      reservations: []
     }
   },
   methods: {
@@ -45,13 +71,13 @@ export default {
       }
       ApiConnect.get('readers/' + id).then((response)=> {
         this.user = response.data;
+        this.reservations = this.user.reservations;
       })
-      console.log(this.user);
-
     }
   },
   created() {
     this.getReader();
+    console.log(this.user);
   }
 }
 </script>
