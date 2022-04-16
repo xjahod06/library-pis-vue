@@ -2,7 +2,8 @@ import axios from 'axios'
 
 const state = {
     user: null,
-    posts: null
+    role: null,
+    id: null
 };
 
 const getters = {
@@ -13,11 +14,20 @@ const getters = {
 
 const actions = {
     async Register({dispatch}, form) {
-        await axios.post('register', form)
+        await axios.post('readers', form)
         let UserForm = new DataForm()
-        UserForm.append('username', form.username)
+        UserForm.append('id', 0)
+        UserForm.append('name', form.name)
+        UserForm.append('surname', form.surname)
+        UserForm.append('email', form.email)
+        UserForm.append('city', form.city)
+        UserForm.append('street', form.street)
+        UserForm.append('houseNumber', form.houseNumber)
+        UserForm.append('postcode', form.postcode)
+        UserForm.append('role', form.role)
         UserForm.append('password', form.password)
-        await dispatch('LogIn', UserForm)
+        UserForm.append('fullname', form.fullname)
+        await dispatch('Register', UserForm)
     },
     async LogIn({commit}, user) {
         await axios.post('login', user)
@@ -32,10 +42,6 @@ const actions = {
 const mutations = {
     setUser(state, username) {
         state.user = username;
-      },
-    
-      setPosts(state, posts) {
-        state.posts = posts;
       },
       logout(state, user) {
         state.user = user;

@@ -5,12 +5,36 @@
       <div>
         <form @submit.prevent="submit">
           <div>
-            <label for="username">Username:</label>
-            <input type="text" name="username" v-model="form.username">
+            <label for="name">Name:</label>
+            <input type="text" name="name" v-model="form.name">
           </div>
           <div>
-            <label for="full_name">Full Name:</label>
-            <input type="text" name="full_name" v-model="form.full_name">
+            <label for="surname">Surname:</label>
+            <input type="text" name="surname" v-model="form.surname">
+          </div>
+          <div>
+            <label for="fullname">Full Name:</label>
+            <input type="text" name="fullname" v-model="form.fullname">
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email" v-model="form.email">
+          </div>
+          <div>
+            <label for="city">City:</label>
+            <input type="text" name="city" v-model="form.city">
+          </div>
+          <div>
+            <label for="street">Street:</label>
+            <input type="text" name="street" v-model="form.street">
+          </div>
+          <div>
+            <label for="houseNumber">House Number:</label>
+            <input type="text" name="houseNumber" v-model="form.houseNumber">
+          </div>
+          <div>
+            <label for="postcode">Post Code:</label>
+            <input type="text" name="postcode" v-model="form.postcode">
           </div>
           <div>
             <label for="password">Password:</label>
@@ -39,9 +63,16 @@ export default {
   data() {
     return {
       form: {
-        username: "",
-        full_name: "",
+        name: "",
+        surname: "",
+        email: "",
+        city: "",
+        street: "",
+        houseNumber: "",
+        postcode: "",
+        role: "",
         password: "",
+        fullname: ""
       },
       showError: false
     };
@@ -50,9 +81,8 @@ export default {
     ...mapActions(["Register"]),
     async submit() {
       try {
-        let res = await this.Register(this.form);
-        this.$router.push('/readers/:'+ res.data);
-        console.log(res);
+        await this.Register(this.form);
+        this.$router.push('/');
         this.showError = false;
       }
       catch(err) {
