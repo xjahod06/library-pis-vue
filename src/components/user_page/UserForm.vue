@@ -11,7 +11,6 @@
             <b-col cols="8">
               <b-form-input
                 v-model="form.name"
-                placeholder="Enter name"
                 id="fname"
                 required>
               </b-form-input>
@@ -23,7 +22,6 @@
             <b-col cols="8">
               <b-form-input
                 v-model="form.surname"
-                placeholder="Enter last name"
                 id="lname"
                 required>
                 </b-form-input>
@@ -48,7 +46,7 @@
               <b-form-input
                   id="street"
                   v-model="form.street"
-                  placeholder="Enter street name"
+                  placeholder=""
                   required>
               </b-form-input>
             </b-col>
@@ -98,6 +96,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'UserForm',
   data() {
@@ -114,11 +113,29 @@ export default {
       show: true
     }
   },
+  props: {
+    user: {}
+  },
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      alert(JSON.stringify(this.form))
+      // this.form=this.user;
+      alert(JSON.stringify(this.user))
     }
+    },
+      mounted() {
+      console.log(this.user);
+
+      this.form.name = this.user.name;
+      this.form.surname = this.user.surname;
+      this.form.email = this.user.email;
+      this.form.street = this.user.street;
+      this.form.houseNumber = this.user.houseNumber;
+      this.form.city = this.user.city;
+      this.form.postcode = this.user.postcode;
+
+      console.log(this.form);
+
     }
 }
 </script>
