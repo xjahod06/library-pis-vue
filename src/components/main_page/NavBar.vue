@@ -20,7 +20,11 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre href="#" genre="Beletria" />
           </b-nav-item-dropdown>
-          <b-nav-item href="#">Login/Register</b-nav-item>
+          <span v-if="isLoggedIn"><a @click="logout">Logout</a></span>
+          <span v-else>
+            <router-link to="/register">Register</router-link>
+            <router-link to="/login">Login</router-link>
+          </span>
         </b-navbar-nav>
 
       </b-collapse>
@@ -42,6 +46,15 @@ export default {
   components: {
     SearchBar,
     BookGenre
+  },
+  computed: {
+    isLoggedIn : function (){ return this.$store.getters.isAuthenticated }
+  },
+  methods : {
+    async logout (){
+      await this.$store.dispatch('LogOut')
+      this.$router.push('/login')
+    }
   }
 }
 </script>

@@ -9,8 +9,8 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-//axios.defaults.withCredentials = true
-//axios.defaults.baseURL = 'http://localhost:8080/pis-library/api/v1'
+axios.defaults.withCredentials = true
+
 
 new Vue({
   el: '#app',
