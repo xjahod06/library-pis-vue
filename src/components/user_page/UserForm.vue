@@ -10,7 +10,8 @@
             <b-col cols="4"><p class="form-label" >Name*:</p> </b-col>
             <b-col cols="8">
               <b-form-input
-                v-model="user.name"
+                v-model="form.name"
+                placeholder="Enter first name"
                 id="fname"
                 required>
               </b-form-input>
@@ -21,7 +22,8 @@
             <b-col cols="4"><p class="form-label">Last name:*</p> </b-col>
             <b-col cols="8">
               <b-form-input
-                v-model="user.surname"
+                v-model="form.surname"
+                placeholder="Enter last name"
                 id="lname"
                 required>
                 </b-form-input>
@@ -33,7 +35,7 @@
             <b-col cols="8">
               <b-form-input
                   id="email"
-                  v-model="user.email"
+                  v-model="form.email"
                   type="email"
                   required
                   placeholder="Enter email">
@@ -45,8 +47,8 @@
             <b-col cols="8">
               <b-form-input
                   id="street"
-                  v-model="user.street"
-                  placeholder=""
+                  v-model="form.street"
+                  placeholder="Enter street name"
                   required>
               </b-form-input>
             </b-col>
@@ -56,7 +58,7 @@
             <b-col cols="4"><p class="form-label">House number:*</p></b-col>
             <b-col cols="8">
               <b-form-input
-                  v-model="user.houseNumber"
+                  v-model="form.houseNumber"
                   placeholder="Enter house number"
                   required>
               </b-form-input>
@@ -68,7 +70,7 @@
             <b-col cols="8">
               <b-form-input
                   id="city"
-                  v-model="user.city"
+                  v-model="form.city"
                   placeholder="Enter city"
                   required>
               </b-form-input>
@@ -80,7 +82,7 @@
             <b-col cols="8">
               <b-form-input
                   id="zip"
-                  v-model="user.postcode"
+                  v-model="form.postcode"
                   placeholder="Enter postal code"
                   required>
               </b-form-input>
@@ -101,18 +103,29 @@ export default {
   name: 'UserForm',
   data() {
     return {
+      // form: {
+      //   name: this.user.name,
+      //   surname: this.user.surname,
+      //   email: '',
+      //   street: '',
+      //   houseNumber: '',
+      //   city: '',
+      //   postcode: '',
+      // },
       show: true
     }
   },
   props: {
-    user: {}
+    user: {},
+    form: {},
   },
   methods: {
     onSubmit(event) {
       event.preventDefault()
       // this.form=this.user;
-      alert(JSON.stringify(this.user))
+      alert(JSON.stringify(this.form))
     }
-    }
+    },
+
 }
 </script>

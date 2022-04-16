@@ -2,7 +2,9 @@
   <div id="app">
     <NavBar></NavBar>
     <b-container>
-      <UserForm  :user="user"></UserForm>
+      <UserForm  :user="user"
+                 :form="form"
+      ></UserForm>
       <div v-if="user.reservations != undefined">
         <div v-if="user.reservations.length != 0">
           <BookList type="Reservations"
@@ -60,7 +62,15 @@ export default {
   data(){
     return{
       user: {},
-      reservations: []
+      form: {
+        name: '',
+        surname: '',
+        email: '',
+        street: '',
+        houseNumber: '',
+        city: '',
+        postcode: '',
+      }
     }
   },
   methods: {
@@ -71,13 +81,23 @@ export default {
       }
       ApiConnect.get('readers/' + id).then((response)=> {
         this.user = response.data;
-        this.reservations = this.user.reservations;
       })
+    },
+    getFormData(){
+      this.form.name=this.user.name;
+      this.form.surname=this.user.surname;
+      this.form.email=this.user.email;
+      this.form.street=this.user.street;
+      this.form.houseNumber=this.user.houseNumber;
+      this.form.city=this.user.city;
+      this.form.postcode=this.user.postcode;
     }
   },
   created() {
     this.getReader();
+    this.getFormData();
     console.log(this.user);
+    console.log(this.form);
   }
 }
 </script>
