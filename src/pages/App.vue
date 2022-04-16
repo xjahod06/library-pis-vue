@@ -4,7 +4,7 @@
     <MainSection name="Books" :data="books"></MainSection>
     <!-- <MainSection name="E-Books"></MainSection> -->
     <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
-    <b-button @click="books[1].name='Harry Potter';putBook(books[0])">PUT</b-button>
+    <b-button @click="books[1].name='Harry Potter';putBook(books[1])">PUT</b-button>
     <b-button @click="delBook(0)">DEL</b-button>
     <MainSection name="Magazines" :data="magazines"></MainSection>
 
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     getBooks(){
-      ApiConnect.get('books/').then((response) =>
+      ApiConnect.get('books').then((response) =>
           this.books = response.data,
       )},
     getMagazines(){
@@ -44,11 +44,12 @@ export default {
           this.magazines = response.data,
       )},
     postBook(json){
-      ApiConnect.post('books/',json).then((response) =>
+      ApiConnect.post('books',json).then((response) =>
           console.log(response),
       )},
     putBook(json){
-      ApiConnect.put('books/',json).then((response) =>
+      console.log(json.name);
+      ApiConnect.put('books',json).then((response) =>
           console.log(response),
       )},
     getBook(id){
