@@ -5,7 +5,9 @@
 
     <b-navbar toggleable="lg" variant="info">
       <b-navbar-brand left href="#">
+        <router-link to="/">
         <b-img class="navbar-logo" src="@/assets/library_logo.png" alt="Responsive image" ></b-img>
+        </router-link>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

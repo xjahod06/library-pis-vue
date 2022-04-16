@@ -2,46 +2,19 @@
   <div>
   <b-container class="bv-example-row">
     <b-row>
-      <b-col><h1 align="left">{{ name }}</h1></b-col>
-      <b-col><h3 align="right">More ></h3></b-col>
+      <b-col><h1>{{ name }}</h1></b-col>
+      <b-col><h3>More ></h3></b-col>
     </b-row>
 
     <b-row>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
-      </MainTile>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
-      </MainTile>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
-      </MainTile>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
-      </MainTile>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
-      </MainTile>
-      <MainTile img="@/assets/logo.png"
-                type="smth"
-                name="Harry Potter"
-                author="JK Rowling"
-                genre="fantasy">
+      <MainTile v-for="load in data.slice(0,6)"
+          img="@/assets/logo.png"
+                :genre = load.genres
+                :type = load.language
+                :name = load.name
+                :author = load.authors[0].name
+                :magazin = load.fields
+                >
       </MainTile>
     </b-row>
   </b-container>
@@ -58,7 +31,10 @@ export default {
     MainTile,
   },
   props: {
-    name: String
-  }
+    name: String,
+    data: {},
+  },
+
 }
+
 </script>

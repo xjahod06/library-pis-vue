@@ -19,7 +19,7 @@
 }
 
 
-#tile-img {
+.tile-img {
     width: 100px;
     height: 155px;
     padding: 0;
@@ -29,11 +29,13 @@ h3 {
     color: #777!important;
     font-weight: bold;
     padding-top: 10px;
+    text-align: right;
 }
 
 h1{
     color: #333!important;
     font-weight: bold;
+    text-align: left;
 }
 
 h5{
@@ -70,9 +72,13 @@ p{
     background-color: #24433e!important;
     padding-top: 20px;
     padding-bottom: 20px;
-
 }
+
 #my-footer-text{
     color: #d0d3d3;
     font-size: 20px;
+}
+
+.container {
+    padding-bottom: 20px;
 }
