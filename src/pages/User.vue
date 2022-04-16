@@ -81,6 +81,7 @@ export default {
       }
       ApiConnect.get('readers/' + id).then((response)=> {
         this.user = response.data;
+        this.getFormData();
       })
     },
     getFormData(){
@@ -95,7 +96,6 @@ export default {
   },
   created() {
     this.getReader();
-    this.getFormData();
     console.log(this.user);
     console.log(this.form);
   }
