@@ -23,7 +23,8 @@ const Routes = [
   },
   {
     path: '/readers/:id?',
-    component: User
+    component: User,
+    meta: {requiresAuth: true},
   },
   {
     path: '/genre/:id?',
@@ -32,16 +33,44 @@ const Routes = [
   },
   {
     path: '/login',
-    component: Login
+    component: Login,
+    meta: {guest: true}
   },
   {
     path: '/register',
-    component: Register
+    component: Register,
+    meta: {guest: true}
   }
 ]
 
 const router = new VueRouter({
   routes: Routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.requiresAuth)) {
+    if(store.getters.isAuthenticated) {
+      next();
+      return;
+    }
+    next("/login");
+  }
+  else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.guest)) {
+    if(store.getters.isAuthenticated) {
+      next("/readers/");  //somehow get Id of user and append into path
+      return;
+    }
+    next();
+  }
+  else {
+    next();
+  }
 });
 
 export default router
