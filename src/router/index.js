@@ -8,6 +8,8 @@ import Books from "@/pages/Books";
 import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
 import Magazine from "@/pages/Magazine";
+import AuthorsList from "@/components/authors_edit_page/AuthorsList";
+import EditAuthor from "@/pages/EditAuthor";
 
 Vue.use(VueRouter)
 
@@ -47,6 +49,15 @@ const Routes = [
     path: '/magazines/:id',
     component: Magazine
   },
+  {
+    path: '/edit_authors',
+    component: AuthorsList
+  },
+  {
+    path : '/edit_author/:id',
+    component: EditAuthor
+  },
+
 ]
 
 const router = new VueRouter({
