@@ -72,7 +72,7 @@ export default {
         street: "",
         houseNumber: "",
         postcode: "",
-        role: "",
+        role: "reader",
         password: "",
         fullname: ""
       },
@@ -81,27 +81,21 @@ export default {
     };
   },
   methods: {
-//    ...mapActions(["Register"]),
-//    async submit() {
-//      try {
-//        await this.Register(this.form);
-//        this.$router.push('/');
-//        this.showError = false;
-//      }
-//      catch(err) {
-//        this.showError = true;
-//        errData = err.data;
-//      }
-//    }
-    submit(){
-      ApiConnect.post('readers', JSON.stringify(this.form)).then((response) =>
-          this.errData = response.data,
-          this.showError = true
-      )},
+    ...mapActions(["Register"]),
+    async submit() {
+      try {
+        await this.Register(this.form);
+        this.$router.push('/');
+        this.showError = false;
+      }
+      catch(err) {
+        this.showError = true;
+        errData = err.data;
+      }
+    },
   },
   created() {
     this.submit();
   }
-
 }
 </script>
