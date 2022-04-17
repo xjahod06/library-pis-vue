@@ -3,7 +3,11 @@
   <b-container class="bv-example-row">
     <b-row>
       <b-col><h1>{{ name }}</h1></b-col>
-      <b-col><h3>More ></h3></b-col>
+      <b-col>
+        <router-link :to="fullPage">
+          <h3>More ></h3>
+        </router-link>
+      </b-col>
     </b-row>
 
     <b-row>
@@ -32,6 +36,7 @@ export default {
   },
   props: {
     name: String,
+    fullPage: String,
     data: {},
   },
 

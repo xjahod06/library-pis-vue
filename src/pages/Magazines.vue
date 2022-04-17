@@ -3,9 +3,9 @@
     <NavBar></NavBar>
 
     <b-container>
-      <h1>Books:</h1>
+      <h1>Magazines:</h1>
       <b-row>
-        <MainTile v-for="book in books"
+        <MainTile v-for="book in magazines"
                   img="@/assets/logo.png"
                   :genres = book.genres
                   :type = book.language
@@ -30,7 +30,7 @@ import ApiConnect from "@/services/ApiConnect";
 
 
 export default {
-  name: "Books",
+  name: "Magazines",
   components: {
     NavBar,
     MyFooter,
@@ -38,17 +38,17 @@ export default {
   },
   data(){
     return {
-      books: [],
+      magazines: [],
     }
   },
   methods: {
-    getBooks(){
-      ApiConnect.get('books').then((response) =>
-          this.books = response.data,
-      )}
+    getMagazines(){
+      ApiConnect.get('magazines/').then((response) =>
+          this.magazines = response.data,
+      )},
   },
   created() {
-    this.getBooks();
+    this.getMagazines();
   },
 }
 </script>
