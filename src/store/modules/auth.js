@@ -7,8 +7,7 @@ const state = {
 };
 
 const getters = {
-    isAuthenticated: (state) => !!state.user,
-    StatePosts: (state) => state.posts,
+    isAuthenticated: (state) => !!state.email,
     StateUser: (state) => state.user,
 };
 
@@ -22,6 +21,7 @@ const actions = {
     },
     async LogIn({commit}, user) {
         await ApiConnect.post('readers/authenticate', JSON.stringify(user), ApiConnect.headers)
+        commit("setEmail", user)
     },
     async LogOut({ commit }) {
         let user = null;
@@ -30,8 +30,8 @@ const actions = {
 };
 
 const mutations = {
-    setUser(state, username) {
-        state.user = username;
+    setEmail(state, user) {
+        state.emial = user.email;
       },
       logout(state, user) {
         state.user = user;

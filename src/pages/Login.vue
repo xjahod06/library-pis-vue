@@ -5,8 +5,8 @@
       <div>
         <form @submit.prevent="submit">
           <div>
-            <label for="username">Username:</label>
-            <input type="text" name="username" v-model="form.username">
+            <label for="email">Email:</label>
+            <input type="text" name="email" v-model="form.email">
           </div>
           <div>
             <label for="password">Password:</label>
@@ -15,7 +15,7 @@
           <button type="submit">Submit</button>
         </form>
       </div>
-      <p v-if="showError" id="error">Username already exists</p>
+      <p v-if="showError" id="error">Uknown email.</p>
     </b-container>
     <MyFooter></MyFooter>
   </div>
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
     form: {
-      username: "",
+      email: "",
       pasword: "",
     },
     showError: false
@@ -45,11 +45,11 @@ export default {
     ...mapActions(["Login"]),
     async submit() {
       const User = new FormData();
-      User.append("username", this.form.username);
+      User.append("email", this.form.email);
       User.append("password", this.form.password);
       try{
-        let res = await this.LoIn(User);
-        this.$router.push('/readers/:'+ res.data);
+        let res = await this.LogIn(User);
+        this.$router.push('/');
         console.log(res);
         this.showError = false;
       } 
@@ -57,6 +57,9 @@ export default {
         this.showError = true;
       }
     }
+  },
+  created() {
+    this.submit();
   }
 }
 </script>

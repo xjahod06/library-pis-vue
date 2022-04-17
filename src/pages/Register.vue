@@ -76,8 +76,7 @@ export default {
         password: "",
         fullname: ""
       },
-      showError: false,
-      errData: null
+      showError: false
     };
   },
   methods: {
@@ -90,7 +89,6 @@ export default {
       }
       catch(err) {
         this.showError = true;
-        errData = err.data;
       }
     },
   },
