@@ -5,6 +5,7 @@ import Genre from "@/pages/Genre"
 import About from "@/pages/About"
 import User from "@/pages/User";
 import Books from "@/pages/Books";
+import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
 
 Vue.use(VueRouter)
@@ -32,6 +33,10 @@ const Routes = [
   {
     path: '/books/',
     component: Books
+  },
+  {
+    path: '/books/:id',
+    component: Book
   },
   {
     path: '/magazines/',

@@ -76,6 +76,9 @@ p{
     background-color: #24433e!important;
     padding-top: 20px;
     padding-bottom: 20px;
+    position:fixed;
+    bottom:0;
+    min-width: 100%;
 }
 
 #my-footer-text{

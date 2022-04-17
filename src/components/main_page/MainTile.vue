@@ -40,6 +40,7 @@ name: 'MainTile',
       let data = JSON.parse(JSON.stringify(this.authors));
       let string = "";
       data.forEach((dato) => string += " " + dato.name);
+      console.log(data.length);
       return string;
     },
     fieldsToPrint() {
