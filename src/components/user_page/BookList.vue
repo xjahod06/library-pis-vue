@@ -7,13 +7,19 @@
             <div v-if="borrowing">
               <BookListItem :name="val.exemplar.book.name"
                             type="book"
-                            :date="new Date(val.dateOfBorrowEnd)"
+                            :id="val.id"
+                            :borrowing="true"
+                            :dateFrom="new Date(val.dateOfBorrowStart)"
+                            :dateTo="new Date(val.dateOfBorrowEnd)"
                             :state="val.state"></BookListItem>
             </div>
             <div v-else>
               <BookListItem :name="val.exemplar.book.name"
                             type="book"
-                            :date="new Date(val.dateUntil)"
+                            :id="val.id"
+                            :borrowing="false"
+                            :dateFrom="new Date(val.dateFrom)"
+                            :dateTo="new Date(val.dateUntil)"
                             :state="val.state"></BookListItem>
             </div>
 
@@ -22,13 +28,19 @@
             <div v-if="borrowing">
               <BookListItem :name="val.exemplar.magazine.name"
                             type="magazine"
-                            :date="new Date(val.dateOfBorrowEnd)"
+                            :id="val.id"
+                            :borrowing="true"
+                            :dateFrom="new Date(val.dateOfBorrowStart)"
+                            :dateTo="new Date(val.dateOfBorrowEnd)"
                             :state="val.state"></BookListItem>
             </div>
             <div v-else>
               <BookListItem :name="val.exemplar.magazine.name"
                             type="magazine"
-                            :date="new Date(val.dateUntil)"
+                            :id="val.id"
+                            :borrowing="false"
+                            :dateFrom="new Date(val.dateFrom)"
+                            :dateTo="new Date(val.dateUntil)"
                             :state="val.state"></BookListItem>
             </div>
           </div>
@@ -48,7 +60,7 @@
     props: {
       type: String,
       data: {},
-      borrowing: Boolean
+      borrowing: Boolean,
     },
     components: {
       BookListItem
