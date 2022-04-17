@@ -1,26 +1,59 @@
 <template>
-  <b-col>
-    <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
-    <div id="type">
-      <h5>{{ type }}</h5>
-    </div>
-    <h3>{{ name }}</h3>
-    <p>{{ author }}</p>
-    <p v-if="genre != undefined">{{ genre[0].name }}</p>
-    <p v-if="field != undefined">{{ field[0].name }}</p>
+  <b-col cols="2">
+    <b-row>
+      <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
+    </b-row>
+    <b-row class="text-left">
+      <b-badge pill variant="warning">{{ type }}</b-badge>
+    </b-row>
+    <b-row class="text-left mt-2">
+      <h5 class="text-left">
+        {{ name }}
+      </h5>
+    </b-row>
+    <b-row class="text-left">
+      <small>{{ authorsToPrint }}</small>
+    </b-row>
+    <b-row class="text-left" v-if="genres !== undefined">
+      <small>{{ genresToPrint }}</small>
+    </b-row>
+    <b-row class="text-left" v-if="fields !== undefined">
+      <small>{{ fieldsToPrint }}</small>
+    </b-row>
   </b-col>
 </template>
 
 <script>
+
 export default {
 name: 'MainTile',
   props: {
     type: String,
     name: String,
-    author: String,
-    genre: {},
+    authors: {},
+    genres: {},
     img: String,
-    field: {},
+    fields: {},
+  },
+  computed: {
+    authorsToPrint() {
+      let data = JSON.parse(JSON.stringify(this.authors));
+      let string = "";
+      data.forEach((dato) => string += " " + dato.name);
+      return string;
+    },
+    fieldsToPrint() {
+      let data = JSON.parse(JSON.stringify(this.fields));
+      let string = "";
+      data.forEach((dato) => string += " " + dato.name);
+      return string;
+    },
+    genresToPrint() {
+      let data = JSON.parse(JSON.stringify(this.genres));
+      let string = "";
+      data.forEach((dato) => string += " " + dato.name);
+      return string;
+    }
   }
 }
 </script>

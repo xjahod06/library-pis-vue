@@ -25,7 +25,11 @@
     padding: 0;
 }
 
-h3 {
+small{
+    color: #6a6a6a;
+}
+
+h3,h4 {
     color: #777!important;
     font-weight: bold;
     padding-top: 10px;

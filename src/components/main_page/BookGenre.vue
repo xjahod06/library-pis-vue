@@ -7,7 +7,7 @@ export default {
   name: 'BookGenre',
   props: {
     genre: String,
-    id: String,
+    id: Number,
   },
   methods : {
     redirect() {

@@ -9,11 +9,11 @@
     <b-row>
       <MainTile v-for="load in data.slice(0,6)"
           img="@/assets/logo.png"
-                :genre = load.genres
+                :genres = load.genres
                 :type = load.language
                 :name = load.name
-                :author = load.authors[0].name
-                :magazin = load.fields
+                :authors = load.authors
+                :fields = load.fields
                 >
       </MainTile>
     </b-row>
