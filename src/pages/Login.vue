@@ -12,10 +12,9 @@
             <label for="password">Password:</label>
             <input type="text" name="password" v-model="form.password">
           </div>
-          <button type="submit">Submit</button>
+          <button @click="submit">Submit</button>
         </form>
       </div>
-      <p v-if="showError" id="error">Uknown email.</p>
     </b-container>
     <MyFooter></MyFooter>
   </div>
@@ -24,7 +23,7 @@
 <script>
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
-import { mapActions } from "vuex";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: "Login",
@@ -36,30 +35,20 @@ export default {
     return {
     form: {
       email: "",
-      pasword: "",
-    },
-    showError: false
+      password: "",
+    }
   };
   },
   methods: {
-    ...mapActions(["Login"]),
-    async submit() {
-      const User = new FormData();
-      User.append("email", this.form.email);
-      User.append("password", this.form.password);
-      try{
-        let res = await this.LogIn(User);
-        this.$router.push('/');
-        console.log(res);
-        this.showError = false;
-      } 
-      catch(err){
-        this.showError = true;
+    submit(){
+      const data = {email: this.form.email, password: this.form.password};
+      console.log(data);
+      ApiConnect.post('/readers/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
+        console.log(response.data),
+      ).catch(error => {
+        console.log(error)
+      })
       }
-    }
-  },
-  created() {
-    this.submit();
   }
 }
 </script>

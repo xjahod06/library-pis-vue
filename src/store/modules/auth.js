@@ -13,15 +13,22 @@ const getters = {
 
 const actions = {
     async Register({dispatch}, form) {
-        await ApiConnect.post('readers', JSON.stringify(form), ApiConnect.headers)
-        let UserForm = new DataForm()
-        UserForm.append('email', form.email)
-        UserForm.append('password', form.password)
-        await dispatch('LogIn', UserForm)
+        let responce = null
+        let UserForm = null
+        await ApiConnect.post('readers', JSON.stringify(form), ApiConnect.headers).then((response) =>
+            UserForm = new DataForm(),
+            UserForm.append('email', form.email),
+            UserForm.append('password', form.password),
+            await dispatch('LogIn', UserForm))
+        return responce
     },
     async LogIn({commit}, user) {
-        await ApiConnect.post('readers/authenticate', JSON.stringify(user), ApiConnect.headers)
-        commit("setEmail", user)
+        let responce = null
+        await ApiConnect.post('readers/authenticate', JSON.stringify(user), ApiConnect.headers).then((response) =>
+            console.log(responce)
+        )
+        //commit("setEmail", user)
+        return responce
     },
     async LogOut({ commit }) {
         let user = null;

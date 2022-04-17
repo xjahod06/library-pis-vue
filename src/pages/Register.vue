@@ -3,7 +3,7 @@
     <NavBar></NavBar>
     <b-container>
       <div>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" id="form-1">
           <div>
             <label for="name">Name:</label>
             <input type="text" name="name" v-model="form.name">
@@ -43,7 +43,7 @@
           <button @click="submit">Submit</button>
         </form>
       </div>
-      <p v-if="showError" id="error">{{ errData }}</p>
+      <p v-if="showError" id="error" style="font-color:red">This email address is already used. Please, select another email.</p>
     </b-container>
     <MyFooter></MyFooter>
   </div>
@@ -52,7 +52,6 @@
 <script>
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
-import { mapActions } from "vuex";
 import ApiConnect from "@/services/ApiConnect";
 
 export default {
@@ -80,20 +79,18 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-        await this.Register(this.form);
-        this.$router.push('/');
-        this.showError = false;
-      }
-      catch(err) {
+    submit(){
+        const user = new FormData();
+        user.append("email", this.form.email),
+        user.append("password", this.form.password),
+        ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
+          console.log("Yep" + response.data),
+          this.showError = false
+        ).catch(error => {
+        console.log(error)
         this.showError = true;
+      })
       }
-    },
-  },
-  created() {
-    this.submit();
   }
 }
 </script>
