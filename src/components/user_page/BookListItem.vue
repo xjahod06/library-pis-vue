@@ -122,10 +122,6 @@ export default {
     onHidden (e) {
       parent.location.reload();
     },
-    toggleModal() {
-
-      this.$refs['my-modal'].toggle('#toggle-btn')
-    }
   },
   computed: {
     canManipulate: function () {
@@ -133,9 +129,6 @@ export default {
       today.setHours(0, 0, 0, 0);
       return today <= this.dateTo;
     },
-    collapseId: function () {
-      return 'collapse-' + this.id.toString();
-    }
   }
 }
 </script>
