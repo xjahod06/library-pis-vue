@@ -1,12 +1,12 @@
 <template>
   <div id="app">
   <NavBar></NavBar>
-    <MainSection name="Books" :data="books"></MainSection>
+    <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
     <!-- <MainSection name="E-Books"></MainSection> -->
     <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
     <b-button @click="books[1].name='Harry Potter';putBook(books[1])">PUT</b-button>
     <b-button @click="delBook(0)">DEL</b-button>
-    <MainSection name="Magazines" :data="magazines"></MainSection>
+    <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/books/"></MainSection>
 
     <MyFooter></MyFooter>
   </div>
