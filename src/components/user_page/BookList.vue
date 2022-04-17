@@ -8,6 +8,8 @@
               <BookListItem :name="val.exemplar.book.name"
                             type="book"
                             :id="val.id"
+                            :user="user"
+                            :data="val"
                             :borrowing="true"
                             :dateFrom="new Date(val.dateOfBorrowStart)"
                             :dateTo="new Date(val.dateOfBorrowEnd)"
@@ -17,6 +19,8 @@
               <BookListItem :name="val.exemplar.book.name"
                             type="book"
                             :id="val.id"
+                            :user="user"
+                            :data="val"
                             :borrowing="false"
                             :dateFrom="new Date(val.dateFrom)"
                             :dateTo="new Date(val.dateUntil)"
@@ -29,6 +33,8 @@
               <BookListItem :name="val.exemplar.magazine.name"
                             type="magazine"
                             :id="val.id"
+                            :user="user"
+                            :data="val"
                             :borrowing="true"
                             :dateFrom="new Date(val.dateOfBorrowStart)"
                             :dateTo="new Date(val.dateOfBorrowEnd)"
@@ -38,6 +44,8 @@
               <BookListItem :name="val.exemplar.magazine.name"
                             type="magazine"
                             :id="val.id"
+                            :user="user"
+                            :data="val"
                             :borrowing="false"
                             :dateFrom="new Date(val.dateFrom)"
                             :dateTo="new Date(val.dateUntil)"
@@ -45,7 +53,6 @@
             </div>
           </div>
         </div>
-<!--      <BookListItem :name= :date=date :state=state></BookListItem>-->
 
       </b-container>
   </div>
@@ -61,12 +68,14 @@
       type: String,
       data: {},
       borrowing: Boolean,
+      user: {}
     },
     components: {
       BookListItem
     },
     computed: {
       sortedData: function() {
+        // todo toto bude chyba kvoli inemu nazvu premennych
         this.data.sort( (a,b) => {
           return new Date(b.dateUntil) - new Date(a.dateUntil);
         });

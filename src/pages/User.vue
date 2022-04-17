@@ -19,6 +19,7 @@
         <div v-if="user.reservations.length != 0">
           <BookList type="Reservations"
                     :data="user.reservations"
+                    :user="user"
                     :borrowing="false"
           ></BookList>
         </div>
@@ -28,6 +29,7 @@
         <div v-if="user.hardCopyBorrowings.length != 0">
           <BookList type="Borrowings"
                     :data="user.hardCopyBorrowings"
+                    :user="user"
                     :borrowing="true"
           ></BookList>
         </div>
@@ -37,6 +39,7 @@
         <div v-if="user.electronicCopyBorrowings.length != 0">
           <BookList type="Electronic Borrowings"
                     :data="user.electronicCopyBorrowings"
+                    :user="user"
                     :borrowing="true"
           ></BookList>
         </div>
