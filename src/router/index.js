@@ -7,6 +7,12 @@ import About from "@/pages/About"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import User from "@/pages/User";
+import Books from "@/pages/Books";
+import Book from "@/pages/Book";
+import Magazines from "@/pages/Magazines";
+import Magazine from "@/pages/Magazine";
+import AuthorsList from "@/components/authors_edit_page/AuthorsList";
+import EditAuthor from "@/pages/EditAuthor";
 
 Vue.use(VueRouter)
 
@@ -40,7 +46,32 @@ const Routes = [
     path: '/register',
     component: Register,
     meta: {guest: true}
-  }
+  },
+  {
+    path: '/books/',
+    component: Books
+  },
+  {
+    path: '/books/:id',
+    component: Book
+  },
+  {
+    path: '/magazines/',
+    component: Magazines
+  },
+  {
+    path: '/magazines/:id',
+    component: Magazine
+  },
+  {
+    path: '/edit_authors',
+    component: AuthorsList
+  },
+  {
+    path : '/edit_author/:id',
+    component: EditAuthor
+  },
+
 ]
 
 const router = new VueRouter({

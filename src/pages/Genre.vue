@@ -4,7 +4,7 @@
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
-    <MainSection name="Books" :data="books"></MainSection>
+    <MainSection name="Books" :data="books" root="/books/"></MainSection>
     <AuthorSection name="Authors" :data="authors"></AuthorSection>
     <MyFooter></MyFooter>
   </div>

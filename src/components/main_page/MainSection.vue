@@ -3,17 +3,23 @@
   <b-container class="bv-example-row">
     <b-row>
       <b-col><h1>{{ name }}</h1></b-col>
-      <b-col><h3>More ></h3></b-col>
+      <b-col>
+        <router-link :to="fullPage">
+          <h3>More ></h3>
+        </router-link>
+      </b-col>
     </b-row>
 
     <b-row>
       <MainTile v-for="load in data.slice(0,6)"
-                img="@/assets/logo.png"
-                :genre = load.genres
+          img="@/assets/logo.png"
+                :genres = load.genres
                 :type = load.language
                 :name = load.name
-                :author = load.authors[0].name
-                :magazin = load.fields
+                :authors = load.authors
+                :fields = load.fields
+                :id = load.id
+                :root = root
                 >
       </MainTile>
     </b-row>
@@ -32,7 +38,9 @@ export default {
   },
   props: {
     name: String,
+    fullPage: String,
     data: {},
+    root: String,
   },
 
 }
