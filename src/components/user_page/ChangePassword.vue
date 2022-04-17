@@ -70,23 +70,27 @@ export default {
       }).catch(error => {
         this.errorMessage = "Some error occured."
         this.showDismissibleAlertError=true;
+        this.showDismissibleAlert=false;
       })
     },
     verifyPassword(){
       if (this.form.password !== this.form.confirmPassword) {
         this.errorMessage = "Password must match!"
         this.showDismissibleAlertError=true;
+        this.showDismissibleAlert=false;
         return;
       }
       if (this.form.password === this.form.oldPassword){
         this.errorMessage = "New password cannot be the same like old one."
         this.showDismissibleAlertError=true;
+        this.showDismissibleAlert=false;
         return;
       }
       ApiConnect.put('/readers/update-password', this.form).then(response=>{
         this.showDismissibleAlert=true;
+        this.showDismissibleAlertError=false;
       }).catch(error => {
-        this.errorMessage = "Some error occured."
+        this.errorMessage = "Old password doesnt match.";
         this.showDismissibleAlertError=true;
       })
     }
