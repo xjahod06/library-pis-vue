@@ -1,12 +1,18 @@
 <template>
-  <b-dropdown-item> <router-link to="/genre">{{genre}}</router-link></b-dropdown-item>
+  <b-dropdown-item v-on:click="redirect"> {{genre}}</b-dropdown-item>
 </template>
 
 <script>
 export default {
   name: 'BookGenre',
   props: {
-    genre: String
+    genre: String,
+    id: String,
+  },
+  methods : {
+    redirect() {
+      this.$router.push({path: '/genre/' + this.id})
+    }
   }
 }
 </script>

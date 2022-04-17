@@ -18,7 +18,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#">Catalog</b-nav-item>
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
-            <BookGenre href="#" genre="Beletria" />
+            <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id />
           </b-nav-item-dropdown>
           <b-nav-item href="#">Login/Register</b-nav-item>
         </b-navbar-nav>
@@ -36,12 +36,27 @@
 
 import SearchBar from "@/components/main_page/SearchBar";
 import BookGenre from "@/components/main_page/BookGenre";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: 'NavBar',
   components: {
     SearchBar,
     BookGenre
+  },
+  methods : {
+    getGenres(){
+      ApiConnect.get('genres/').then((response) =>
+            this.genre_names = response.data
+      )}
+  },
+  data(){
+    return {
+      genre_names : []
+    }
+  },
+  created() {
+    this.getGenres()
   }
 }
 </script>
