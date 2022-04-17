@@ -1,16 +1,16 @@
 <template>
   <div>
     <b-row>
-      <b-col><b-img class="book-user-img" src="@/assets/logo.png"></b-img>
+      <b-col cols="2"><b-img class="book-user-img" src="@/assets/logo.png"></b-img>
         <div id="type">
           <h5>{{ type }}</h5>
         </div></b-col>
-      <b-col cols="2"><p class="book-user-text">{{name}}</p></b-col>
+      <b-col cols="3"><p class="book-user-text">{{name}}</p></b-col>
       <b-col cols="3"><p class="book-user-text">
         <b>From: </b>{{ dateFrom | formatDate }}<br>
         <b>To: </b>{{ dateTo | formatDate }}
         </p></b-col>
-      <b-col cols="1"><p class="book-user-text">{{state}}</p></b-col>
+      <b-col cols="2"><p class="book-user-text">{{state}}</p></b-col>
       <b-col class="mt-3">
         <div  v-if="canManipulate">
           <b-button v-if="!borrowing"
@@ -36,7 +36,6 @@
               </b-form-datepicker>            </div>
             <b-button class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
           </b-modal>
-
         </div>
       </b-col>
     </b-row>
@@ -119,7 +118,7 @@ export default {
     showModal() {
       this.$refs['my-modal'].show()
     },
-    onHidden (e) {
+    onHidden (event) {
       parent.location.reload();
     },
   },
