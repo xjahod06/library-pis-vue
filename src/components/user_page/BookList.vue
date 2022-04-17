@@ -2,7 +2,7 @@
   <div class="book-list">
       <h1 class="book-list-title">{{type}}</h1>
       <b-container class="book-user-list">
-        <div v-for="val in data">
+        <div v-for="val in sortedData">
           <div v-if="val.exemplar.book != undefined">
             <div v-if="borrowing">
               <BookListItem :name="val.exemplar.book.name"
@@ -64,6 +64,14 @@
     },
     components: {
       BookListItem
+    },
+    computed: {
+      sortedData: function() {
+        this.data.sort( (a,b) => {
+          return new Date(b.dateUntil) - new Date(a.dateUntil);
+        });
+        return this.data;
+      }
     }
   }
 </script>
