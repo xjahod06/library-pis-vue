@@ -56,7 +56,13 @@ export default {
 
     deleteAuthor(author) {
       console.log(author.id);
-      ApiConnect.delete('/authors/'+author.id);
+      ApiConnect.delete('/authors/'+author.id).then(response => {
+        this.successMessage = "Author successfully deleted."
+        alert("Reservation succesfully deleted.");
+        parent.location.reload();
+      }).catch(error=>{
+        this.errorMessage = "There was a problem while deleting an Author.";
+      })
     }
   },
 

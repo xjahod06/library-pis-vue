@@ -36,7 +36,8 @@ const Routes = [
   {
     path : '/edit_author/:id',
     component: EditAuthor
-  }
+  },
+
 ]
 
 const router = new VueRouter({

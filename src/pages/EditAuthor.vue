@@ -1,9 +1,10 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <AuthorTile img="@/assets/logo.png"
-                :name = this.author.name
-                :surname = this.author.surname></AuthorTile>
+    <b-container>
+    <AuthorForm :author="author"
+                :form="form"></AuthorForm>
+    </b-container>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -13,13 +14,23 @@ import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
+import AuthorForm from "@/components/authors_edit_page/AuthorForm";
 export default {
   name: "EditAuthor.vue",
-  components: {AuthorTile, MyFooter, NavBar},
+  components: {AuthorTile, MyFooter, NavBar, AuthorForm},
 
   data() {
     return {
-      author : {}
+      author : {},
+      form: {
+        id: '',
+        name: '',
+        surname: '',
+        photograph: '',
+        dateOfBirth: '',
+        books: [],
+        magazines: []
+      },
     }
   },
 
@@ -28,6 +39,13 @@ export default {
       ApiConnect.get('authors/' + this.$route.params.id).then((response) =>
           {
             this.author = response.data;
+            this.form.id = this.author.id;
+            this.form.name = this.author.name;
+            this.form.surname = this.author.surname;
+            this.form.photograph = this.author.photograph;
+            this.form.dateOfBirth = this.author.dateOfBirth;
+            this.author.books.forEach(book => this.form.books.push(book));
+            this.author.magazines.forEach(magazine => this.form.magazines.push(magazine));
           }
       )},
   },
