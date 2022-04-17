@@ -63,6 +63,7 @@ export default {
     return{
       user: {},
       form: {
+        id: '',
         name: '',
         surname: '',
         email: '',
@@ -85,6 +86,7 @@ export default {
       })
     },
     getFormData(){
+      this.form.id = this.$route.params.id;
       this.form.name=this.user.name;
       this.form.surname=this.user.surname;
       this.form.email=this.user.email;
@@ -96,8 +98,6 @@ export default {
   },
   created() {
     this.getReader();
-    console.log(this.user);
-    console.log(this.form);
   }
 }
 </script>

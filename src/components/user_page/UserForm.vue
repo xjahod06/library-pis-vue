@@ -1,5 +1,9 @@
 <template>
   <b-container class="book-user-list">
+    <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
+      Your informations were succesfully updated!</b-alert>
+    <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
+      There was error while trying to update your information!</b-alert>
     <b-row>
       <b-col cols="4" aria-rowspan="6"><b-img src="@/assets/logo.png"></b-img></b-col>
       <b-col cols="8">
@@ -98,34 +102,31 @@
 </template>
 
 <script>
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: 'UserForm',
   data() {
     return {
-      // form: {
-      //   name: this.user.name,
-      //   surname: this.user.surname,
-      //   email: '',
-      //   street: '',
-      //   houseNumber: '',
-      //   city: '',
-      //   postcode: '',
-      // },
-      show: true
-    }
+      show: true,
+      showDismissibleAlert: false,
+      showDismissibleAlertError: false
+
+    };
   },
   props: {
     user: {},
     form: {},
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      // this.form=this.user;
-      alert(JSON.stringify(this.form))
+    onSubmit() {
+      ApiConnect.put('readers/', this.form).then(response => {
+          this.showDismissibleAlert=true;
+          // window.location.reload();
+      }).catch(error => {
+        this.showDismissibleAlertError=true;
+      })
     }
-    },
-
+    }
 }
 </script>
