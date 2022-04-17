@@ -29,7 +29,8 @@
         <small>Edition {{ publicationNumber }} </small>
       </b-col>
       <b-col class="text-right">
-        <small>ISBN {{ code }} </small>
+        <small v-if="isbn !== undefined" >ISBN {{ isbn }} </small>
+        <small v-if="!isNaN(issn)" >ISSN {{ issn }} </small>
       </b-col>
     </b-row>
 
@@ -41,15 +42,17 @@ export default {
   name: "BookInfo",
   props: {
     title: String,
-    publicationNumber: Number,
+    publicationNumber: String,
     authors: {},
-    code: String,
+    isbn: String,
+    issn: Number,
     genres: {},
     description: String,
   },
   methods: {
     getNames(data){
       let dataParsed = JSON.parse(JSON.stringify(data));
+      console.log(dataParsed);
       let string = "";
       dataParsed.forEach((dato) => string += "&" + dato.name);
       string = string.replace('&','')

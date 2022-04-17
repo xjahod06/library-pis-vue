@@ -7,6 +7,7 @@ import User from "@/pages/User";
 import Books from "@/pages/Books";
 import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
+import Magazine from "@/pages/Magazine";
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,10 @@ const Routes = [
   {
     path: '/magazines/',
     component: Magazines
+  },
+  {
+    path: '/magazines/:id',
+    component: Magazine
   },
 ]
 

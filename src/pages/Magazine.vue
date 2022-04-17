@@ -1,27 +1,27 @@
 <template>
-  <div id="Book">
+  <div id="Magazine">
     <NavBar></NavBar>
     <b-container>
       <b-row>
         <b-col cols="4">
           <BookTitle
-            img="@/assets/logo.png"
-            format="book"
-            :publisher="book.publisher"
-            :released="book.publicationDate"
-            :pages="book.pages"
+              img="@/assets/logo.png"
+              format="Magazine"
+              :publisher="magazine.publisher"
+              :released="magazine.publicationDate"
+              :pages="magazine.pages"
           >
 
           </BookTitle>
         </b-col>
         <b-col cols="8">
           <BookInfo
-            :title="book.name"
-            :publicationNumber="''+book.publicationNumber"
-            :authors="book.authors"
-            :isbn="book.isbn"
-            :genres="book.genres"
-            :description="book.description"
+              :title="magazine.name"
+              :publicationNumber="magazine.number + '/' + magazine.pubcationYear"
+              :authors="magazine.authors"
+              :issn="magazine.issn"
+              :genres="magazine.fields"
+              :description="magazine.description"
           >
 
           </BookInfo>
@@ -41,7 +41,7 @@ import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 
 export default {
-  name: "Book",
+  name: "Magazine",
   components: {
     BookInfo,
     BookTitle,
@@ -50,17 +50,17 @@ export default {
   },
   data(){
     return {
-      book: {}
+      magazine: {}
     }
   },
   methods: {
-    getBook(id) {
-      ApiConnect.get('books/'+id).then((response) =>
-          this.book = response.data,
+    getMagazine(id) {
+      ApiConnect.get('magazines/'+id).then((response) =>
+          this.magazine = response.data,
       )},
   },
   created() {
-    this.getBook(this.$route.params.id);
+    this.getMagazine(this.$route.params.id);
   }
 }
 </script>

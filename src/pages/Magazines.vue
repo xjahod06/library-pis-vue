@@ -12,6 +12,8 @@
                   :name = book.name
                   :authors = book.authors
                   :fields = book.fields
+                  :id = book.id
+                  root = "/magazines/"
         >
 
         </MainTile>

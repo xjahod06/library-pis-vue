@@ -26,7 +26,7 @@
         {{ publisher }}
       </b-col>
     </b-row>
-    <b-row align-h="center" class="mt-3">
+    <b-row align-h="center" class="mt-3" v-if="released !== undefined">
       <b-col cols="4" class="text-right text-dark h5">
         Released
       </b-col>
@@ -34,7 +34,7 @@
         {{ releaseDate }}
       </b-col>
     </b-row>
-    <b-row align-h="center" class="mt-3">
+    <b-row align-h="center" class="mt-3" v-if="pages !== undefined">
       <b-col cols="4" class="text-right text-dark h5">
         Pages
       </b-col>

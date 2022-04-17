@@ -13,6 +13,7 @@
                   :authors = book.authors
                   :fields = book.fields
                   :id = book.id
+                  root = "/books/"
         >
 
         </MainTile>

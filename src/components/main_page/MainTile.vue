@@ -7,7 +7,7 @@
       <b-badge pill variant="warning">{{ type }}</b-badge>
     </b-row>
     <b-row class="text-left mt-2">
-      <router-link :to="{path: '/books/' + id}">
+      <router-link :to="{path: root + id}">
         <h5 class="text-left">
           {{ name }}
         </h5>
@@ -37,6 +37,7 @@ name: 'MainTile',
     img: String,
     fields: {},
     id: Number,
+    root: String,
   },
   methods: {
     getNames(data){
