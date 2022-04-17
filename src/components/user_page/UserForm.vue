@@ -4,9 +4,6 @@
       Your informations were succesfully updated!</b-alert>
     <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
       There was error while trying to update your information!</b-alert>
-    <b-row>
-      <b-col cols="4" aria-rowspan="6"><b-img src="@/assets/logo.png"></b-img></b-col>
-      <b-col cols="8">
 
         <b-form @submit="onSubmit" v-if="show" class="user-form">
 
@@ -95,9 +92,6 @@
 
           <b-button type="submit" class="submit-button" >Submit</b-button>
         </b-form>
-      </b-col>
-
-    </b-row>
   </b-container>
 </template>
 

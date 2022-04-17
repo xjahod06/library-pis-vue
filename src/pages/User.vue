@@ -2,9 +2,19 @@
   <div id="app">
     <NavBar></NavBar>
     <b-container>
-      <UserForm  :user="user"
-                 :form="form"
-      ></UserForm>
+      <b-row>
+        <b-col cols="6">
+          <UserForm  :user="user"
+                     :form="form"
+          ></UserForm>
+        </b-col>
+        <b-col cols="6">
+          <ChangePassword :user="user"
+                          :form="formPassword">
+          </ChangePassword>
+        </b-col>
+      </b-row>
+
       <div v-if="user.reservations != undefined">
         <div v-if="user.reservations.length != 0">
           <BookList type="Reservations"
@@ -44,6 +54,7 @@ import MyFooter from "@/components/main_page/MyFooter";
 import BookList from "@/components/user_page/BookList";
 import UserForm from "@/components/user_page/UserForm";
 import ApiConnect from "@/services/ApiConnect";
+import ChangePassword from "@/components/user_page/ChangePassword";
 
 export default {
   name: 'UserPage',
@@ -51,7 +62,8 @@ export default {
     NavBar,
     MyFooter,
     BookList,
-    UserForm
+    UserForm,
+    ChangePassword
   },
   computed: {
     id() {
@@ -71,7 +83,14 @@ export default {
         houseNumber: '',
         city: '',
         postcode: '',
+      },
+      formPassword: {
+        userId: '',
+        password: '',
+        confirmPassword: '',
+        oldPassword: ''
       }
+
     }
   },
   methods: {
@@ -83,6 +102,7 @@ export default {
       ApiConnect.get('readers/' + id).then((response)=> {
         this.user = response.data;
         this.getFormData();
+        this.formPassword.userId = this.$route.params.id;
       })
     },
     getFormData(){
@@ -94,7 +114,7 @@ export default {
       this.form.houseNumber=this.user.houseNumber;
       this.form.city=this.user.city;
       this.form.postcode=this.user.postcode;
-    }
+    },
   },
   created() {
     this.getReader();
