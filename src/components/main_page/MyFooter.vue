@@ -1,6 +1,9 @@
 <template>
-  <div id="my-footer">
-    <p id="my-footer-text">Copyright {{currentYear}}. All Rights Reserved. </p>
+  <div id="footer">
+    <div id="GAP"></div>
+    <div id="my-footer">
+      <p id="my-footer-text">Copyright {{currentYear}}. All Rights Reserved. </p>
+    </div>
   </div>
 </template>
 
