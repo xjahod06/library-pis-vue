@@ -1,10 +1,5 @@
 <template>
   <div>
-    <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
-      {{ successMessage }}</b-alert>
-    <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
-      {{errorMessage}}</b-alert>
-
     <b-row>
       <b-col><b-img class="book-user-img" src="@/assets/logo.png"></b-img>
         <div id="type">
@@ -24,20 +19,24 @@
                     variant="danger">Cancel</b-button>
           <br v-if="! borrowing">
           <b-button  class="mt-3"
-                     v-b-toggle.collapse1
+                     @click="showModal"
                      align="right"
                      variant="warning">Prolong</b-button>
-            <b-collapse id="collapse1" class="mt-2">
-            <b-card class="container">
-              <p style="font-size: 15px ; padding-bottom: 10px" class="book-user-text">Choose new date</p>
+
+          <b-modal ref="my-modal" hide-footer title="Change reservation date." @hidden="onHidden">
+            <div class="d-block text-center">
+              <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
+                {{ successMessage }}</b-alert>
+              <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
+                {{errorMessage}}</b-alert>
               <b-form-datepicker id="example-datepicker"
                                  v-model="dateToNew"
                                  placeholder="Choose new date"
                                  class="mb-2">
-              </b-form-datepicker>
-              <b-button  @click="prolongReservation" size="sm">Submit</b-button>
-            </b-card>
-          </b-collapse>
+              </b-form-datepicker>            </div>
+            <b-button class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
+          </b-modal>
+
         </div>
       </b-col>
     </b-row>
@@ -90,8 +89,9 @@ export default {
     prolongReservation(){
       let newDate = new Date(this.dateToNew);
       newDate.setHours(23,59,59,59);
-
-      if (newDate <= this.dateTo) {
+      let actualDate = this.dateTo;
+      actualDate.setHours(23,59,59,59);
+      if (newDate <= actualDate) {
         this.showDismissibleAlertError = true;
         this.showDismissibleAlert = false;
         this.errorMessage = "New date can not be the same/less then actual date of reservation.";
@@ -104,18 +104,27 @@ export default {
         reservation.state = '';
         reservation.reader = this.user;
         reservation.exemplar = this.data.exemplar;
-        console.log(reservation);
+
         ApiConnect.put('/reservations', reservation).then(response => {
           this.showDismissibleAlert = true;
           this.showDismissibleAlertError = false;
           this.successMessage = "Date of reservation succesfully changed.";
-          parent.location.reload();
         }).catch(error => {
           this.showDismissibleAlertError = true;
           this.showDismissibleAlert = false;
-          this.errorMessage = "Erroe while changing date of reservation.";
+          this.errorMessage = "Error while changing date of reservation.";
         })
       }
+    },
+    showModal() {
+      this.$refs['my-modal'].show()
+    },
+    onHidden (e) {
+      parent.location.reload();
+    },
+    toggleModal() {
+
+      this.$refs['my-modal'].toggle('#toggle-btn')
     }
   },
   computed: {
@@ -125,7 +134,7 @@ export default {
       return today <= this.dateTo;
     },
     collapseId: function () {
-      return 'collapse' + this.id.toString();
+      return 'collapse-' + this.id.toString();
     }
   }
 }
