@@ -8,7 +8,7 @@
 
     <b-row>
       <MainTile v-for="load in data.slice(0,6)"
-          img="@/assets/logo.png"
+                img="@/assets/logo.png"
                 :genre = load.genres
                 :type = load.language
                 :name = load.name

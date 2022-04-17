@@ -1,4 +1,5 @@
 import axios from 'axios'
+import ApiConnect from "@/services/ApiConnect";
 
 const state = {
     user: null,
@@ -14,7 +15,7 @@ const getters = {
 
 const actions = {
     async Register({dispatch}, form) {
-        await axios.post('readers', form)
+        await ApiConnect.post('readers', JSON.stringify(form))
         let UserForm = new DataForm()
         UserForm.append('id', 0)
         UserForm.append('name', form.name)
@@ -27,10 +28,10 @@ const actions = {
         UserForm.append('role', form.role)
         UserForm.append('password', form.password)
         UserForm.append('fullname', form.fullname)
-        await dispatch('Register', UserForm)
+        await dispatch('LogIn', UserForm)
     },
     async LogIn({commit}, user) {
-        await axios.post('login', user)
+        await ApiConnect.post('login', user)
         await commit('setUser', user.get("username"))
     },
     async LogOut({ commit }) {

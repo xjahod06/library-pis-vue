@@ -40,10 +40,10 @@
             <label for="password">Password:</label>
             <input type="text" name="password" v-model="form.password">
           </div>
-          <button type="submit">Submit</button>
+          <button @click="submit">Submit</button>
         </form>
       </div>
-      <p v-if="showError" id="error">Username already exists</p>
+      <p v-if="showError" id="error">{{ errData }}</p>
     </b-container>
     <MyFooter></MyFooter>
   </div>
@@ -53,6 +53,7 @@
 import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import { mapActions } from "vuex";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: "Register",
@@ -63,6 +64,7 @@ export default {
   data() {
     return {
       form: {
+        id: 0,
         name: "",
         surname: "",
         email: "",
@@ -74,21 +76,32 @@ export default {
         password: "",
         fullname: ""
       },
-      showError: false
+      showError: false,
+      errData: null
     };
   },
   methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-        await this.Register(this.form);
-        this.$router.push('/');
-        this.showError = false;
-      }
-      catch(err) {
-        this.showError = true;
-      }
-    }
+//    ...mapActions(["Register"]),
+//    async submit() {
+//      try {
+//        await this.Register(this.form);
+//        this.$router.push('/');
+//        this.showError = false;
+//      }
+//      catch(err) {
+//        this.showError = true;
+//        errData = err.data;
+//      }
+//    }
+    submit(){
+      ApiConnect.post('readers', JSON.stringify(this.form)).then((response) =>
+          this.errData = response.data,
+          this.showError = true
+      )},
+  },
+  created() {
+    this.submit();
   }
+
 }
 </script>
