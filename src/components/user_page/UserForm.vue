@@ -1,8 +1,9 @@
 <template>
   <b-container class="book-user-list">
-    <b-row>
-      <b-col cols="4" aria-rowspan="6"><b-img src="@/assets/logo.png"></b-img></b-col>
-      <b-col cols="8">
+    <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
+      Your informations were succesfully updated!</b-alert>
+    <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
+      There was error while trying to update your information!</b-alert>
 
         <b-form @submit="onSubmit" v-if="show" class="user-form">
 
@@ -11,7 +12,7 @@
             <b-col cols="8">
               <b-form-input
                 v-model="form.name"
-                placeholder="Enter name"
+                placeholder="Enter first name"
                 id="fname"
                 required>
               </b-form-input>
@@ -91,33 +92,34 @@
 
           <b-button type="submit" class="submit-button" >Submit</b-button>
         </b-form>
-      </b-col>
-
-    </b-row>
   </b-container>
 </template>
 
 <script>
+import ApiConnect from "@/services/ApiConnect";
+
 export default {
   name: 'UserForm',
   data() {
     return {
-      form: {
-        name: '',
-        surname: '',
-        email: '',
-        street: '',
-        houseNumber: '',
-        city: '',
-        postcode: '',
-      },
-      show: true
-    }
+      show: true,
+      showDismissibleAlert: false,
+      showDismissibleAlertError: false
+
+    };
+  },
+  props: {
+    user: {},
+    form: {},
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
+    onSubmit() {
+      ApiConnect.put('readers/', this.form).then(response => {
+          this.showDismissibleAlert=true;
+          // window.location.reload();
+      }).catch(error => {
+        this.showDismissibleAlertError=true;
+      })
     }
     }
 }

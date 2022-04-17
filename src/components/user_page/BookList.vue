@@ -2,8 +2,38 @@
   <div class="book-list">
       <h1 class="book-list-title">{{type}}</h1>
       <b-container class="book-user-list">
+        <div v-for="val in data">
+          <div v-if="val.exemplar.book != undefined">
+            <div v-if="borrowing">
+              <BookListItem :name="val.exemplar.book.name"
+                            type="book"
+                            :date="new Date(val.dateOfBorrowEnd)"
+                            :state="val.state"></BookListItem>
+            </div>
+            <div v-else>
+              <BookListItem :name="val.exemplar.book.name"
+                            type="book"
+                            :date="new Date(val.dateUntil)"
+                            :state="val.state"></BookListItem>
+            </div>
 
-      <BookListItem :name=name :date=date :state=state></BookListItem>
+          </div>
+          <div v-if="val.exemplar.magazine != undefined">
+            <div v-if="borrowing">
+              <BookListItem :name="val.exemplar.magazine.name"
+                            type="magazine"
+                            :date="new Date(val.dateOfBorrowEnd)"
+                            :state="val.state"></BookListItem>
+            </div>
+            <div v-else>
+              <BookListItem :name="val.exemplar.magazine.name"
+                            type="magazine"
+                            :date="new Date(val.dateUntil)"
+                            :state="val.state"></BookListItem>
+            </div>
+          </div>
+        </div>
+<!--      <BookListItem :name= :date=date :state=state></BookListItem>-->
 
       </b-container>
   </div>
@@ -17,9 +47,8 @@
     name: 'BookList',
     props: {
       type: String,
-      name: String,
-      date: Date,
-      state: String
+      data: {},
+      borrowing: Boolean
     },
     components: {
       BookListItem
