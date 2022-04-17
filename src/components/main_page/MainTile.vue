@@ -7,9 +7,11 @@
       <b-badge pill variant="warning">{{ type }}</b-badge>
     </b-row>
     <b-row class="text-left mt-2">
-      <h5 class="text-left">
-        {{ name }}
-      </h5>
+      <router-link :to="{path: '/books/' + id}">
+        <h5 class="text-left">
+          {{ name }}
+        </h5>
+      </router-link>
     </b-row>
     <b-row class="text-left">
       <small>{{ authorsToPrint }}</small>
@@ -34,26 +36,27 @@ name: 'MainTile',
     genres: {},
     img: String,
     fields: {},
+    id: Number,
+  },
+  methods: {
+    getNames(data){
+      let dataParsed = JSON.parse(JSON.stringify(data));
+      let string = "";
+      dataParsed.forEach((dato) => string += "&" + dato.name);
+      string = string.replace('&','')
+      string = string.replaceAll("&",", ")
+      return string;
+    }
   },
   computed: {
     authorsToPrint() {
-      let data = JSON.parse(JSON.stringify(this.authors));
-      let string = "";
-      data.forEach((dato) => string += " " + dato.name);
-      console.log(data.length);
-      return string;
+      return this.getNames(this.authors);
     },
     fieldsToPrint() {
-      let data = JSON.parse(JSON.stringify(this.fields));
-      let string = "";
-      data.forEach((dato) => string += " " + dato.name);
-      return string;
+      return this.getNames(this.fields);
     },
     genresToPrint() {
-      let data = JSON.parse(JSON.stringify(this.genres));
-      let string = "";
-      data.forEach((dato) => string += " " + dato.name);
-      return string;
+      return this.getNames(this.genres);
     }
   }
 }

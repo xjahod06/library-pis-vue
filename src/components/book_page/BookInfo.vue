@@ -47,18 +47,22 @@ export default {
     genres: {},
     description: String,
   },
-  computed:{
-    authorsToPrint() {
-      let data = JSON.parse(JSON.stringify(this.authors));
+  methods: {
+    getNames(data){
+      let dataParsed = JSON.parse(JSON.stringify(data));
       let string = "";
-      data.forEach((dato) => string += " " + dato.name);
+      dataParsed.forEach((dato) => string += "&" + dato.name);
+      string = string.replace('&','')
+      string = string.replaceAll("&",", ")
       return string;
+    }
+  },
+  computed: {
+    authorsToPrint() {
+      return this.getNames(this.authors);
     },
     genresToPrint() {
-      let data = JSON.parse(JSON.stringify(this.genres));
-      let string = "";
-      data.forEach((dato) => string += " " + dato.name);
-      return string;
+      return this.getNames(this.genres);
     }
   }
 }

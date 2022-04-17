@@ -18,6 +18,7 @@
                 :name = load.name
                 :authors = load.authors
                 :fields = load.fields
+                :id = load.id
                 >
       </MainTile>
     </b-row>
