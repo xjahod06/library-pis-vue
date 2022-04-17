@@ -26,10 +26,10 @@
 
     <b-row class="mt-4">
       <b-col class="text-left">
-        <small>Edition {{ publicationNumber }}</small>
+        <small>Edition {{ publicationNumber }} </small>
       </b-col>
       <b-col class="text-right">
-        <small>ISBN {{ code }}</small>
+        <small>ISBN {{ code }} </small>
       </b-col>
     </b-row>
 
