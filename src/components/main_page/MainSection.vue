@@ -19,6 +19,7 @@
                 :authors = load.authors
                 :fields = load.fields
                 :id = load.id
+                :root = root
                 >
       </MainTile>
     </b-row>
@@ -39,6 +40,7 @@ export default {
     name: String,
     fullPage: String,
     data: {},
+    root: String,
   },
 
 }
