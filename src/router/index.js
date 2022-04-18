@@ -23,7 +23,7 @@ const Routes = [
     component: About
   },
   {
-    path: '/readers/:id?',
+    path: '/readers/:id',
     component: User
   },
   {
