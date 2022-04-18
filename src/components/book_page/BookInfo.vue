@@ -57,11 +57,19 @@ export default {
       string = string.replace('&','')
       string = string.replaceAll("&",", ")
       return string;
+    },
+    getAuthors(data){
+      let dataParsed = JSON.parse(JSON.stringify(data));
+      let string = "";
+      dataParsed.forEach((dato) => string += "&" + dato.surname + " " + dato.name);
+      string = string.replace('&','')
+      string = string.replaceAll("&",", ")
+      return string;
     }
   },
   computed: {
     authorsToPrint() {
-      return this.getNames(this.authors);
+      return this.getAuthors(this.authors);
     },
     genresToPrint() {
       return this.getNames(this.genres);

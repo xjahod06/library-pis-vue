@@ -51,7 +51,7 @@ import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import MainTile from "@/components/main_page/MainTile";
-import AuthorBigTile from "@/components/AuthorBigTile";
+import AuthorBigTile from "@/components/author/AuthorBigTile";
 
 export default {
   name: "Author",
