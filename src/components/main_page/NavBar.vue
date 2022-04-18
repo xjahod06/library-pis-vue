@@ -2,7 +2,6 @@
   <div id="mynavbar">
     <b-container>
 
-
     <b-navbar toggleable="lg" variant="info">
       <b-navbar-brand left href="#">
         <router-link to="/">

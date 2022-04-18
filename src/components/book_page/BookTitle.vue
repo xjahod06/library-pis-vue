@@ -31,7 +31,7 @@
         Released
       </b-col>
       <b-col cols="4" class="text-left text-dark">
-        {{ releaseDate }}
+        {{ released | formatDate }}
       </b-col>
     </b-row>
     <b-row align-h="center" class="mt-3" v-if="pages !== undefined">
@@ -55,12 +55,6 @@ export default {
     released: Number,
     pages: Number,
   },
-  computed: {
-    releaseDate(){
-      let dt = new Date(this.released);
-      return dt.getDay()+"."+dt.getMonth()+"."+dt.getFullYear();
-    }
-  }
 }
 </script>
 
