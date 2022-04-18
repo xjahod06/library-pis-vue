@@ -11,8 +11,10 @@ import Books from "@/pages/Books";
 import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
 import Magazine from "@/pages/Magazine";
-import AuthorsList from "@/components/authors_edit_page/AuthorsList";
+import AuthorsList from "@/pages/AuthorsList";
 import EditAuthor from "@/pages/EditAuthor";
+import ReadersList from "@/pages/ReadersList";
+import EmployeeList from "@/pages/EmployeeList";
 
 Vue.use(VueRouter)
 
@@ -71,7 +73,14 @@ const Routes = [
     path : '/edit_author/:id',
     component: EditAuthor
   },
-
+  {
+    path: '/edit_readers',
+    component: ReadersList
+  },
+  {
+    path: '/edit_employees',
+    component: EmployeeList
+  },
 ]
 
 const router = new VueRouter({
