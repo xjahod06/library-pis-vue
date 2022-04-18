@@ -34,12 +34,12 @@
           ></BookList>
         </div>
       </div>
-
       <div v-if="user.electronicCopyBorrowings != undefined ">
         <div v-if="user.electronicCopyBorrowings.length != 0">
           <BookList type="Electronic Borrowings"
                     :data="user.electronicCopyBorrowings"
                     :user="user"
+                    :electronic="true"
                     :borrowing="true"
           ></BookList>
         </div>

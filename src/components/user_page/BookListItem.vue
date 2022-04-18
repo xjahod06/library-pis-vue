@@ -12,6 +12,7 @@
         </p></b-col>
       <b-col cols="2"><p class="book-user-text">{{state}}</p></b-col>
       <b-col class="mt-3">
+
         <div  v-if="canManipulate">
           <b-button v-if="!borrowing"
                     @click="deleteReservation"
@@ -23,7 +24,7 @@
                      align="right"
                      variant="warning">Prolong</b-button>
 
-          <b-modal ref="my-modal" hide-footer title="Change reservation date." @hidden="onHidden">
+          <b-modal ref="my-modal" hide-footer title="Change date." @hidden="onHidden">
             <div class="d-block text-center">
               <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
                 {{ successMessage }}</b-alert>
@@ -34,7 +35,10 @@
                                  placeholder="Choose new date"
                                  class="mb-2">
               </b-form-datepicker>            </div>
-            <b-button class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
+            <b-button v-if="!borrowing" class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
+            <b-button v-else-if="!electronic" class="mt-2" variant="outline-primary" block @click="prolongBorrowing">Save</b-button>
+            <b-button v-if="electronic" class="mt-2" variant="outline-primary" block @click="prolongElectronicBorrowing">Save</b-button>
+
           </b-modal>
         </div>
       </b-col>
@@ -57,7 +61,8 @@ export default {
     borrowing: Boolean,
     id: Number,
     user: {},
-    data: {}
+    data: {},
+    electronic: Boolean
   },
   data() {
     return {
@@ -115,6 +120,66 @@ export default {
         })
       }
     },
+    prolongBorrowing(){
+      let newDate = new Date(this.dateToNew);
+      newDate.setHours(23,59,59,59);
+      let actualDate = this.dateTo;
+      actualDate.setHours(23,59,59,59);
+      if (newDate <= actualDate) {
+        this.showDismissibleAlertError = true;
+        this.showDismissibleAlert = false;
+        this.errorMessage = "New date can not be the same/less then actual date of borrowing.";
+      }
+      else {
+        let borrowing = {};
+        borrowing.id = this.id;
+        borrowing.dateOfBorrowStart = this.dateFrom;
+        borrowing.dateOfBorrowEnd = newDate;
+        borrowing.borrowCounter = this.data.borrowCounter + 1;
+        borrowing.reader = this.user;
+        borrowing.state = '';
+        borrowing.exemplar = this.data.exemplar;
+
+        ApiConnect.put('/hard-copy-borrowings', borrowing).then(response => {
+          this.showDismissibleAlert = true;
+          this.showDismissibleAlertError = false;
+          this.successMessage = "Date of borrowing succesfully changed.";
+        }).catch(error => {
+          this.showDismissibleAlertError = true;
+          this.showDismissibleAlert = false;
+          this.errorMessage = "Error while changing date of borrowing.";
+        })
+      }
+    },
+    prolongElectronicBorrowing(){
+      let newDate = new Date(this.dateToNew);
+      newDate.setHours(23,59,59,59);
+      let actualDate = this.dateTo;
+      actualDate.setHours(23,59,59,59);
+      if (newDate <= actualDate) {
+        this.showDismissibleAlertError = true;
+        this.showDismissibleAlert = false;
+        this.errorMessage = "New date can not be the same/less then actual date of borrowing.";
+      }
+      else {
+        let borrowing = {};
+        borrowing.id = this.id;
+        borrowing.dateOfBorrowStart = this.dateFrom;
+        borrowing.dateOfBorrowEnd = newDate;
+        borrowing.borrowCounter = this.data.borrowCounter + 1;
+        borrowing.reader = this.user;
+        borrowing.electronicCopy = this.data.electronicCopy;
+
+        ApiConnect.put('/electronic-copy-borrowings', borrowing).then(response => {
+          this.showDismissibleAlert = true;
+          this.showDismissibleAlertError = false;
+          this.successMessage = "Date of borrowing succesfully changed.";
+        }).catch(error => {
+          this.showDismissibleAlertError = true;
+          this.showDismissibleAlert = false;
+          this.errorMessage = "Error while changing date of borrowing.";
+        })
+      }      },
     showModal() {
       this.$refs['my-modal'].show()
     },

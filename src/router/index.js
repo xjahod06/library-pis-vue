@@ -11,20 +11,23 @@ import Books from "@/pages/Books";
 import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
 import Magazine from "@/pages/Magazine";
-import AuthorsList from "@/components/authors_edit_page/AuthorsList";
+import AuthorsList from "@/pages/AuthorsList";
 import EditAuthor from "@/pages/EditAuthor";
+import ReadersList from "@/pages/ReadersList";
+import EmployeeList from "@/pages/EmployeeList";
+import Authors from "@/pages/Authors";
+import GenreAuthors from "@/pages/GenreAuthors";
+import Author from "@/pages/Author";
 
 Vue.use(VueRouter)
 
 const Routes = [
   {
     path: '/',
-    //name: 'home',
     component: App
   },
   {
     path: '/about',
-    //name: 'about',
     component: About
   },
   {
@@ -34,7 +37,6 @@ const Routes = [
   },
   {
     path: '/genre/:id?',
-    //name: 'genre',
     component: Genre
   },
   {
@@ -56,6 +58,18 @@ const Routes = [
     component: Book
   },
   {
+    path: '/authors/',
+    component: Authors
+  },
+  {
+    path: '/authors/:id',
+    component: Author
+  },
+  {
+    path: '/genre_authors/:id',
+    component: GenreAuthors
+  },
+  {
     path: '/magazines/',
     component: Magazines
   },
@@ -71,7 +85,14 @@ const Routes = [
     path : '/edit_author/:id',
     component: EditAuthor
   },
-
+  {
+    path: '/edit_readers',
+    component: ReadersList
+  },
+  {
+    path: '/edit_employees',
+    component: EmployeeList
+  },
 ]
 
 const router = new VueRouter({

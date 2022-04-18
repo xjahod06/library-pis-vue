@@ -11,6 +11,63 @@
                      overflow-y:scroll;"
           >
             <div v-for="val in sortedData">
+              <div v-if="electronic">
+                <div v-if="val.electronicCopy.book != undefined">
+                  <div v-if="borrowing">
+                    <BookListItem :name="val.electronicCopy.book.name"
+                                  type="book"
+                                  :id="val.id"
+                                  :user="user"
+                                  :data="val"
+                                  :borrowing="true"
+                                  :electronic="true"
+                                  :dateFrom="new Date(val.dateOfBorrowStart)"
+                                  :dateTo="new Date(val.dateOfBorrowEnd)"
+                                  :state="val.state"></BookListItem>
+                  </div>
+                  <div v-else>
+                    <BookListItem :name="val.electronicCopy.book.name"
+                                  type="book"
+                                  :id="val.id"
+                                  :user="user"
+                                  :data="val"
+                                  :borrowing="false"
+                                  :electronic="true"
+                                  :dateFrom="new Date(val.dateFrom)"
+                                  :dateTo="new Date(val.dateUntil)"
+                                  :state="val.state"></BookListItem>
+                  </div>
+
+                </div>
+                <div v-if="val.electronicCopy.magazine != undefined">
+                  <div v-if="borrowing">
+                    <BookListItem :name="val.electronicCopy.magazine.name"
+                                  type="magazine"
+                                  :id="val.id"
+                                  :user="user"
+                                  :data="val"
+                                  :borrowing="true"
+                                  :electronic="true"
+                                  :dateFrom="new Date(val.dateOfBorrowStart)"
+                                  :dateTo="new Date(val.dateOfBorrowEnd)"
+                                  :state="val.state"></BookListItem>
+                  </div>
+                  <div v-else>
+                    <BookListItem :name="val.electronicCopy.magazine.name"
+                                  type="magazine"
+                                  :id="val.id"
+                                  :user="user"
+                                  :data="val"
+                                  :borrowing="false"
+                                  :electronic="true"
+                                  :dateFrom="new Date(val.dateFrom)"
+                                  :dateTo="new Date(val.dateUntil)"
+                                  :state="val.state"></BookListItem>
+                  </div>
+                </div>
+
+              </div>
+              <div v-if="!electronic">
               <div v-if="val.exemplar.book != undefined">
                 <div v-if="borrowing">
                   <BookListItem :name="val.exemplar.book.name"
@@ -60,6 +117,7 @@
                                 :state="val.state"></BookListItem>
                 </div>
               </div>
+              </div>
             </div>
 
           </b-card-body>
@@ -76,6 +134,7 @@
       type: String,
       data: {},
       borrowing: Boolean,
+      electronic: Boolean,
       user: {}
     },
     components: {
@@ -83,12 +142,20 @@
     },
     computed: {
       sortedData: function() {
-        // todo toto bude chyba kvoli inemu nazvu premennych
-        this.data.sort( (a,b) => {
-          return new Date(b.dateUntil) - new Date(a.dateUntil);
-        });
+        if (this.borrowing){
+          this.data.sort( (a,b) => {
+            return new Date(b.dateOfBorrowEnd) - new Date(a.dateOfBorrowEnd);
+          });
+        }
+        else {
+          this.data.sort( (a,b) => {
+            return new Date(b.dateUntil) - new Date(a.dateUntil);
+          });
+        }
+
         return this.data;
-      }
+      },
+
     }
 
   }

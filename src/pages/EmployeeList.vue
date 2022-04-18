@@ -20,10 +20,10 @@
         head-variant="light"
         medium>
       <template v-slot:cell(update)="{ item }">
-        <span><b-btn @click="editAuthor(item)">Edit</b-btn></span>
+        <span><b-btn @click="editEmployee(item)">Edit</b-btn></span>
       </template>
       <template v-slot:cell(delete)="{ item }">
-        <span><b-btn @click="deleteAuthor(item)" variant="danger">Delete</b-btn></span>
+        <span><b-btn @click="deleteEmployee(item)" variant="danger">Delete</b-btn></span>
       </template>
     </b-table>
 
@@ -32,46 +32,49 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
+import NavBar from "@/components/main_page/NavBar";
 import ApiConnect from "@/services/ApiConnect";
+
 export default {
-  name: "AuthorsList",
+  name: "EmployeeList",
+
   components: {
     MyFooter,
     NavBar
   },
 
-  methods : {
-    getAuthors() {
-      ApiConnect.get('authors/').then((response) => {
+  methods: {
+    getEmployees() {
+      ApiConnect.get('employees/').then((response) => {
             this.items = response.data;
           }
-      )},
-
-    editAuthor(author) {
-      console.log(author.id);
-      this.$router.push({path: '/edit_author/' + author.id});
+      )
     },
 
-    deleteAuthor(author) {
-      console.log(author.id);
-      ApiConnect.delete('/authors/'+author.id).then(response => {
-        this.successMessage = "Author successfully deleted."
-        alert("Author succesfully deleted.");
+    editEmployee(employee) {
+      console.log(employee.id);
+      this.$router.push({path: '/employee/' + employee.id});
+    },
+
+    deleteEmployee(employee) {
+      console.log(employee.id);
+      ApiConnect.delete('/readers/' + employee.id).then(response => {
+        this.successMessage = "Employee successfully deleted."
+        alert("Employee successfully deleted.");
         parent.location.reload();
-      }).catch(error=>{
-        this.errorMessage = "There was a problem while deleting an Author.";
+      }).catch(error => {
+        this.errorMessage = "There was a problem while deleting an Employee.";
       })
     }
   },
 
   data() {
     return {
-      perPage: 10,
+      perPage: 15,
       currentPage: 1,
       items: [],
-      fields: ["name", "surname", "update", "delete"]
+      fields: ["name", "surname", "email", "city", "role", "update", "delete"]
     }
   },
 
@@ -82,7 +85,7 @@ export default {
   },
 
   created() {
-    this.getAuthors();
+    this.getEmployees();
   }
 }
 </script>

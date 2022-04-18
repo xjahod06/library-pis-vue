@@ -4,8 +4,13 @@
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
-    <MainSection name="Books" :data="books" root="/books/"></MainSection>
-    <AuthorSection name="Authors" :data="authors"></AuthorSection>
+    <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
+    <AuthorSection name="Authors"
+                   :data="authors"
+                   root="/authors/"
+                   :fullPage="fullPage">
+
+    </AuthorSection>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -32,6 +37,7 @@ export default {
       books: [],
       genre_name: [],
       authors: [],
+      fullPage : '/genre_authors/' + this.$route.params.id
     }
   },
 

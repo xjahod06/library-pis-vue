@@ -40,6 +40,14 @@ name: 'MainTile',
     root: String,
   },
   methods: {
+    getAuthors(data){
+      let dataParsed = JSON.parse(JSON.stringify(data));
+      let string = "";
+      dataParsed.forEach((dato) => string += "&" + dato.surname + " " + dato.name);
+      string = string.replace('&','')
+      string = string.replaceAll("&",", ")
+      return string;
+    },
     getNames(data){
       let dataParsed = JSON.parse(JSON.stringify(data));
       let string = "";
@@ -51,7 +59,7 @@ name: 'MainTile',
   },
   computed: {
     authorsToPrint() {
-      return this.getNames(this.authors);
+      return this.getAuthors(this.authors);
     },
     fieldsToPrint() {
       return this.getNames(this.fields);
