@@ -22,9 +22,6 @@
     <div v-else>
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
-      <b-button @click="books[0].id=0;postBook(books[0])">POST</b-button>
-      <b-button @click="books[1].name='Harry Potter';putBook(books[1])">PUT</b-button>
-      <b-button @click="delBook(0)">DEL</b-button>
       <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/books/"></MainSection>
     </div>
 
@@ -53,7 +50,6 @@ export default {
     return {
       books: [],
       magazines: [],
-      book: {},
       search_input: '',
       authors: []
     }
@@ -76,23 +72,6 @@ export default {
     getGenres(){
       ApiConnect.get('genres/').then((response) => this.genres = response.data, )
     },
-    postBook(json){
-      ApiConnect.post('books',json).then((response) =>
-          console.log(response),
-      )},
-    putBook(json){
-      console.log(json.name);
-      ApiConnect.put('books',json).then((response) =>
-          console.log(response),
-      )},
-    getBook(id){
-      ApiConnect.get('books/'+id).then((response) =>
-          this.book = response.data,
-      )},
-    delBook(id){
-      ApiConnect.delete('books/'+id).then((response) =>
-          console.log(response),
-      )},
     deleteSearchInput(val){
       this.search_input = '';
     }
@@ -104,7 +83,6 @@ export default {
     this.getAuthors();
     this.getGenres();
     this.getFields();
-    this.getBook(1);
   },
   computed: {
     filteredBooks : function (){

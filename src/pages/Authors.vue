@@ -24,6 +24,7 @@ import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
+
 export default {
   name: "Authors",
   components: {AuthorTile, MyFooter, NavBar},

@@ -27,6 +27,8 @@
           </BookInfo>
         </b-col>
       </b-row>
+
+
     </b-container>
     <MyFooter></MyFooter>
   </div>
