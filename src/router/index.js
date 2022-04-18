@@ -17,6 +17,7 @@ import ReadersList from "@/pages/ReadersList";
 import EmployeeList from "@/pages/EmployeeList";
 import Authors from "@/pages/Authors";
 import GenreAuthors from "@/pages/GenreAuthors";
+import Author from "@/pages/Author";
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,10 @@ const Routes = [
   {
     path: '/authors/',
     component: Authors
+  },
+  {
+    path: '/authors/:id',
+    component: Author
   },
   {
     path: '/genre_authors/:id',

@@ -52,7 +52,6 @@ export default {
   methods: {
     getNames(data){
       let dataParsed = JSON.parse(JSON.stringify(data));
-      console.log(dataParsed);
       let string = "";
       dataParsed.forEach((dato) => string += "&" + dato.name);
       string = string.replace('&','')
