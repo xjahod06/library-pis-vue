@@ -5,7 +5,7 @@
     </b-row>
 
     <b-row class="text-left mt-2">
-      <router-link :to="{path: '/authors/' + id}">
+      <router-link :to="{path: 'authors/' + id}">
         <h5 class="text-left">
           {{ name }} {{ surname }}
         </h5>
