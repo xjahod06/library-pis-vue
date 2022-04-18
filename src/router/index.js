@@ -15,18 +15,18 @@ import AuthorsList from "@/pages/AuthorsList";
 import EditAuthor from "@/pages/EditAuthor";
 import ReadersList from "@/pages/ReadersList";
 import EmployeeList from "@/pages/EmployeeList";
+import Authors from "@/pages/Authors";
+import GenreAuthors from "@/pages/GenreAuthors";
 
 Vue.use(VueRouter)
 
 const Routes = [
   {
     path: '/',
-    //name: 'home',
     component: App
   },
   {
     path: '/about',
-    //name: 'about',
     component: About
   },
   {
@@ -36,7 +36,6 @@ const Routes = [
   },
   {
     path: '/genre/:id?',
-    //name: 'genre',
     component: Genre
   },
   {
@@ -56,6 +55,14 @@ const Routes = [
   {
     path: '/books/:id',
     component: Book
+  },
+  {
+    path: '/authors/',
+    component: Authors
+  },
+  {
+    path: '/genre_authors/:id',
+    component: GenreAuthors
   },
   {
     path: '/magazines/',
