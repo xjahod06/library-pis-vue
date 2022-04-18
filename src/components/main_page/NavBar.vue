@@ -20,11 +20,7 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id />
           </b-nav-item-dropdown>
-          <span v-if="isLoggedIn"><a @click="logout">Logout</a></span>
-          <span v-else>
-            <router-link to="/register">Register</router-link>
-            <router-link to="/login">Login</router-link>
-          </span>
+          <b-nav-item href="#">Login/Register</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -48,14 +44,7 @@ export default {
     SearchBar,
     BookGenre
   },
-  computed: {
-    isLoggedIn : function (){ return this.$store.getters.isAuthenticated }
-  },
   methods : {
-    async logout (){
-      await this.$store.dispatch('LogOut')
-      this.$router.push('/login')
-    },
     getGenres(){
       ApiConnect.get('genres/').then((response) =>
             this.genre_names = response.data
