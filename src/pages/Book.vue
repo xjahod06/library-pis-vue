@@ -8,7 +8,7 @@
             img="@/assets/logo.png"
             format="book"
             :publisher="book.publisher"
-            :released="book.publicationDate"
+            :released="new Date(book.publicationDate)"
             :pages="book.pages"
           >
 

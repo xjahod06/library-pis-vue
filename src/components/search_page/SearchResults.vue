@@ -37,7 +37,7 @@
             <div v-for="genre in genres" :key="'genre' + genre.id">
               <SearchItem :item="genre"
                           :id="genre.id"
-                          root="/genres/"
+                          root="/genre/"
                           type="genre">
               </SearchItem>
             </div>
