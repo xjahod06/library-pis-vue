@@ -20,10 +20,18 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id />
           </b-nav-item-dropdown>
-          <span v-if="isLoggedIn"><a @click="logout">Logout</a></span>
+         <span v-if="isLoggedIn">
+              <b-iconstack @click="logout" font-scale="3" animation="">
+                <b-icon stacked icon="square" variant="white" scale="0.50" shift-h="-4"></b-icon>
+                <b-icon stacked icon="arrow-right" variant="white" scale="0.60" ></b-icon>
+              </b-iconstack>
+              <b-iconstack @click="userProfile" font-scale="3" animation="">
+                <b-icon stacked icon="person-fill" variant="white" scale="0.50"></b-icon>
+              </b-iconstack>
+          </span>
           <span v-else>
-            <router-link to="/register">Register</router-link>
-            <router-link to="/login">Login</router-link>
+            <b-nav-item><router-link to="/register">Register</router-link></b-nav-item>
+            <b-nav-item><router-link to="/login">Login</router-link></b-nav-item>
           </span>
         </b-navbar-nav>
 
@@ -49,17 +57,20 @@ export default {
     BookGenre
   },
   computed: {
-    isLoggedIn : function (){ return this.$store.getters.isAuthenticated }
+    isLoggedIn : function (){ return (localStorage.getItem('reader') != null)}
   },
   methods : {
-    async logout (){
-      await this.$store.dispatch('LogOut')
+    logout (){
+      localStorage.removeItem('reader');
       this.$router.push('/login')
     },
     getGenres(){
       ApiConnect.get('genres/').then((response) =>
             this.genre_names = response.data
-      )}
+      )},
+    userProfile() {
+      this.$router.push('/readers/' + localStorage.getItem('reader'));
+    }
   },
   data(){
     return {
