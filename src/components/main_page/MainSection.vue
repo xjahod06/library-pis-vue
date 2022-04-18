@@ -11,7 +11,7 @@
     </b-row>
 
     <b-row>
-      <MainTile v-for="load in data.slice(0,6)"
+      <MainTile v-for="load in data.slice(0,6)" :key="load.id"
           img="@/assets/logo.png"
                 :genres = load.genres
                 :type = load.language
