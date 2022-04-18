@@ -8,6 +8,7 @@
         :name="author.name"
         :surname="author.surname"
         :birth="author.dateOfBirth"
+        :death="author.dateOfDeath"
         :description="author.description"
       ></AuthorBigTile>
 

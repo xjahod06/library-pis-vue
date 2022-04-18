@@ -2,7 +2,7 @@
   <div id="book-info" class="text-left px-4 py-2">
     <b-row>
       <b-col>
-        <h1 class="display-3 mb-0">{{ title }}</h1>
+        <h1 id="headline" class="display-4 mb-1">{{ title }}</h1>
       </b-col>
     </b-row>
 
@@ -86,9 +86,9 @@ export default {
 h5{
   color: #d0d3d3 !important;
 }
-.display-3{
+#headline{
+  line-height: 0.95;
   color: #d0d3d3 !important;
-  margin-bottom: -15px !important;
 }
 small{
   color: #cbcbcb !important;
