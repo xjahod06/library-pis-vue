@@ -15,22 +15,22 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#">Catalog</b-nav-item>
+          <b-nav-item :to="{path: '/books/'}">Catalog</b-nav-item>
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id :key="load.id" />
           </b-nav-item-dropdown>
-         <span v-if="isLoggedIn">
-              <b-iconstack @click="logout" font-scale="3" animation="">
+         <span v-if="isLoggedIn" class="d-flex ml-3">
+              <b-iconstack @click="logout" font-scale="3" animation="" type="button">
                 <b-icon stacked icon="square" variant="white" scale="0.50" shift-h="-4"></b-icon>
                 <b-icon stacked icon="arrow-right" variant="white" scale="0.60" ></b-icon>
               </b-iconstack>
-              <b-iconstack @click="userProfile" font-scale="3" animation="">
+              <b-iconstack @click="userProfile" font-scale="3" animation="" type="button">
                 <b-icon stacked icon="person-fill" variant="white" scale="0.50"></b-icon>
               </b-iconstack>
           </span>
-          <span v-else>
-            <b-nav-item><router-link to="/register">Register</router-link></b-nav-item>
-            <b-nav-item><router-link to="/login">Login</router-link></b-nav-item>
+          <span v-else class="d-flex">
+            <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
+            <b-nav-item :to="{path: '/register/'}">Register</b-nav-item>
           </span>
         </b-navbar-nav>
 
