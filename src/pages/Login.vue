@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <NavBar></NavBar>
-    <b-container id="login">
+    <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
         <b-row>
           <b-col>
@@ -28,7 +28,6 @@
               id="password-label"
               label="Your Name:"
               label-for="password"
-              description="password needs to be at least 5 characters long."
           >
             <b-form-input
                 id="password"
@@ -112,11 +111,9 @@ export default {
 </script>
 
 <style scoped>
-#login{
+#login-box{
   text-align: left;
   color: black;
-}
-#login-box{
   max-width: 500px;
   margin: auto;
   border-radius: 15px;

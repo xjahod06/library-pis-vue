@@ -8,7 +8,7 @@
             <h1 class="text-center">Register</h1>
           </b-col>
         </b-row>
-        <b-form @submit.prevent="submit" id="form-1">
+        <b-form @submit.prevent="submit" id="form-1" novalidate>
           <b-row>
             <b-col>
               <b-form-group
@@ -67,6 +67,7 @@
                   label-for="email"
               >
                 <b-form-input
+                    ref="email"
                     id="email"
                     v-model="form.email"
                     type="email"
@@ -74,7 +75,11 @@
                     autocomplete="email"
                     required
                 ></b-form-input>
+                <b-form-invalid-feedback>
+                  This email address is already used. Please, select another email.
+                </b-form-invalid-feedback>
               </b-form-group>
+
             </b-col>
           </b-row>
           <hr>
@@ -162,6 +167,26 @@
                 ></b-form-input>
               </b-form-group>
             </b-col>
+            <b-col>
+              <b-form-group
+                  id="input-group-9"
+                  label="Confirm password:"
+                  label-for="confirm-password"
+              >
+                <b-form-input
+                    ref="confirm-password"
+                    id="confirm-password"
+                    v-model="form.confirmPassword"
+                    type="password"
+                    placeholder="Confirm your password"
+                    autocomplete="new-password"
+                    required
+                ></b-form-input>
+                <b-form-invalid-feedback>
+                  Passwords are not same.
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
           </b-row>
           <b-row>
             <b-col class="text-center">
@@ -212,23 +237,27 @@ export default {
   },
   methods: {
     submit(){
+      if (this.form.password != this.form.confirmPassword){
+        this.$refs['confirm-password'].state = false;
+        return;
+      }
         ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
           {
             if (response.status == 200)
             {
               this.$router.push('/login');
-              this.showError = false;
+              this.showError = false
             }
             else
             {
-              this.showError = true;
+              this.showError = true
             }
           }
         ).catch(error => {
         console.log(error)
         this.showError = true;
       })
-      }
+    }
   }
 }
 </script>
