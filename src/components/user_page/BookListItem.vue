@@ -10,7 +10,18 @@
         <b>From: </b>{{ dateFrom | formatDate }}<br>
         <b>To: </b>{{ dateTo | formatDate }}
         </p></b-col>
-      <b-col cols="2"><p class="book-user-text">{{state}}</p></b-col>
+      <b-col cols="2" style="padding-top: 20px;" align="left"><h3>
+        <b-badge
+            v-if="state === 'ACTIVE'"
+            variant="success">{{state}}</b-badge>
+        <b-badge
+            v-if="state === 'CAN_NOT_PROLONG' || state === 'TO_PICK_UP'"
+            variant="warning">{{state}}</b-badge>
+        <b-badge v-if="state === 'TO_RETURN'"
+                 variant="danger">{{state}}</b-badge>
+        <b-badge v-if="state === 'RETURNED' || state === 'NOT_ACTIVE'"
+                 variant="info" >{{state}}</b-badge>
+      </h3></b-col>
       <b-col class="mt-3">
 
         <div  v-if="canManipulate">
@@ -19,6 +30,7 @@
                     align="right"
                     variant="danger">Cancel</b-button>
           <br v-if="! borrowing">
+
           <b-button  class="mt-3"
                      @click="showModal"
                      align="right"
@@ -190,8 +202,15 @@ export default {
   computed: {
     canManipulate: function () {
       let today = new Date();
+      let result = true;
       today.setHours(0, 0, 0, 0);
-      return today <= this.dateTo;
+      if ( today <= this.dateTo) {
+        result = true;
+      }
+      if (this.borrowing && (this.data.state === 'TO_RETURN' || this.data.state === 'CAN_NOT_PROLONG')) {
+        result = false;
+      }
+      return result;
     },
   }
 }

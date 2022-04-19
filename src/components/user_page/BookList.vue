@@ -8,8 +8,10 @@
               ref="content"
               style="position:relative;
                      height:330px;
-                     overflow-y:scroll;"
-          >
+                     overflow-y:scroll;
+                     padding-top: 0px;
+                     padding-bottom: 0px;">
+
             <div v-for="val in sortedData">
               <div v-if="electronic">
                 <div v-if="val.electronicCopy.book != undefined">
@@ -155,7 +157,6 @@
 
         return this.data;
       },
-
     }
 
   }

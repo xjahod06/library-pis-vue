@@ -2,6 +2,15 @@
   <div id="app">
     <NavBar></NavBar>
     <b-container>
+
+      <div v-if="user.hardCopyBorrowings != undefined">
+        <div v-if="user.hardCopyBorrowings.length != 0">
+
+          <b-alert v-if="fineAmount > 0" class="mt-2" show variant="danger">
+            You have unpaid fines in amount {{fineAmount}}CZK!</b-alert>
+        </div>
+      </div>
+
       <b-row>
         <b-col cols="6">
           <UserForm  :user="user"
@@ -71,6 +80,17 @@ export default {
   computed: {
     id() {
       return this.$route.params.id
+    },
+    fineAmount: function (){
+      let fines = 0;
+      for (let borrowing of this.user.hardCopyBorrowings) {
+        for (let fine of borrowing.fines){
+          if (fine.state !== 'PAID'){
+              fines +=fine.amount;
+          }
+        }
+      }
+      return fines;
     }
 
   },
