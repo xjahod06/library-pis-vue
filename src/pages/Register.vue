@@ -238,7 +238,6 @@ export default {
   methods: {
     submit(){
       if (this.form.password != this.form.confirmPassword){
-        this.$refs['confirm-password'].state = false;
         return;
       }
         ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => 

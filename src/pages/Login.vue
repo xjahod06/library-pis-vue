@@ -8,13 +8,14 @@
             <h1 class="text-center">Log in</h1>
           </b-col>
         </b-row>
-        <b-form @submit.prevent="submit">
+        <b-form @submit.prevent="submit" novalidate>
           <b-form-group
               id="email-label"
               label="Email address:"
               label-for="email"
           >
             <b-form-input
+                ref="email"
                 id="email"
                 v-model="form.email"
                 type="email"
@@ -30,6 +31,7 @@
               label-for="password"
           >
             <b-form-input
+                ref="password"
                 id="password"
                 type="password"
                 v-model="form.password"
@@ -37,6 +39,9 @@
                 autocomplete="current-password"
                 required
             ></b-form-input>
+            <b-form-invalid-feedback>
+              Incorect credentials. Try again.
+            </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
             <b-col class="text-center">
@@ -103,7 +108,11 @@ export default {
           }
         }
       ).catch(error => {
-        console.log(error)
+        console.log(error);
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.$refs['email'].state = false;
+        this.$refs['email'].value = "";
       })
       }
   }
