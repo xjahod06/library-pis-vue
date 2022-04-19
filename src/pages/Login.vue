@@ -19,6 +19,7 @@
                 v-model="form.email"
                 type="email"
                 placeholder="Enter email"
+                autocomplete="email"
                 required
             ></b-form-input>
           </b-form-group>
@@ -34,6 +35,7 @@
                 type="password"
                 v-model="form.password"
                 placeholder="Enter password"
+                autocomplete="current-password"
                 required
             ></b-form-input>
           </b-form-group>
