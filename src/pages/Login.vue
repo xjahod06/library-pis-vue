@@ -1,20 +1,54 @@
 <template>
   <div id="login">
     <NavBar></NavBar>
-    <b-container>
-      <div>
-        <form @submit.prevent="submit">
-          <div>
-            <label for="email">Email:</label>
-            <input type="text" name="email" v-model="form.email">
-          </div>
-          <div>
-            <label for="password">Password:</label>
-            <input type="text" name="password" v-model="form.password">
-          </div>
-          <button @click="submit">Submit</button>
+    <b-container id="login">
+      <div id="login-box" class="mt-4 border border-primary p-5">
+        <b-row>
+          <b-col>
+            <h1 class="text-center">Log in</h1>
+          </b-col>
+        </b-row>
+        <b-form @submit.prevent="submit">
+          <b-form-group
+              id="email-label"
+              label="Email address:"
+              label-for="email"
+          >
+            <b-form-input
+                id="email"
+                v-model="form.email"
+                type="email"
+                placeholder="Enter email"
+                required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+              id="password-label"
+              label="Your Name:"
+              label-for="password"
+              description="password needs to be at least 5 characters long."
+          >
+            <b-form-input
+                id="password"
+                type="password"
+                v-model="form.password"
+                placeholder="Enter password"
+                required
+            ></b-form-input>
+          </b-form-group>
+          <b-row>
+            <b-col class="text-center">
+              <b-button @click="submit" variant="primary">Login</b-button>
+            </b-col>
+          </b-row>
           <p v-if="this.errShow">{{this.errMessage}}</p>
-        </form>
+          <b-row class="mt-3">
+            <b-col class="text-center">
+              Don't have account? <router-link to="/register/">Register</router-link>
+            </b-col>
+          </b-row>
+        </b-form>
       </div>
     </b-container>
     <MyFooter></MyFooter>
@@ -74,3 +108,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#login{
+  text-align: left;
+  color: black;
+}
+#login-box{
+  max-width: 500px;
+  margin: auto;
+  border-radius: 15px;
+}
+</style>
