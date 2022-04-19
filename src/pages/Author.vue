@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import MainTile from "@/components/main_page/MainTile";
@@ -57,7 +56,7 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 export default {
   name: "Author",
   components: {
-    NavBar,
+    NavbarFinal,
     MyFooter,
     MainTile,
     AuthorBigTile,

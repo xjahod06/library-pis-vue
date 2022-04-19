@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
     <b-pagination
         v-model="currentPage"
         :total-rows="rows"
@@ -33,15 +33,15 @@
 
 <script>
 import MyFooter from "@/components/main_page/MyFooter";
-import NavBar from "@/components/main_page/NavBar";
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "ReadersList",
 
   components: {
     MyFooter,
-    NavBar
+    NavbarFinal
   },
 
   methods: {

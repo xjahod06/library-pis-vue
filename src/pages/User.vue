@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
     <b-container>
 
       <div v-if="user.hardCopyBorrowings != undefined">
@@ -61,17 +61,17 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import BookList from "@/components/user_page/BookList";
 import UserForm from "@/components/user_page/UserForm";
 import ApiConnect from "@/services/ApiConnect";
 import ChangePassword from "@/components/user_page/ChangePassword";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: 'UserPage',
   components: {
-    NavBar,
+    NavbarFinal,
     MyFooter,
     BookList,
     UserForm,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
     <b-btn @click=backToList()>Back to List</b-btn>
     <b-container>
     <AuthorForm :author="author"
@@ -11,14 +11,15 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
 import AuthorForm from "@/components/authors_edit_page/AuthorForm";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
+
 export default {
   name: "EditAuthor.vue",
-  components: {AuthorTile, MyFooter, NavBar, AuthorForm},
+  components: {AuthorTile, MyFooter, NavbarFinal, AuthorForm},
 
   data() {
     return {

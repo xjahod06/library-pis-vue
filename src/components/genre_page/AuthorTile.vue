@@ -12,7 +12,7 @@
       </router-link>
     </b-row>
     <b-row class="text-left">
-      <h6>{{ birth }}</h6>
+      <h6>{{ dateOfBirth | formatDate}}</h6>
     </b-row>
   </b-col>
 </template>
@@ -25,14 +25,8 @@ export default {
     surname: String,
     img: String,
     id: Number,
-    dateOfBirth: Number,
+    dateOfBirth: Date,
   },
-  computed: {
-    birth(){
-      let dt = new Date(this.dateOfBirth);
-      return dt.getDay()+"."+dt.getMonth()+"."+dt.getFullYear();
-    }
-  }
 }
 </script>
 

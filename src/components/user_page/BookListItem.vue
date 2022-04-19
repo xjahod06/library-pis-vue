@@ -207,7 +207,11 @@ export default {
       if ( today <= this.dateTo) {
         result = true;
       }
-      if (this.borrowing && (this.data.state === 'TO_RETURN' || this.data.state === 'CAN_NOT_PROLONG')) {
+      if (this.borrowing && (this.data.state === 'TO_RETURN' ||
+          this.data.state === 'CAN_NOT_PROLONG' || this.data.state=== 'RETURNED')) {
+        result = false;
+      }
+      if (! this.borrowing && this.data.state === 'NOT_ACTIVE'){
         result = false;
       }
       return result;

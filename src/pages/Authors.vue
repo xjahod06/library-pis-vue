@@ -1,6 +1,6 @@
 <template>
  <div>
-   <NavBar></NavBar>
+   <NavbarFinal></NavbarFinal>
    <b-container>
      <h1>Authors:</h1>
      <b-row>
@@ -9,7 +9,7 @@
                  :name = author.name
                  :surname = author.surname
                  :id = author.id
-                 :date-of-birth = author.dateOfBirth
+                 :date-of-birth = "new Date(author.dateOfBirth)"
        >
 
        </AuthorTile>
@@ -20,14 +20,14 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Authors",
-  components: {AuthorTile, MyFooter, NavBar},
+  components: {AuthorTile, MyFooter, NavbarFinal},
   data(){
     return {
       authors: [],

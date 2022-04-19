@@ -1,6 +1,6 @@
 <template>
   <div id="Genre">
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
@@ -17,17 +17,17 @@
 
 <script>
 
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorSection from "@/components/genre_page/AuthorSection";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Genre",
   components: {
     AuthorSection,
-    NavBar,
+    NavbarFinal,
     MyFooter,
     MainSection
   },

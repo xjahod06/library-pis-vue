@@ -1,6 +1,6 @@
 <template>
   <div id="books">
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
 
     <b-container>
       <h1>Magazines:</h1>
@@ -24,17 +24,17 @@
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter" ;
 import MainTile from "@/components/main_page/MainTile";
 
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 
 export default {
   name: "Magazines",
   components: {
-    NavBar,
+    NavbarFinal,
     MyFooter,
     MainTile
   },
