@@ -6,7 +6,7 @@
       </b-col>
       <b-col id="author-info" class="py-2 px-4 pt-4">
         <h1 class="text-left display-3 mb-0"> {{ name }} {{ surname }}</h1>
-        <h2 class="text-left mt-2">{{ birthDate }} - <span v-if="!isNaN(death)"> {{deathDate}} </span></h2>
+        <h2 class="text-left mt-2">{{ birth | formatDate }} - <span v-if="death !== undefined"> {{ death | formatDate}} </span></h2>
         <p class="text-justify">{{description}}</p>
       </b-col>
 
@@ -19,21 +19,12 @@ export default {
   name: "AuthorBigTile",
   props: {
     name: String,
-    birth: Number,
+    birth: Date,
     surname: String,
     description: String,
-    death: Number,
+    death: Date,
   },
-  computed: {
-    birthDate() {
-      let dt = new Date(this.birth);
-      return dt.getDay() + "." + dt.getMonth() + "." + dt.getFullYear();
-    },
-    deathDate() {
-      let dt = new Date(this.death);
-      return dt.getDay() + "." + dt.getMonth() + "." + dt.getFullYear();
-    }
-  }
+
 }
 </script>
 

@@ -101,7 +101,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    if(store.getters.isAuthenticated) {
+    if(localStorage.getItem('reader')) {
       next();
       return;
     }
@@ -114,7 +114,7 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.guest)) {
-    if(store.getters.isAuthenticated) {
+    if(localStorage.getItem('reader')) {
       next("/readers/");  //somehow get Id of user and append into path
       return;
     }

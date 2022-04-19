@@ -1,14 +1,13 @@
 <template>
   <div id="author">
-    <NavBar></NavBar>
-
+    <NavbarFinal></NavbarFinal>
     <b-container>
 
       <AuthorBigTile
         :name="author.name"
         :surname="author.surname"
-        :birth="author.dateOfBirth"
-        :death="author.dateOfDeath"
+        :birth="new Date(author.dateOfBirth)"
+        :death="dateDeath"
         :description="author.description"
       ></AuthorBigTile>
 
@@ -53,6 +52,7 @@ import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import MainTile from "@/components/main_page/MainTile";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Author",
@@ -60,7 +60,8 @@ export default {
     NavBar,
     MyFooter,
     MainTile,
-    AuthorBigTile
+    AuthorBigTile,
+    NavbarFinal
   },
   data(){
     return {
@@ -83,7 +84,17 @@ export default {
   },
   created() {
     this.getAuthorsBooks(this.author.name);
-  }
+  },
+   computed:{
+    dateDeath (){
+      if (this.author.dateOfDeath === null){
+        return undefined;
+      }
+      else {
+        return new Date(this.author.dateOfDeath)
+      }
+    }
+   }
 }
 </script>
 

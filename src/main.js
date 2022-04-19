@@ -11,7 +11,7 @@ import moment from 'moment';
 
 Vue.filter('formatDate', function(value) {
   if (value) {
-    return moment(String(value)).format('DD/MM/YYYY')
+    return moment(String(value)).format('DD.MM.YYYY')
   }
 });
 
@@ -27,7 +27,6 @@ axios.interceptors.response.use(undefined, function (error) {
     if (error.response.status === 401 && !originalRequest._retry) {
   
         originalRequest._retry = true;
-        store.dispatch('LogOut')
         return router.push('/login')
     }
   }

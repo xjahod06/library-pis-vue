@@ -41,10 +41,10 @@
             <input type="text" name="password" v-model="form.password">
           </div>
           <button @click="submit">Submit</button>
+          <p v-if="this.showError" style="font-color:red">This email address is already used. Please, select another email.</p>
         </form>
       </div>
-      <p v-if="showError" id="error" style="font-color:red">This email address is already used. Please, select another email.</p>
-    </b-container>
+          </b-container>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -80,12 +80,18 @@ export default {
   },
   methods: {
     submit(){
-        const user = new FormData();
-        user.append("email", this.form.email),
-        user.append("password", this.form.password),
         ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
-          console.log("Yep" + response.data),
-          this.showError = false
+          {
+            if (response.status == 200)
+            {
+              this.$router.push('/login');
+              this.showError = false;
+            }
+            else
+            {
+              this.showError = true;
+            }
+          }
         ).catch(error => {
         console.log(error)
         this.showError = true;
@@ -94,3 +100,4 @@ export default {
   }
 }
 </script>
+

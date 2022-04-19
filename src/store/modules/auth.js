@@ -2,7 +2,7 @@ import axios from 'axios'
 import ApiConnect from "@/services/ApiConnect";
 
 const state = {
-    email: null,
+    id: null,
     role: null
 };
 
@@ -37,8 +37,8 @@ const actions = {
 };
 
 const mutations = {
-    setEmail(state, user) {
-        state.emial = user.email;
+    setUSer(state, user) {
+        state.id = user.id;
       },
       logout(state, user) {
         state.user = user;
