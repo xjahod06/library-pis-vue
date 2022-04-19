@@ -18,6 +18,7 @@ import EmployeeList from "@/pages/EmployeeList";
 import Authors from "@/pages/Authors";
 import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
+import LoginEmployee from "@/pages/LoginEmployee";
 
 Vue.use(VueRouter)
 
@@ -33,7 +34,8 @@ const Routes = [
   {
     path: '/readers/:id',
     component: User,
-    meta: {requiresAuth: true},
+    meta: {requiresAuth: true,
+    employee: true},
   },
   {
     path: '/genre/:id?',
@@ -42,6 +44,11 @@ const Routes = [
   {
     path: '/login',
     component: Login,
+    meta: {guest: true}
+  },
+  {
+    path: '/login_employee',
+    component: LoginEmployee,
     meta: {guest: true}
   },
   {
@@ -79,19 +86,23 @@ const Routes = [
   },
   {
     path: '/edit_authors',
-    component: AuthorsList
+    component: AuthorsList,
+    meta: {employee: true}
   },
   {
     path : '/edit_author/:id',
-    component: EditAuthor
+    component: EditAuthor,
+    meta: {employee: true}
   },
   {
     path: '/edit_readers',
-    component: ReadersList
+    component: ReadersList,
+    meta: {administrator: true}
   },
   {
     path: '/edit_employees',
-    component: EmployeeList
+    component: EmployeeList,
+    meta: {administrator: true}
   },
 ]
 
@@ -101,7 +112,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    if(localStorage.getItem('reader')) {
+    if(localStorage.getItem('id')) {
       next();
       return;
     }
@@ -114,8 +125,22 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.guest)) {
-    if(localStorage.getItem('reader')) {
+    if(localStorage.getItem('id')) {
       next("/readers/");  //somehow get Id of user and append into path
+      return;
+    }
+    next();
+  }
+  else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.employee)) {
+    let role = localStorage.getItem('role');
+    if(localStorage.getItem('id') && role != null && (role == 'EMPLOYEE' || role == 'ADMIN')) {
+      next("/edit_authors");
       return;
     }
     next();

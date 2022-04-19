@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="login_employee">
     <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
@@ -67,7 +67,7 @@ import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
-  name: "Login",
+  name: "Login_Employee",
   components: {
     NavbarFinal,
     MyFooter
@@ -95,8 +95,7 @@ export default {
         {
           if (response.status == 200) 
           {
-            localStorage.setItem('id', JSON.stringify(response.data.id));
-            localStorage.setItem('role', JSON.stringify(response.data.role));
+            localStorage.setItem('reader', JSON.stringify(response.data.id));
             console.log(response);
             this.$router.push('/');
             return;

@@ -229,7 +229,7 @@ export default {
         street: "",
         houseNumber: "",
         postcode: "",
-        role: "reader",
+        role: "READER",
         password: "",
         fullname: ""
       },
