@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import store from '@/store'
 import VueRouter from 'vue-router'
 import App from '@/pages/App.vue'
 import Genre from "@/pages/Genre"
@@ -18,6 +17,7 @@ import EmployeeList from "@/pages/EmployeeList";
 import Authors from "@/pages/Authors";
 import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
+import LoginEmployee from "@/pages/LoginEmployee";
 
 Vue.use(VueRouter)
 
@@ -32,6 +32,7 @@ const Routes = [
   },
   {
     path: '/readers/:id',
+    sensitive: true,
     component: User,
     meta: {requiresAuth: true},
   },
@@ -42,6 +43,11 @@ const Routes = [
   {
     path: '/login',
     component: Login,
+    meta: {guest: true}
+  },
+  {
+    path: '/login_employee',
+    component: LoginEmployee,
     meta: {guest: true}
   },
   {
@@ -79,19 +85,23 @@ const Routes = [
   },
   {
     path: '/edit_authors',
-    component: AuthorsList
+    component: AuthorsList,
+    meta: {employee: true}
   },
   {
-    path : '/edit_author/:id',
-    component: EditAuthor
+    path : '/edit_author/:id', 
+    component: EditAuthor,
+    meta: {employee: true}
   },
   {
-    path: '/edit_readers',
-    component: ReadersList
+    path: '/edit_readers', //yep
+    component: ReadersList,
+    meta: {administrator: true}
   },
   {
-    path: '/edit_employees',
-    component: EmployeeList
+    path: '/edit_employees', //yep
+    component: EmployeeList,
+    meta: {administrator: true}
   },
 ]
 
@@ -101,11 +111,28 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    if(localStorage.getItem('reader')) {
+    console.log(localStorage.getItem('role'));
+    console.log("TEST");
+    if((localStorage.getItem('id') == to.params.id || (localStorage.getItem('role') == "\"ADMIN\"" || localStorage.getItem('role') == "\"EMPLOYEE\""))) {
       next();
       return;
     }
-    next("/login");
+    next('/');
+  }
+  else
+  {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.guest)) {
+    console.log(from)
+    if(localStorage.getItem('id')) {
+      next("/readers/");
+      return;
+    }
+    next();
   }
   else {
     next();
@@ -113,12 +140,27 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some((record)=>record.meta.guest)) {
-    if(localStorage.getItem('reader')) {
-      next("/readers/");  //somehow get Id of user and append into path
+  if(to.matched.some((record)=>record.meta.employee)) {
+    let role = localStorage.getItem('role');
+    if(localStorage.getItem('id') && role != null && (role == "\"EMPLOYEE\"" || role == "\"ADMIN\"")) {
+      next();
       return;
     }
+    next("/login_employee");
+  }
+  else {
     next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.administrator)) {
+    let role = localStorage.getItem('role');
+    if(localStorage.getItem('id') && role != null && (role == "\"ADMIN\"")) {
+      next();
+      return;
+    }
+    next("/login_employee");
   }
   else {
     next();

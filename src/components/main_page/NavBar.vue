@@ -31,6 +31,7 @@
           <span v-else class="d-flex">
             <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
             <b-nav-item :to="{path: '/register/'}">Register</b-nav-item>
+            <b-nav-item :to="{path: '/login_employee'}">Employees</b-nav-item>
           </span>
         </b-navbar-nav>
 
@@ -56,11 +57,13 @@ export default {
     BookGenre
   },
   computed: {
-    isLoggedIn : function (){ return (localStorage.getItem('reader') != null)}
+    isLoggedIn : function (){ return (localStorage.getItem('id') != null)}
   },
   methods : {
     logout (){
-      localStorage.removeItem('reader');
+      localStorage.removeItem('id');
+      localStorage.removeItem('role');
+      console.log(localStorage.getItem('id'), localStorage.getItem('role'));
       this.$router.push('/login')
     },
     getGenres(){
@@ -68,7 +71,7 @@ export default {
             this.genre_names = response.data
       )},
     userProfile() {
-      this.$router.push('/readers/' + localStorage.getItem('reader'));
+      this.$router.push('/readers/' + localStorage.getItem('id'));
     },
     deleteSearch(){
       this.search_input = '';
