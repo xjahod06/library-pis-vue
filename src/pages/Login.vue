@@ -40,7 +40,7 @@
                 required
             ></b-form-input>
             <b-form-invalid-feedback>
-              {{this.errMessage}}
+              {{errMessage}}
             </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
@@ -94,14 +94,12 @@ export default {
           {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
-            console.log(response);
             this.$router.push('/');
             return;
           }
           else
           {
             this.errMessage = "Incorect credentials. Try again.";
-            this.$forceUpdate();
           }
         }
       ).catch(error => {
