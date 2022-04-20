@@ -62,7 +62,7 @@ export default {
       ApiConnect.delete('/authors/'+author.id).then(response => {
         this.successMessage = "Author successfully deleted."
         alert("Author succesfully deleted.");
-        parent.location.reload();
+        this.getAuthors();
       }).catch(error=>{
         this.errorMessage = "There was a problem while deleting an Author.";
       })
