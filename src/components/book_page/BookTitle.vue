@@ -211,7 +211,7 @@ export default {
       return exemplars;
     },
     loggedUser: function (){ // todo toto nejak inak vyriesit
-      if (localStorage.getItem('id') != null) return true;
+      if (localStorage.getItem('role') === 'reader') return true;
       return false;
     }
 
