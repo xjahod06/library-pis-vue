@@ -24,84 +24,138 @@ Vue.use(VueRouter)
 const Routes = [
   {
     path: '/',
-    component: App
+    component: App,
+    meta: {
+      title: 'Library',
+    }
   },
   {
     path: '/about',
-    component: About
+    component: About,
+    meta: {
+      title: 'About',
+    }
   },
   {
     path: '/readers/:id',
     sensitive: true,
     component: User,
-    meta: {requiresAuth: true},
+    meta: {
+      title: 'Reader Edit',
+      requiresAuth: true
+    },
   },
   {
     path: '/genre/:id?',
-    component: Genre
+    component: Genre,
+    meta: {
+      title: 'Genre page',
+    }
   },
   {
     path: '/login',
     component: Login,
-    meta: {guest: true}
+    meta: {
+      title: 'Login',
+      guest: true
+    }
   },
   {
     path: '/login_employee',
     component: LoginEmployee,
-    meta: {guest: true}
+    meta: {
+      title: 'Login employee',
+      guest: true
+    }
   },
   {
     path: '/register',
     component: Register,
-    meta: {guest: true}
+    meta: {
+      title: 'Register',
+      guest: true
+    }
   },
   {
     path: '/books/',
-    component: Books
+    component: Books,
+    meta: {
+      title: 'Books',
+    }
   },
   {
     path: '/books/:id',
-    component: Book
+    component: Book,
+    meta: {
+      title: 'Book page',
+    }
   },
   {
     path: '/authors/',
-    component: Authors
+    component: Authors,
+    meta: {
+      title: 'Authors',
+    }
   },
   {
     path: '/authors/:id',
-    component: Author
+    component: Author,
+    meta: {
+      title: 'Author page',
+    }
   },
   {
     path: '/genre_authors/:id',
-    component: GenreAuthors
+    component: GenreAuthors,
+    meta: {
+      title: 'Authors by genre',
+    }
   },
   {
     path: '/magazines/',
-    component: Magazines
+    component: Magazines,
+    meta: {
+      title: 'Magazines',
+    }
   },
   {
     path: '/magazines/:id',
-    component: Magazine
+    component: Magazine,
+    meta: {
+      title: 'Magazine page',
+    }
   },
   {
     path: '/edit_authors',
     component: AuthorsList,
-    meta: {employee: true}
+    meta: {
+      title: 'Edit Authors',
+      employee: true
+    }
   },
   {
     path : '/edit_author/:id', 
     component: EditAuthor,
-    meta: {employee: true}
+    meta: {
+      title: 'Edit specific author',
+      employee: true
+    }
   },
   {
     path: '/edit_readers', //yep
     component: ReadersList,
-    meta: {administrator: true}
+    meta: {
+      title: 'Edit readers',
+      administrator: true
+    }
   },
   {
     path: '/edit_employees', //yep
     component: EmployeeList,
-    meta: {administrator: true}
+    meta: {
+      title: 'Edit employees',
+      administrator: true
+    }
   },
 ]
 
@@ -113,7 +167,7 @@ router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
     console.log(localStorage.getItem('role'));
     console.log("TEST");
-    if((localStorage.getItem('id') == to.params.id || (localStorage.getItem('role') == "\"ADMIN\"" || localStorage.getItem('role') == "\"EMPLOYEE\""))) {
+    if((localStorage.getItem('id') === to.params.id || (localStorage.getItem('role') === "\"ADMIN\"" || localStorage.getItem('role') === "\"EMPLOYEE\""))) {
       next();
       return;
     }
@@ -142,7 +196,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.employee)) {
     let role = localStorage.getItem('role');
-    if(localStorage.getItem('id') && role != null && (role == "\"EMPLOYEE\"" || role == "\"ADMIN\"")) {
+    if(localStorage.getItem('id') && role != null && (role === "\"EMPLOYEE\"" || role === "\"ADMIN\"")) {
       next();
       return;
     }
@@ -156,7 +210,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.administrator)) {
     let role = localStorage.getItem('role');
-    if(localStorage.getItem('id') && role != null && (role == "\"ADMIN\"")) {
+    if(localStorage.getItem('id') && role != null && (role === "\"ADMIN\"")) {
       next();
       return;
     }
@@ -165,6 +219,15 @@ router.beforeEach((to, from, next) => {
   else {
     next();
   }
+});
+
+const DEFAULT_TITLE = 'Some Default Title';
+router.afterEach((to, from) => {
+  // Use next tick to handle router history correctly
+  // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+  Vue.nextTick(() => {
+    document.title = to.meta.title || DEFAULT_TITLE;
+  });
 });
 
 export default router
