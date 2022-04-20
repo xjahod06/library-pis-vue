@@ -11,6 +11,8 @@
               :released="magazine.publicationDate"
               :pages="magazine.pages"
               :hasElectronicCopy="hasElectronicCopy"
+              :hardCopies="magazine.hardCopyExemplars"
+              :electronicCopies="magazine.electronicCopyExemplars"
           >
 
           </BookTitle>

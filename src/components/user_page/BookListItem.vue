@@ -128,7 +128,6 @@ export default {
         }).catch(error => {
           this.showDismissibleAlertError = true;
           this.showDismissibleAlert = false;
-          console.log(reservation, error);
           this.errorMessage = "Error while changing date of reservation.";
         })
       }

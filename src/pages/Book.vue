@@ -11,6 +11,8 @@
             :released="new Date(book.publicationDate)"
             :pages="book.pages"
             :hasElectronicCopy="hasElectronicCopy"
+            :hardCopies="book.hardCopyExemplars"
+            :electronicCopies="book.electronicCopyExemplars"
           >
 
           </BookTitle>
@@ -67,9 +69,12 @@ export default {
   },
   computed: {
     hasElectronicCopy (){
-      if (this.book.electronicCopyExemplars.length > 0	){
-        return true;
+      if (this.book !== 'undefined'){
+        if (this.book.electronicCopyExemplars.length > 0	){
+          return true;
+        }
       }
+
       return false;
     }
   }
