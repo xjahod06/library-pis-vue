@@ -65,7 +65,7 @@ export default {
       ApiConnect.delete('/readers/' + user.id).then(response => {
         this.successMessage = "Reader successfully deleted."
         alert("Reader succesfully deleted.");
-        parent.location.reload();
+        this.getUsers();
       }).catch(error => {
         this.errorMessage = "There was a problem while deleting a Reader.";
       })

@@ -62,10 +62,10 @@ export default {
 
     deleteEmployee(employee) {
       console.log(employee.id);
-      ApiConnect.delete('/readers/' + employee.id).then(response => {
+      ApiConnect.delete('/employees/' + employee.id).then(response => {
         this.successMessage = "Employee successfully deleted."
         alert("Employee successfully deleted.");
-        parent.location.reload();
+        this.getEmployees();
       }).catch(error => {
         this.errorMessage = "There was a problem while deleting an Employee.";
       })
