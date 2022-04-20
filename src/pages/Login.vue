@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     submit(){
-      if (localStorage.getItem('reader') != null)
+      if (localStorage.getItem('id') != null)
       {
         this.errMessage = "Another user is already logged in.";
         return;

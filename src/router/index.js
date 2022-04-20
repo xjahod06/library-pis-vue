@@ -18,6 +18,7 @@ import Authors from "@/pages/Authors";
 import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
+import EmployeeDashboard from "@/pages/EmployeeDashboard";
 
 Vue.use(VueRouter)
 
@@ -142,19 +143,28 @@ const Routes = [
     }
   },
   {
-    path: '/edit_readers', //yep
+    path: '/edit_readers',
     component: ReadersList,
     meta: {
       title: 'Edit readers',
+      employee: true,
       administrator: true
     }
   },
   {
-    path: '/edit_employees', //yep
+    path: '/edit_employees',
     component: EmployeeList,
     meta: {
       title: 'Edit employees',
       administrator: true
+    }
+  },
+  {
+    path: '/employee_dashboard',
+    component: EmployeeDashboard,
+    meta: {
+      title: 'Employee dashboard',
+      employee: true
     }
   },
 ]
