@@ -4,7 +4,7 @@
     <div>
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
-      <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/books/"></MainSection>
+      <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/magazines/"></MainSection>
     </div>
 
     <MyFooter></MyFooter>

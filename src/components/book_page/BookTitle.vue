@@ -7,7 +7,8 @@
     </b-row>
     <b-row class="text-left">
       <b-col offset-md="2">
-        <b-button> Reserve </b-button>
+        <b-button @click="makeReservation" variant="info" class="mr-2"> Reserve </b-button>
+        <b-button v-if="hasElectronicCopy" @click="borrowEcopy" variant="success">Borrow electronic copy</b-button>
       </b-col>
     </b-row>
     <b-row align-h="center" class="mt-3">
@@ -54,7 +55,17 @@ export default {
     publisher: String,
     released: Number,
     pages: Number,
+    hasElectronicCopy: Boolean
   },
+  methods: {
+    makeReservation(){
+      console.log("vytvaram rezervaciu");
+    },
+    borrowEcopy(){
+      console.log("borrowujem ecopy");
+    }
+  },
+
 }
 </script>
 

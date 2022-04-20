@@ -10,6 +10,7 @@
               :publisher="magazine.publisher"
               :released="magazine.publicationDate"
               :pages="magazine.pages"
+              :hasElectronicCopy="hasElectronicCopy"
           >
 
           </BookTitle>
@@ -61,6 +62,14 @@ export default {
   },
   created() {
     this.getMagazine(this.$route.params.id);
+  },
+  computed: {
+    hasElectronicCopy (){
+      if (this.magazine.electronicCopyExemplars.length > 0	){
+        return true;
+      }
+      return false;
+    }
   }
 }
 </script>
