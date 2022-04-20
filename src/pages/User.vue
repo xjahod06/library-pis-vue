@@ -92,7 +92,6 @@ export default {
       }
       return fines;
     }
-
   },
   data(){
     return{
@@ -141,7 +140,8 @@ export default {
   },
   created() {
     this.getReader();
-  }
+  },
+  
 }
 </script>
 

@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import store from '@/store'
 import VueRouter from 'vue-router'
 import App from '@/pages/App.vue'
 import Genre from "@/pages/Genre"
@@ -33,9 +32,9 @@ const Routes = [
   },
   {
     path: '/readers/:id',
+    sensitive: true,
     component: User,
-    meta: {requiresAuth: true,
-    employee: true},
+    meta: {requiresAuth: true},
   },
   {
     path: '/genre/:id?',
@@ -90,17 +89,17 @@ const Routes = [
     meta: {employee: true}
   },
   {
-    path : '/edit_author/:id',
+    path : '/edit_author/:id', 
     component: EditAuthor,
     meta: {employee: true}
   },
   {
-    path: '/edit_readers',
+    path: '/edit_readers', //yep
     component: ReadersList,
     meta: {administrator: true}
   },
   {
-    path: '/edit_employees',
+    path: '/edit_employees', //yep
     component: EmployeeList,
     meta: {administrator: true}
   },
@@ -112,21 +111,25 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    if(localStorage.getItem('id')) {
+    console.log(localStorage.getItem('role'));
+    console.log("TEST");
+    if((localStorage.getItem('id') == to.params.id || (localStorage.getItem('role') == "\"ADMIN\"" || localStorage.getItem('role') == "\"EMPLOYEE\""))) {
       next();
       return;
     }
-    next("/login");
+    next('/');
   }
-  else {
+  else
+  {
     next();
   }
 });
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.guest)) {
+    console.log(from)
     if(localStorage.getItem('id')) {
-      next("/readers/");  //somehow get Id of user and append into path
+      next("/readers/");
       return;
     }
     next();
@@ -139,11 +142,25 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.employee)) {
     let role = localStorage.getItem('role');
-    if(localStorage.getItem('id') && role != null && (role == 'EMPLOYEE' || role == 'ADMIN')) {
-      next("/edit_authors");
+    if(localStorage.getItem('id') && role != null && (role == "\"EMPLOYEE\"" || role == "\"ADMIN\"")) {
+      next();
       return;
     }
+    next("/login_employee");
+  }
+  else {
     next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record)=>record.meta.administrator)) {
+    let role = localStorage.getItem('role');
+    if(localStorage.getItem('id') && role != null && (role == "\"ADMIN\"")) {
+      next();
+      return;
+    }
+    next("/login_employee");
   }
   else {
     next();

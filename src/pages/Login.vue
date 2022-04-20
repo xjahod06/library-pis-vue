@@ -40,7 +40,7 @@
                 required
             ></b-form-input>
             <b-form-invalid-feedback>
-              Incorect credentials. Try again.
+              {{this.errMessage}}
             </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
@@ -48,7 +48,6 @@
               <b-button @click="submit" variant="primary">Login</b-button>
             </b-col>
           </b-row>
-          <p v-if="this.errShow">{{this.errMessage}}</p>
           <b-row class="mt-3">
             <b-col class="text-center">
               Don't have account? <router-link to="/register/">Register</router-link>
@@ -78,7 +77,6 @@ export default {
       email: "",
       password: "",
     },
-    errShow: false,
     errMessage: ""
   };
   },
@@ -86,7 +84,6 @@ export default {
     submit(){
       if (localStorage.getItem('reader') != null)
       {
-        this.errShow = true;
         this.errMessage = "Another user is already logged in.";
         return;
       }
@@ -103,13 +100,13 @@ export default {
           }
           else
           {
-            this.errShow = true;
             this.errMessage = "Incorect credentials. Try again.";
             this.$forceUpdate();
           }
         }
       ).catch(error => {
         console.log(error);
+        this.errMessage = "Another error occured. We are sorry for complications."
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;

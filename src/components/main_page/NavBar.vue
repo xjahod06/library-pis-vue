@@ -31,6 +31,7 @@
           <span v-else class="d-flex">
             <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
             <b-nav-item :to="{path: '/register/'}">Register</b-nav-item>
+            <b-nav-item :to="{path: '/login_employee'}">Employees</b-nav-item>
           </span>
         </b-navbar-nav>
 
@@ -62,6 +63,7 @@ export default {
     logout (){
       localStorage.removeItem('id');
       localStorage.removeItem('role');
+      console.log(localStorage.getItem('id'), localStorage.getItem('role'));
       this.$router.push('/login')
     },
     getGenres(){

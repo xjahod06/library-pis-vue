@@ -1,8 +1,9 @@
 <template>
   <div id="login_employee">
-    <NavbarFinal></NavbarFinal>
+    <NavbarFinal><h3></h3></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
+        <b-row><h3 class="text-center" style="font-color: black">We see. You are our colleague.</h3></b-row>
         <b-row>
           <b-col>
             <h1 class="text-center">Log in</h1>
@@ -40,18 +41,12 @@
                 required
             ></b-form-input>
             <b-form-invalid-feedback>
-              Incorect credentials. Try again.
+              {{ errMessage }}
             </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
             <b-col class="text-center">
               <b-button @click="submit" variant="primary">Login</b-button>
-            </b-col>
-          </b-row>
-          <p v-if="this.errShow">{{this.errMessage}}</p>
-          <b-row class="mt-3">
-            <b-col class="text-center">
-              Don't have account? <router-link to="/register/">Register</router-link>
             </b-col>
           </b-row>
         </b-form>
@@ -78,37 +73,32 @@ export default {
       email: "",
       password: "",
     },
-    errShow: false,
     errMessage: ""
   };
   },
   methods: {
     submit(){
-      if (localStorage.getItem('reader') != null)
+      if (localStorage.getItem('id') != null)
       {
-        this.errShow = true;
         this.errMessage = "Another user is already logged in.";
         return;
       }
       const data = {email: this.form.email, password: this.form.password};
-      ApiConnect.post('/readers/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
+      ApiConnect.post('/employees/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
-          if (response.status == 200) 
-          {
-            localStorage.setItem('reader', JSON.stringify(response.data.id));
+            localStorage.setItem('id', JSON.stringify(response.data.id));
+            localStorage.setItem('role', JSON.stringify(response.data.role));
             console.log(response);
             this.$router.push('/');
-            return;
-          }
-          else
-          {
-            this.errShow = true;
-            this.errMessage = "Incorect credentials. Try again.";
-            this.$forceUpdate();
-          }
         }
       ).catch(error => {
-        console.log(error);
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+
+        this.errMessage = "No employee with these credentials was found. Try again.";
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;
