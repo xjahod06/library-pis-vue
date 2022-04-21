@@ -23,6 +23,7 @@ import TitleList from "@/pages/TitleList";
 import BorrowingList from "@/pages/BorrowingList";
 import EditBook from "@/pages/EditBook";
 import NotFound from "@/pages/NotFound";
+import RegisterEmployee from "@/pages/RegisterEmployee";
 
 Vue.use(VueRouter)
 
@@ -167,6 +168,14 @@ const Routes = [
     component: EmployeeList,
     meta: {
       title: 'Edit employees',
+      administrator: true
+    }
+  },
+  {
+    path: '/register_employee',
+    component: RegisterEmployee,
+    meta: {
+      title: 'Register employee',
       administrator: true
     }
   },

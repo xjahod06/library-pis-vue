@@ -88,7 +88,6 @@ export default {
         {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
-            console.log(response);
             this.$router.push('/employee_dashboard');
         }
       ).catch(error => {
@@ -99,12 +98,12 @@ export default {
           }
           else
           {
-            this.errMessage = "Error ocured on server side. Please, try log in later."  
+            this.errMessage = "Error ocured on server side. Please, try it later."  
           }
         }
         else
         {
-          this.errMessage = "Error ocured on server side. Please, try log in later."
+          this.errMessage = "Error ocured on server side. Please, try it later."
         }
         
         this.$refs['password'].state = false;
