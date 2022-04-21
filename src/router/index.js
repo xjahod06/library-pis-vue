@@ -19,6 +19,9 @@ import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
+import TitleList from "@/pages/TitleList";
+import BorrowingList from "@/pages/BorrowingList";
+import EditBook from "@/pages/EditBook";
 import NotFound from "@/pages/NotFound";
 
 Vue.use(VueRouter)
@@ -93,6 +96,14 @@ const Routes = [
     }
   },
   {
+    path: '/edit_books/:id',
+    component: EditBook,
+    meta: {
+      title: 'Book edit',
+      employee: true,
+    }
+  },
+  {
     path: '/authors/',
     component: Authors,
     meta: {
@@ -164,6 +175,22 @@ const Routes = [
     component: EmployeeDashboard,
     meta: {
       title: 'Employee dashboard',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_titles',
+    component: TitleList,
+    meta: {
+      title: 'Edit titles',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_borrowings',
+    component: BorrowingList,
+    meta: {
+      title: 'Edit Borrowings',
       employee: true
     }
   },
