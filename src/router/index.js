@@ -23,6 +23,7 @@ import TitleList from "@/pages/TitleList";
 import BorrowingList from "@/pages/BorrowingList";
 import EditBook from "@/pages/EditBook";
 import NotFound from "@/pages/NotFound";
+import FineList from "@/pages/FineList";
 
 Vue.use(VueRouter)
 
@@ -191,6 +192,14 @@ const Routes = [
     component: BorrowingList,
     meta: {
       title: 'Edit Borrowings',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_fines',
+    component: FineList,
+    meta: {
+      title: 'Edit Fines',
       employee: true
     }
   },
