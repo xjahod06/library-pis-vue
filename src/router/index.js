@@ -149,7 +149,6 @@ const Routes = [
     meta: {
       title: 'Edit readers',
       employee: true,
-      administrator: true
     }
   },
   {
@@ -171,6 +170,9 @@ const Routes = [
   {
     path: '/*',
     component: NotFound,
+    meta : {
+      title: "404 Not Found"
+    }
   }
 ]
 
