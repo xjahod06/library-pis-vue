@@ -20,6 +20,7 @@ import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
 import TitleList from "@/pages/TitleList";
+import EditBook from "@/pages/EditBook";
 
 Vue.use(VueRouter)
 
@@ -90,6 +91,14 @@ const Routes = [
     component: Book,
     meta: {
       title: 'Book page',
+    }
+  },
+  {
+    path: '/edit_books/:id',
+    component: EditBook,
+    meta: {
+      title: 'Book edit',
+      employee: true,
     }
   },
   {
