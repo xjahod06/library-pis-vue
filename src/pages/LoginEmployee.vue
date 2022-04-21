@@ -1,6 +1,6 @@
 <template>
   <div id="login_employee">
-    <NavbarFinal><h3></h3></NavbarFinal>
+    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
         <b-row><h3 class="text-center" style="font-color: black">We see. You are our colleague.</h3></b-row>

@@ -40,7 +40,7 @@
                 required
             ></b-form-input>
             <b-form-invalid-feedback>
-              {{errMessage}}
+              {{ errMessage }}
             </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     submit(){
-      if (localStorage.getItem('reader') != null)
+      if (localStorage.getItem('id') != null)
       {
         this.errMessage = "Another user is already logged in.";
         return;
