@@ -19,6 +19,7 @@ import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
+import NotFound from "@/pages/NotFound";
 
 Vue.use(VueRouter)
 
@@ -167,6 +168,10 @@ const Routes = [
       employee: true
     }
   },
+  {
+    path: '/*',
+    component: NotFound,
+  }
 ]
 
 const router = new VueRouter({
