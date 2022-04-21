@@ -1,32 +1,34 @@
 <template>
   <div>
     <NavbarFinal></NavbarFinal>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        align="center"
-    ></b-pagination>
+    <b-container>
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="center"
+          class="mt-3"
+      ></b-pagination>
 
-    <b-table
-        id="my-table"
-        :items="items"
-        :per-page="perPage"
-        :current-page="currentPage"
-        :fields="fields"
-        responsive
-        hover
-        head-variant="light"
-        medium>
-      <template v-slot:cell(update)="{ item }">
-        <span><b-btn @click="editAuthor(item)">Edit</b-btn></span>
-      </template>
-      <template v-slot:cell(delete)="{ item }">
-        <span><b-btn @click="deleteAuthor(item)" variant="danger">Delete</b-btn></span>
-      </template>
-    </b-table>
-
+      <b-table
+          id="my-table"
+          :items="items"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :fields="fields"
+          responsive
+          hover
+          head-variant="light"
+          medium>
+        <template v-slot:cell(update)="{ item }">
+          <span><b-btn @click="editAuthor(item)">Edit</b-btn></span>
+        </template>
+        <template v-slot:cell(delete)="{ item }">
+          <span><b-btn @click="deleteAuthor(item)" variant="danger">Delete</b-btn></span>
+        </template>
+      </b-table>
+    </b-container>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -60,7 +62,7 @@ export default {
       ApiConnect.delete('/authors/'+author.id).then(response => {
         this.successMessage = "Author successfully deleted."
         alert("Author succesfully deleted.");
-        parent.location.reload();
+        this.getAuthors();
       }).catch(error=>{
         this.errorMessage = "There was a problem while deleting an Author.";
       })

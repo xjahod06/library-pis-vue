@@ -10,6 +10,9 @@
             :publisher="book.publisher"
             :released="new Date(book.publicationDate)"
             :pages="book.pages"
+            :hasElectronicCopy="hasElectronicCopy"
+            :hardCopies="book.hardCopyExemplars"
+            :electronicCopies="book.electronicCopyExemplars"
           >
 
           </BookTitle>
@@ -63,6 +66,17 @@ export default {
   },
   created() {
     this.getBook(this.$route.params.id);
+  },
+  computed: {
+    hasElectronicCopy (){
+      if (this.book !== 'undefined'){
+        if (this.book.electronicCopyExemplars.length > 0	){
+          return true;
+        }
+      }
+
+      return false;
+    }
   }
 }
 </script>

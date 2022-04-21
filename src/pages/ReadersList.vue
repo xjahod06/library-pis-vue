@@ -1,31 +1,34 @@
 <template>
   <div>
     <NavbarFinal></NavbarFinal>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        align="center"
-    ></b-pagination>
+    <b-container>
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="center"
+          class="mt-3"
+      ></b-pagination>
 
-    <b-table
-        id="my-table"
-        :items="items"
-        :per-page="perPage"
-        :current-page="currentPage"
-        :fields="fields"
-        responsive
-        hover
-        head-variant="light"
-        medium>
-      <template v-slot:cell(update)="{ item }">
-        <span><b-btn @click="editUser(item)">Edit</b-btn></span>
-      </template>
-      <template v-slot:cell(delete)="{ item }">
-        <span><b-btn @click="deleteUser(item)" variant="danger">Delete</b-btn></span>
-      </template>
-    </b-table>
+      <b-table
+          id="my-table"
+          :items="items"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :fields="fields"
+          responsive
+          hover
+          head-variant="light"
+          medium>
+        <template v-slot:cell(update)="{ item }">
+          <span><b-btn @click="editUser(item)">Edit</b-btn></span>
+        </template>
+        <template v-slot:cell(delete)="{ item }">
+          <span><b-btn @click="deleteUser(item)" variant="danger">Delete</b-btn></span>
+        </template>
+      </b-table>
+    </b-container>
 
     <MyFooter></MyFooter>
   </div>
@@ -62,7 +65,7 @@ export default {
       ApiConnect.delete('/readers/' + user.id).then(response => {
         this.successMessage = "Reader successfully deleted."
         alert("Reader succesfully deleted.");
-        parent.location.reload();
+        this.getUsers();
       }).catch(error => {
         this.errorMessage = "There was a problem while deleting a Reader.";
       })

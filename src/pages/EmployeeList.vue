@@ -1,31 +1,34 @@
 <template>
   <div>
     <NavbarFinal></NavbarFinal>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        align="center"
-    ></b-pagination>
+    <b-container>
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="center"
+          class="mt-3"
+      ></b-pagination>
 
-    <b-table
-        id="my-table"
-        :items="items"
-        :per-page="perPage"
-        :current-page="currentPage"
-        :fields="fields"
-        responsive
-        hover
-        head-variant="light"
-        medium>
-      <template v-slot:cell(update)="{ item }">
-        <span><b-btn @click="editEmployee(item)">Edit</b-btn></span>
-      </template>
-      <template v-slot:cell(delete)="{ item }">
-        <span><b-btn @click="deleteEmployee(item)" variant="danger">Delete</b-btn></span>
-      </template>
-    </b-table>
+      <b-table
+          id="my-table"
+          :items="items"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :fields="fields"
+          responsive
+          hover
+          head-variant="light"
+          medium>
+        <template v-slot:cell(update)="{ item }">
+          <span><b-btn @click="editEmployee(item)">Edit</b-btn></span>
+        </template>
+        <template v-slot:cell(delete)="{ item }">
+          <span><b-btn @click="deleteEmployee(item)" variant="danger">Delete</b-btn></span>
+        </template>
+      </b-table>
+    </b-container>
 
     <MyFooter></MyFooter>
   </div>
@@ -59,10 +62,10 @@ export default {
 
     deleteEmployee(employee) {
       console.log(employee.id);
-      ApiConnect.delete('/readers/' + employee.id).then(response => {
+      ApiConnect.delete('/employees/' + employee.id).then(response => {
         this.successMessage = "Employee successfully deleted."
         alert("Employee successfully deleted.");
-        parent.location.reload();
+        this.getEmployees();
       }).catch(error => {
         this.errorMessage = "There was a problem while deleting an Employee.";
       })

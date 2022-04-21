@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavbarFinal></NavbarFinal>
-    <b-btn @click=backToList()>Back to List</b-btn>
+    <b-btn @click=backToList() class="mt-3">Back to List</b-btn>
     <b-container>
     <AuthorForm :author="author"
                 :form="form"></AuthorForm>

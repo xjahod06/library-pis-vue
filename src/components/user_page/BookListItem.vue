@@ -117,7 +117,7 @@ export default {
         reservation.id = this.id;
         reservation.dateFrom = this.dateFrom;
         reservation.dateUntil = newDate;
-        reservation.state = '';
+        reservation.state = this.data.state;
         reservation.reader = this.user;
         reservation.exemplar = this.data.exemplar;
 
@@ -149,7 +149,7 @@ export default {
         borrowing.dateOfBorrowEnd = newDate;
         borrowing.borrowCounter = this.data.borrowCounter + 1;
         borrowing.reader = this.user;
-        borrowing.state = '';
+        borrowing.state = this.data.state;
         borrowing.exemplar = this.data.exemplar;
 
         ApiConnect.put('/hard-copy-borrowings', borrowing).then(response => {
