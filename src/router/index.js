@@ -142,7 +142,7 @@ const Routes = [
     }
   },
   {
-    path: '/edit_readers', //yep
+    path: '/edit_readers',
     component: ReadersList,
     meta: {
       title: 'Edit readers',
@@ -150,13 +150,13 @@ const Routes = [
     }
   },
   {
-    path: '/edit_employees', //yep
+    path: '/edit_employees',
     component: EmployeeList,
     meta: {
       title: 'Edit employees',
       administrator: true
     }
-  },
+  }
 ]
 
 const router = new VueRouter({
@@ -165,8 +165,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    console.log(localStorage.getItem('role'));
-    console.log("TEST");
     if((localStorage.getItem('id') === to.params.id || (localStorage.getItem('role') === "\"ADMIN\"" || localStorage.getItem('role') === "\"EMPLOYEE\""))) {
       next();
       return;
@@ -180,10 +178,16 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some((record)=>record.meta.guest)) {
-    console.log(from)
-    if(localStorage.getItem('id')) {
-      next("/readers/");
+  if (to.matched.some((record)=>record.meta.guest)) {
+    if (localStorage.getItem('id')) {
+      if (localStorage.getItme('role') == "\"EMPLOYEE\"" || localStorage.getItme('role') == "\"ADMIN\"")
+      {
+        next("/employee_dashboard")
+      }
+      else
+      {
+        next("/");
+      }
       return;
     }
     next();

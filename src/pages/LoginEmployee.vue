@@ -89,16 +89,24 @@ export default {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
             console.log(response);
-            this.$router.push('/');
+            this.$router.push('/employee_dashboard');
         }
       ).catch(error => {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          if (error.response.status == 404)
+          {
+            this.errMessage = "Employee with this credentials was not found."
+          }
+          else
+          {
+            this.errMessage = "Error ocured on server side. Please, try log in later."  
+          }
         }
-
-        this.errMessage = "No employee with these credentials was found. Try again.";
+        else
+        {
+          this.errMessage = "Error ocured on server side. Please, try log in later."
+        }
+        
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;
