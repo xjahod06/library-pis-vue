@@ -210,8 +210,8 @@ export default {
       }
       return exemplars;
     },
-    loggedUser: function (){ // todo toto nejak inak vyriesit
-      if (localStorage.getItem('role') === 'reader') return true;
+    loggedUser: function (){
+      if (localStorage.getItem('role') === "\"READER\"") return true;
       return false;
     }
 
