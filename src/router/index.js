@@ -148,8 +148,7 @@ const Routes = [
     component: ReadersList,
     meta: {
       title: 'Edit readers',
-      employee: true,
-      administrator: true
+      employee: true
     }
   },
   {
