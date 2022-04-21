@@ -18,6 +18,11 @@ import Authors from "@/pages/Authors";
 import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
+import EmployeeDashboard from "@/pages/EmployeeDashboard";
+import TitleList from "@/pages/TitleList";
+import BorrowingList from "@/pages/BorrowingList";
+import EditBook from "@/pages/EditBook";
+import NotFound from "@/pages/NotFound";
 
 Vue.use(VueRouter)
 
@@ -91,6 +96,14 @@ const Routes = [
     }
   },
   {
+    path: '/edit_books/:id',
+    component: EditBook,
+    meta: {
+      title: 'Book edit',
+      employee: true,
+    }
+  },
+  {
     path: '/authors/',
     component: Authors,
     meta: {
@@ -146,7 +159,7 @@ const Routes = [
     component: ReadersList,
     meta: {
       title: 'Edit readers',
-      administrator: true
+      employee: true,
     }
   },
   {
@@ -155,6 +168,37 @@ const Routes = [
     meta: {
       title: 'Edit employees',
       administrator: true
+    }
+  },
+  {
+    path: '/employee_dashboard',
+    component: EmployeeDashboard,
+    meta: {
+      title: 'Employee dashboard',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_titles',
+    component: TitleList,
+    meta: {
+      title: 'Edit titles',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_borrowings',
+    component: BorrowingList,
+    meta: {
+      title: 'Edit Borrowings',
+      employee: true
+    }
+  },
+  {
+    path: '/*',
+    component: NotFound,
+    meta : {
+      title: "404 Not Found"
     }
   }
 ]
