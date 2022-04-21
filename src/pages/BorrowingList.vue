@@ -5,29 +5,40 @@
       <b-tab title="Hard-Copy-Borrowings" active>
         <b-container>
           <b-table
-              :items="itemsBorrowings"
+              :items="myProvider"
+              :busy.sync="isBusy"
               :fields="fieldsBorrowings"
               :sort-by.sync="sortByBooks"
               :sort-desc.sync="sortDescBooks"
               responsive="sm"
           >
-            <template v-slot:cell(edit)="{ item }">
-              <router-link :to="{path: '/books/'+item.id}">
-
-              </router-link>
+            <template #table-busy>
+              <div class="text-center text-danger my-2">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong>Loading...</strong>
+              </div>
             </template>
 
           </b-table>
         </b-container>
       </b-tab>
       <b-tab title="Electronic-Copy-Borrowings">
+        <b-container>
         <b-table
-            :items="itemsMagazines"
-            :fields="fieldsMagazines"
+            :items="myProvider2"
+            :fields="fieldsBorrowings2"
             :sort-by.sync="sortByMagazines"
             :sort-desc.sync="sortDescMagazines"
             responsive="sm"
-        ></b-table>
+        >
+          <template #table-busy>
+            <div class="text-center text-danger my-2">
+              <b-spinner class="align-middle"></b-spinner>
+              <strong>Loading...</strong>
+            </div>
+          </template>
+        </b-table>
+          </b-container>
       </b-tab>
     </b-tabs>
     <MyFooter></MyFooter>
@@ -39,23 +50,6 @@ import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
-function getNames(data) {
-  //let string = "";
-  //data.forEach((dato) => string += "&" + dato.name);
-  //string = string.replace('&','')
-  //string = string.replaceAll("&",", ")
-  //return string;
-  return data.fullname
-}
-
-function getAuthors(data) {
-  let string = "";
-  data.forEach((dato) => string += "&" + dato.surname + " " + dato.name);
-  string = string.replace('&','')
-  string = string.replaceAll("&",", ")
-  return string;
-}
-
 export default {
   name: "BorrowingList",
   components: {
@@ -64,7 +58,6 @@ export default {
   },
   data() {
     return{
-      itemsBorrowings: [],
       fieldsBorrowings: [
         {key: 'dateOfBorrowStart', sortable: true},
         {key: 'dateOfBorrowEnd', sortable: true},
@@ -72,6 +65,14 @@ export default {
         {key: 'state', sortable: true},
         {key: 'returnDate', sortable: true},
         {key: 'reader_name', sortable: true},
+        {key: 'title', sortable: true},
+      ],
+      fieldsBorrowings2: [
+        {key: 'dateOfBorrowStart', sortable: true},
+        {key: 'dateOfBorrowEnd', sortable: true},
+        {key: 'borrowCounter', sortable: true},
+        {key: 'reader_name', sortable: true},
+        {key: 'title', sortable: true},
       ],
       sortByBooks: '',
       sortDescBooks: false,
@@ -81,27 +82,53 @@ export default {
       ],
       sortByMagazines: '',
       sortDescMagazines: false,
+      isBusy: false,
     }
   },
   methods: {
-    getBorrowings(){
-      ApiConnect.get('/hard-copy-borrowings/').then(response =>
-          this.parseBorrowings(response.data)
-      )
+    myProvider() {
+      this.isBusy = true
+      let promise = ApiConnect.get('/hard-copy-borrowings/');
+      return promise.then((data) =>{
+        const items = data.data
+        this.isBusy = false
+        return (this.parseBorrowings(items))
+      }).catch(error => {
+        this.isBusy = false
+        console.log('err',error)
+        return []
+      })
+    },
+    myProvider2() {
+      this.isBusy = true
+      let promise = ApiConnect.get('/electronic-copy-borrowings/');
+      return promise.then((data) =>{
+        const items = data.data
+        this.isBusy = false
+        return (this.parseBorrowings2(items))
+      }).catch(error => {
+        this.isBusy = false
+        console.log('err',error)
+        return []
+      })
     },
     parseBorrowings(data){
       data.forEach(function (borrowing){
-        borrowing.reader_name = borrowing.reader.fullname;
-        //borrowing.reader_name = getNames(borrowing.reader);
-        //borrowing.authors = getAuthors(borrowing.authors);
-        borrowing.edit = " <b>edit</b>  "
+        borrowing.reader_name = borrowing.reader.fullname
+        borrowing.title = borrowing.exemplar.titleName;
+
       })
-      this.itemsBorrowings = data;
+      return data;
+    },
+    parseBorrowings2(data){
+      data.forEach(function (borrowing){
+        borrowing.reader_name = borrowing.reader.fullname
+        borrowing.title = borrowing.electronicCopy.titleName;
+
+      })
+      return data;
     }
   },
-  created() {
-    this.getBorrowings();
-  }
 }
 </script>
 
