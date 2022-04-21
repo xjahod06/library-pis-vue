@@ -19,6 +19,7 @@ import GenreAuthors from "@/pages/GenreAuthors";
 import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
+import TitleList from "@/pages/TitleList";
 
 Vue.use(VueRouter)
 
@@ -164,6 +165,14 @@ const Routes = [
     component: EmployeeDashboard,
     meta: {
       title: 'Employee dashboard',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_titles',
+    component: TitleList,
+    meta: {
+      title: 'Edit titles',
       employee: true
     }
   },
