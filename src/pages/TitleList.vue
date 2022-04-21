@@ -4,10 +4,20 @@
         <b-tabs content-class="mt-3" fill class="bg-light">
           <b-tab title="Books" active>
             <b-container>
+              <b-pagination
+                  v-model="currentPageBook"
+                  :total-rows="rowsBooks"
+                  :per-page="perPageBook"
+                  aria-controls="bookTable"
+                  align="center"
+              ></b-pagination>
               <b-table
+                  id="bookTable"
                   ref="bookTable"
-                  :busy.sync="isBusy"
-                  :items="myProvider"
+                  :per-page="perPageBook"
+                  :current-page="currentPageBook"
+                  :busy.sync="isBusyBooks"
+                  :items="myProviderBooks"
                   :fields="fieldsBooks"
                   :sort-by.sync="sortByBooks"
                   :sort-desc.sync="sortDescBooks"
@@ -31,13 +41,42 @@
             </b-container>
           </b-tab>
           <b-tab title="Magazines">
-            <b-table
-                :items="itemsMagazines"
-                :fields="fieldsMagazines"
-                :sort-by.sync="sortByMagazines"
-                :sort-desc.sync="sortDescMagazines"
-                responsive="sm"
-            ></b-table>
+            <b-container>
+              <b-pagination
+                  v-model="currentPageMagazine"
+                  :total-rows="rowsMagazines"
+                  :per-page="perPageMagazine"
+                  aria-controls="magazineTable"
+                  align="center"
+              ></b-pagination>
+              <b-table
+                  id="magazineTable"
+                  ref="magazineTable"
+                  :per-page="perPageMagazine"
+                  :current-page="currentPageMagazine"
+                  :busy.sync="isBusyMagazines"
+                  :items="myProviderMagazines"
+                  :fields="fieldsMagazines"
+                  :sort-by.sync="sortByMagazines"
+                  :sort-desc.sync="sortDescMagazines"
+                  striped hover
+              >
+                <template v-slot:cell(edit)="{ item }">
+                  <router-link :to="{path: '/magazines/'+item.id}">
+                    <b-button variant="info">EDIT</b-button>
+                  </router-link>
+                </template>
+                <template v-slot:cell(delete)="{ item }">
+                  <b-button  @click="deleteMagazine(item.id,item.name)" variant="danger">delete</b-button>
+                </template>
+                <template #table-busy>
+                  <div class="text-center text-danger my-2">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>Loading...</strong>
+                  </div>
+                </template>
+              </b-table>
+            </b-container>
           </b-tab>
         </b-tabs>
     <MyFooter></MyFooter>
@@ -73,7 +112,6 @@ export default {
   },
   data() {
     return{
-      itemsBooks: [],
       fieldsBooks: [
         {key: 'isbn', sortable: true},
         {key: 'name', sortable: true},
@@ -84,27 +122,56 @@ export default {
         {key: 'delete', sortable: false},
 
       ],
-      sortByBooks: '',
+      sortByBooks: 'isbn',
       sortDescBooks: false,
-      itemsMagazines: [],
+      booksCount: 0,
       fieldsMagazines: [
-
+        {key: 'issn', sortable: true},
+        {key: 'name', sortable: true},
+        {key: 'publisher', sortable: true},
+        {key: 'authors', sortable: true},
+        {key: 'fields', sortable: true},
+        {key: 'edit', sortable: false},
+        {key: 'delete', sortable: false},
       ],
       sortByMagazines: '',
       sortDescMagazines: false,
-      isBusy: false,
+      magazinesCount: 0,
+      isBusyBooks: false,
+      isBusyMagazines: false,
+      perPageBook: 10,
+      currentPageBook: 1,
+      perPageMagazine: 10,
+      currentPageMagazine: 1,
+
     }
   },
   methods: {
-    myProvider() {
-      this.isBusy = true
+    myProviderBooks() {
+      console.log('provider')
+      this.isBusyBooks = true
       let promise = ApiConnect.get('/books/');
       return promise.then((data) =>{
         const items = data.data
-        this.isBusy = false
-        return (this.parseBooks(items))
+        this.isBusyBooks = false
+        this.booksCount = items.length
+        return (this.parseBooks(items).slice((this.currentPageBook-1)*this.perPageBook,this.perPageBook*this.currentPageBook))
       }).catch(error => {
-        this.isBusy = false
+        this.isBusyBooks = false
+        console.log('err',error)
+        return []
+      })
+    },
+    myProviderMagazines() {
+      this.isBusyMagazines = true
+      let promise = ApiConnect.get('/magazines/');
+      return promise.then((data) =>{
+        const items = data.data
+        this.isBusyMagazines = false
+        this.magazinesCount = items.length
+        return (this.parseMagazines(items).slice((this.currentPageMagazine-1)*this.perPageMagazine,this.perPageMagazine*this.currentPageMagazine))
+      }).catch(error => {
+        this.isBusyMagazines = false
         console.log('err',error)
         return []
       })
@@ -116,23 +183,42 @@ export default {
       })
       return data
     },
+    parseMagazines(data){
+      data.forEach(function (book){
+        book.fields = getNames(book.fields);
+        book.authors = getAuthors(book.authors);
+      })
+      return data
+    },
     deleteBook(id,name){
       ApiConnect.delete('/books/'+id).then(response =>
         console.log(response)
       );
-      this.makeToast(name);
-      this.$refs.bookTable.refresh();
+      this.makeToast('Book',name);
+      this.$root.$emit('bv::refresh::table', 'bookTable')
     },
-    makeToast(name) {
-      this.$bvToast.toast(`Book `+name+' has been deleted successfully', {
+    deleteMagazine(id,name){
+      ApiConnect.delete('/magazines/'+id).then(response =>
+          console.log(response)
+      );
+      this.makeToast('Magazine',name);
+      this.$root.$emit('bv::refresh::table', 'magazineTable')
+    },
+    makeToast(type,name) {
+      this.$bvToast.toast(type+' '+name+' has been deleted successfully.', {
         title: 'Library',
         variant: 'success',
         autoHideDelay: 5000,
       })
     }
   },
-  created() {
-    this.getBooks();
+  computed: {
+    rowsBooks() {
+      return this.booksCount;
+    },
+    rowsMagazines() {
+      return this.magazinesCount;
+    }
   }
 }
 </script>
