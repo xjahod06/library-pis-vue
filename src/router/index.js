@@ -20,6 +20,7 @@ import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
 import TitleList from "@/pages/TitleList";
+import BorrowingList from "@/pages/BorrowingList";
 
 Vue.use(VueRouter)
 
@@ -176,6 +177,14 @@ const Routes = [
       employee: true
     }
   },
+  {
+    path: '/edit_borrowings',
+    component: BorrowingList,
+    meta: {
+      title: 'Edit Borrowings',
+      employee: true
+    }
+  }
 ]
 
 const router = new VueRouter({
