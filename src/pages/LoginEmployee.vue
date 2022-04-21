@@ -98,12 +98,12 @@ export default {
           }
           else
           {
-            this.errMessage = "Error ocured on server side. Please, try it later."  
+            this.errMessage = "Error ocured on server side. Please, try again later."  
           }
         }
         else
         {
-          this.errMessage = "Error ocured on server side. Please, try it later."
+          this.errMessage = "Error ocured on server side. Please, try again later."
         }
         
         this.$refs['password'].state = false;

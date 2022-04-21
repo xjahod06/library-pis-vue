@@ -76,7 +76,7 @@
                     required
                 ></b-form-input>
                 <b-form-invalid-feedback>
-                  This email address is already used. Please, select another email.
+                  {{errMessage}}
                 </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
@@ -260,7 +260,18 @@ export default {
             this.$router.push('/login_employee');
           }
         ).catch(error => {
-        this.errMessage = ""
+        if (error.response) {
+          if (error.response.status == 400)
+          {
+            this.errMessage = "This email address is already in use. Please, select another email."
+            this.$refs['email'].state = false;
+            this.$refs['email'].value = "";
+          }
+          else
+          {
+            this.errMessage = "Error ocured on server side. Please, try again later."  
+          }
+        }
       })
     },
     Employee(){
