@@ -23,6 +23,12 @@
     padding: 0;
 }
 
+.author-img {
+    width: 255px;
+    height: 255px;
+    padding: 0;
+}
+
 small{
     color: #6a6a6a;
 }

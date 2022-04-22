@@ -45,7 +45,9 @@ export default {
             this.form.name = this.author.name;
             this.form.surname = this.author.surname;
             this.form.photograph = this.author.photograph;
-            this.form.dateOfBirth = this.author.dateOfBirth;
+            this.form.dateOfBirth = new Date(this.author.dateOfBirth);
+            this.form.dateOfDeath = new Date(this.author.dateOfDeath);
+            this.form.description = this.author.description;
             this.author.books.forEach(book => this.form.books.push(book));
             this.author.magazines.forEach(magazine => this.form.magazines.push(magazine));
           }

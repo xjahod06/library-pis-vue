@@ -9,6 +9,7 @@
         :birth="new Date(author.dateOfBirth)"
         :death="dateDeath"
         :description="author.description"
+        :img = "author.photograph"
       ></AuthorBigTile>
 
       <b-row>
