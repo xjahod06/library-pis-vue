@@ -2,9 +2,14 @@
   <div>
     <NavbarFinal></NavbarFinal>
     <b-container class="edit-book-page">
+      <b-row class="text-center">
+        <b-col>
+          <font-awesome-icon icon="fa-solid fa-display" size="4x" v-b-modal.modal-preview type="button" class="preview"/>
+        </b-col>
+      </b-row>
       <b-row class="text-center mb-4">
         <b-col>
-          <b-button v-b-modal.modal-preview>preview book page</b-button>
+          preview book page
         </b-col>
       </b-row>
       <b-form @submit.prevent="submit">
@@ -501,5 +506,14 @@ export default {
 .edit-book-page{
   color: black;
   text-align: left;
+}
+.preview{
+  color: #24433e;
+  box-shadow: 0 6px 10px rgba(0,0,0,0), 0 0 6px rgba(0,0,0,0);
+  transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+}
+.preview:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 </style>
