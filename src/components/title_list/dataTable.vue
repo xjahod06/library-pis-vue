@@ -31,7 +31,7 @@
     >
       <template v-slot:cell(edit)="{ item }" v-if="endpointEdit !== undefined">
         <router-link :to="{path: endpointEdit+item.id}">
-          <b-button variant="info">EDIT</b-button>
+          <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" type="button"/>
         </router-link>
       </template>
       <template v-slot:cell(delete)="{ item }" v-if="endpointDel !== undefined">
@@ -107,9 +107,6 @@ export default {
         variant: variant,
         autoHideDelay: 5000,
       })
-    },
-    sortingChanged(ctx){
-      this.$root.$emit('bv::refresh::table', this.tableId)
     },
     customSort(data){
       const sortBy = this.sortByVal;
