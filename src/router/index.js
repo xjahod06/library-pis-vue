@@ -20,8 +20,10 @@ import Author from "@/pages/Author";
 import LoginEmployee from "@/pages/LoginEmployee";
 import EmployeeDashboard from "@/pages/EmployeeDashboard";
 import TitleList from "@/pages/TitleList";
+import BorrowingList from "@/pages/BorrowingList";
 import EditBook from "@/pages/EditBook";
 import EditMagazine from "@/pages/EditMagazine";
+import NotFound from "@/pages/NotFound";
 
 Vue.use(VueRouter)
 
@@ -166,7 +168,7 @@ const Routes = [
     component: ReadersList,
     meta: {
       title: 'Edit readers',
-      employee: true
+      employee: true,
     }
   },
   {
@@ -193,6 +195,21 @@ const Routes = [
       employee: true
     }
   },
+  {
+    path: '/edit_borrowings',
+    component: BorrowingList,
+    meta: {
+      title: 'Edit Borrowings',
+      employee: true
+    }
+  },
+  {
+    path: '/*',
+    component: NotFound,
+    meta : {
+      title: "404 Not Found"
+    }
+  }
 ]
 
 const router = new VueRouter({
