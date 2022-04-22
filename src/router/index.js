@@ -22,6 +22,7 @@ import EmployeeDashboard from "@/pages/EmployeeDashboard";
 import TitleList from "@/pages/TitleList";
 import BorrowingList from "@/pages/BorrowingList";
 import EditBook from "@/pages/EditBook";
+import EditMagazine from "@/pages/EditMagazine";
 import NotFound from "@/pages/NotFound";
 import RegisterEmployee from "@/pages/RegisterEmployee";
 
@@ -101,6 +102,14 @@ const Routes = [
     component: EditBook,
     meta: {
       title: 'Book edit',
+      employee: true,
+    }
+  },
+  {
+    path: '/edit_magazines/:id',
+    component: EditMagazine,
+    meta: {
+      title: 'magazine edit',
       employee: true,
     }
   },
