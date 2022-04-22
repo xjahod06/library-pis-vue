@@ -84,7 +84,7 @@
               <b-form-input
                   ref="publicationDate"
                   id="publicationDate"
-                  v-model="book.publicationDate"
+                  v-model="new Date(book.publicationDate).toDateInputValue()"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
@@ -103,7 +103,7 @@
                   ref="publicationNumber"
                   id="publicationNumber"
                   v-model="book.publicationNumber"
-                  type="Number"
+                  type="number"
                   placeholder="Enter book publication number"
                   required
               ></b-form-input>
@@ -119,7 +119,7 @@
                   ref="pages"
                   id="pages"
                   v-model="book.pages"
-                  type="Number"
+                  type="number"
                   placeholder="Enter number of book pages"
                   required
               ></b-form-input>
@@ -185,6 +185,34 @@
             </multiselect>
           </b-col>
         </b-row>
+        <b-row>
+          <b-col cols="6" class="text-left">
+            <label for="dropdown-menu">Hard exemplars</label><br>
+            <div class="dropdown-menu d-block" style="position: initial">
+              <template v-for="hardCopy in book.hardCopyExemplars">
+                <span v-if="hardCopy.availability === false" class="dropdown-item text-danger">
+                  state: {{ hardCopy.state }}, not available
+                </span>
+                <span v-if="hardCopy.availability !== false" class="dropdown-item text-success">
+                  state: {{ hardCopy.state }}, available
+                </span>
+              </template>
+            </div>
+          </b-col>
+          <b-col cols="6" class="text-left">
+            <label for="dropdown-menu">Electronic exemplars</label><br>
+            <div class="dropdown-menu d-block" style="position: initial">
+              <template v-for="Copy in book.electronicCopyExemplars">
+                <span v-if="Copy.availability === false" class="dropdown-item text-danger">
+                  state: {{ Copy.state }}, not available
+                </span>
+                <span v-if="Copy.availability !== false" class="dropdown-item text-success">
+                  state: {{ Copy.state }}, available
+                </span>
+              </template>
+            </div>
+          </b-col>
+        </b-row>
         <b-row class="mt-3">
           <b-col>
             <label for="description">Description:</label>
@@ -245,6 +273,11 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 
+Date.prototype.toDateInputValue = (function() {
+  var local = new Date(this);
+  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+  return local.toJSON().slice(0,10);
+});
 
 export default {
   name: "EditBook",
@@ -292,16 +325,35 @@ export default {
       })
     },
     submit(){
-      ApiConnect.put('/books', this.book).then((response) =>
+      ApiConnect.put('/books', this.book).then((response) =>{
         console.log(response)
-      ).catch(error => {
+        this.makeToast(this.book.name)
+      }).catch(error => {
         console.log(error)
       })
-    }
+    },
+    makeToast(name) {
+      this.$bvToast.toast('Book '+name+' has been updated successfully.', {
+        title: 'Library',
+        variant: 'success',
+        autoHideDelay: 5000,
+      })
+    },
   },
   created() {
     this.getBook(this.$route.params.id);
     this.getGenres();
+  },
+  computed: {
+    hasElectronicCopy (){
+      if (this.book !== 'undefined'){
+        if (this.book.electronicCopyExemplars.length > 0	){
+          return true;
+        }
+      }
+
+      return false;
+    }
   }
 }
 </script>
