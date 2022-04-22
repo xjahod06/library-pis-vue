@@ -11,6 +11,7 @@
                 :fields="fieldsBooks"
                 sortBy="isbn"
                 :parse="parseBooks"
+                tableId="tableBooks"
             >
             </dataTable>
           </b-tab>
@@ -23,6 +24,19 @@
                 :fields="fieldsMagazines"
                 sortBy="issn"
                 :parse="parseMagazines"
+                tableId="tableMagazines"
+            >
+            </dataTable>
+          </b-tab>
+          <b-tab title="Fields">
+            <dataTable
+                endpointGet="/fields/"
+                endpointDel="/fields/"
+                type="field"
+                :fields="fieldsFields"
+                sortBy="name"
+                :parse="parseFields"
+                tableId="tableFields"
             >
             </dataTable>
           </b-tab>
@@ -35,6 +49,7 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import dataTable from "@/components/title_list/dataTable";
+import ApiConnect from "@/services/ApiConnect";
 
 function getNames(data) {
   let string = "";
@@ -50,6 +65,13 @@ function getAuthors(data) {
   string = string.replace('&','')
   string = string.replaceAll("&",", ")
   return string;
+}
+
+Array.prototype.getUnique = function() {
+  var o = {}, a = []
+  for (var i = 0; i < this.length; i++) o[this[i]] = 1
+  for (var e in o) a.push(e)
+  return a
 }
 
 export default {
@@ -79,6 +101,12 @@ export default {
         {key: 'fields', sortable: true},
         {key: 'edit', sortable: false},
         {key: 'delete', sortable: false},
+      ],
+      fieldsFields: [
+        {key: 'name', sortable: true},
+        {key: 'authorCount', sortable: true},
+        {key: 'magazinesCount', sortable: true},
+        {key: 'delete', sortable: false},
       ]
 
     }
@@ -97,6 +125,37 @@ export default {
         book.authors = getAuthors(book.authors);
       })
       return data
+    },
+    parseFields(data,oldData){
+      if(oldData === undefined){
+        data.forEach(function (book){
+          book.authorCount = 0
+          book.magazinesCount = 0
+        })
+        data.forEach(subparse)
+      }else{
+        console.log('loading old data')
+        data.forEach(function (book, index){
+          book.authorCount = oldData[index].authorCount
+          book.magazinesCount = oldData[index].magazinesCount
+        })
+      }
+
+      function subparse(field){
+        let paramsMagazine = {params: {"fields": field.name}};
+        ApiConnect.get('/magazines/', paramsMagazine).then(resp =>{
+          field.magazinesCount = resp.data.length
+          let authors = []
+          resp.data.forEach( magazine =>{
+            magazine.authors.forEach(author => {
+              authors.push(author.name+author.surname)
+            })
+          })
+          field.authorCount = authors.getUnique().length
+        })
+      }
+
+      return data;
     },
   }
 }
