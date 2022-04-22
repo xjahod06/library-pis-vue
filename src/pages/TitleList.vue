@@ -62,7 +62,7 @@
                   striped hover
               >
                 <template v-slot:cell(edit)="{ item }">
-                  <router-link :to="{path: '/magazines/'+item.id}">
+                  <router-link :to="{path: '/edit_magazines/'+item.id}">
                     <b-button variant="info">EDIT</b-button>
                   </router-link>
                 </template>

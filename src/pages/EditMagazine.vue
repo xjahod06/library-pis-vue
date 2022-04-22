@@ -9,7 +9,7 @@
       </b-row>
       <b-row class="text-center mb-4">
         <b-col>
-          preview book page
+          preview magazine page
         </b-col>
       </b-row>
       <b-form @submit.prevent="submit">
@@ -23,9 +23,9 @@
               <b-form-input
                   ref="title"
                   id="title"
-                  v-model="book.name"
+                  v-model="magazine.name"
                   type="text"
-                  placeholder="Enter book title"
+                  placeholder="Enter magazine title"
                   required
               ></b-form-input>
             </b-form-group>
@@ -39,15 +39,13 @@
               <b-form-input
                   ref="lang"
                   id="lang"
-                  v-model="book.language"
+                  v-model="magazine.language"
                   type="text"
-                  placeholder="Enter book Language"
+                  placeholder="Enter magazine Language"
                   required
               ></b-form-input>
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
           <b-col>
             <b-form-group
                 id="publisher-label"
@@ -57,41 +55,9 @@
               <b-form-input
                   ref="publisher"
                   id="publisher"
-                  v-model="book.publisher"
+                  v-model="magazine.publisher"
                   type="text"
-                  placeholder="Enter book publisher"
-                  required
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-                id="isbn-label"
-                label="ISBN:"
-                label-for="isbn"
-            >
-              <b-form-input
-                  ref="isbn"
-                  id="isbn"
-                  v-model="book.isbn"
-                  type="number"
-                  placeholder="Enter book isbn"
-                  required
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-                id="publicationDate-label"
-                label="Publication date:"
-                label-for="lang"
-            >
-              <b-form-input
-                  ref="publicationDate"
-                  id="publicationDate"
-                  v-model="new Date(book.publicationDate).toDateInputValue()"
-                  type="date"
-                  placeholder="Enter date when book was published"
+                  placeholder="Enter magazine publisher"
                   required
               ></b-form-input>
             </b-form-group>
@@ -100,32 +66,48 @@
         <b-row>
           <b-col>
             <b-form-group
-                id="publicationNumber-label"
-                label="publication number:"
-                label-for="publicationNumber"
+                id="issn-label"
+                label="ISSN:"
+                label-for="issn"
             >
               <b-form-input
-                  ref="publicationNumber"
-                  id="publicationNumber"
-                  v-model="book.publicationNumber"
+                  ref="issn"
+                  id="issn"
+                  v-model="magazine.issn"
                   type="number"
-                  placeholder="Enter book publication number"
+                  placeholder="Enter magazine issn"
                   required
               ></b-form-input>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
-                id="pages-label"
-                label="pages:"
-                label-for="pages"
+                id="number-label"
+                label="Magazine number:"
+                label-for="number"
             >
               <b-form-input
-                  ref="pages"
-                  id="pages"
-                  v-model="book.pages"
+                  ref="number"
+                  id="number"
+                  v-model="magazine.number"
                   type="number"
-                  placeholder="Enter number of book pages"
+                  placeholder="Enter magazine number"
+                  required
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-group
+                id="publicationYear-label"
+                label="Magazine publication year:"
+                label-for="publicationYear"
+            >
+              <b-form-input
+                  ref="publicationYear"
+                  id="publicationYear"
+                  v-model="magazine.publicationYear"
+                  type="number"
+                  placeholder="Enter magazine publication number"
                   required
               ></b-form-input>
             </b-form-group>
@@ -135,7 +117,7 @@
           <b-col>
             <label class="typo__label" for="authors">Authors</label>
             <multiselect
-                v-model="book.authors"
+                v-model="magazine.authors"
                 id="authors"
                 label="name"
                 track-by="name"
@@ -161,7 +143,7 @@
                 <b-badge pill variant="primary">{{ option.name }} <b-icon icon="x" scale="2" @click="remove(option)" type="button"></b-icon></b-badge>
               </template>-->
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.authors.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="magazine.authors.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
                 <span>Oops! No authors found. Consider changing the search query.</span>
@@ -169,10 +151,10 @@
             </multiselect>
           </b-col>
           <b-col>
-            <label class="typo__label">Genres</label>
+            <label class="typo__label">Fields </label>
             <multiselect
-                v-model="book.genres"
-                :options="genres"
+                v-model="magazine.fields"
+                :options="fields"
                 :multiple="true"
                 :close-on-select="false"
                 :clear-on-select="false"
@@ -182,10 +164,10 @@
                 track-by="name"
                 :preselect-first="true">
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.genres.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="magazine.fields.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
-                <span>Oops! No Genres found. Consider changing the search query.</span>
+                <span>Oops! No fields found. Consider changing the search query.</span>
               </template>
             </multiselect>
           </b-col>
@@ -194,7 +176,7 @@
           <b-col cols="6" class="text-left">
             <label >Hard exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
-              <template v-for="hardCopy in book.hardCopyExemplars">
+              <template v-for="hardCopy in magazine.hardCopyExemplars">
                 <span v-if="hardCopy.availability === false" class="dropdown-item text-danger">
                   state: {{ hardCopy.state }}, not available
                 </span>
@@ -207,7 +189,7 @@
           <b-col cols="6" class="text-left">
             <label >Electronic exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
-              <template v-for="Copy in book.electronicCopyExemplars">
+              <template v-for="Copy in magazine.electronicCopyExemplars">
                 <span v-if="Copy.availability === false" class="dropdown-item text-danger">
                   state: {{ Copy.state }}, not available
                 </span>
@@ -233,7 +215,7 @@
                 id="description"
                 placeholder="Tall textarea"
                 rows="8"
-                v-model="book.description"
+                v-model="magazine.description"
             ></b-form-textarea>
           </b-col>
         </b-row>
@@ -251,25 +233,25 @@
         <b-col cols="4">
           <BookTitle
               img="@/assets/logo.png"
-              format="book"
-              :publisher="book.publisher"
-              :released="new Date(book.publicationDate)"
-              :pages="book.pages"
+              format="Magazine"
+              :publisher="magazine.publisher"
+              :released="magazine.publicationDate"
+              :pages="magazine.pages"
               :hasElectronicCopy="hasElectronicCopy"
-              :hardCopies="book.hardCopyExemplars"
-              :electronicCopies="book.electronicCopyExemplars"
+              :hardCopies="magazine.hardCopyExemplars"
+              :electronicCopies="magazine.electronicCopyExemplars"
           >
 
           </BookTitle>
         </b-col>
         <b-col cols="8">
           <BookInfo
-              :title="book.name"
-              :publicationNumber="''+book.publicationNumber"
-              :authors="book.authors"
-              :isbn="book.isbn"
-              :genres="book.genres"
-              :description="book.description"
+              :title="magazine.name"
+              :publicationNumber="magazine.number + '/' + magazine.pubcationYear"
+              :authors="magazine.authors"
+              :issn="magazine.issn"
+              :genres="magazine.fields"
+              :description="magazine.description"
           >
 
           </BookInfo>
@@ -366,6 +348,7 @@
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
     </b-modal>
+    {{ magazine }}
   </div>
 </template>
 <script>
@@ -395,9 +378,9 @@ export default {
     return {
       authors: [],
       isLoading: false,
-      genres: [],
+      fields: [],
       isLoadingGenre: false,
-      book: {},
+      magazine: {},
       electronicExtension: 1,
       electronicPeriod: 42,
       hardExtension: 1,
@@ -422,20 +405,20 @@ export default {
     clearAll () {
       this.selectedAuthors = []
     },
-    getBook(id){
-      ApiConnect.get('/books/'+id).then((response) =>{
-        this.book = response.data
+    getMagazine(id){
+      ApiConnect.get('/magazines/'+id).then((response) =>{
+        this.magazine = response.data
       });
     },
-    getGenres(){
-      ApiConnect.get('/genres/').then((response) =>{
-        this.genres = response.data
+    getFields(){
+      ApiConnect.get('/fields/').then((response) =>{
+        this.fields = response.data
       })
     },
     submit(){
-      ApiConnect.put('/books', this.book).then((response) =>{
+      ApiConnect.put('/magazines', this.magazine).then((response) =>{
         console.log(response)
-        this.makeToast('Book '+this.book.name+' has been updated successfully.')
+        this.makeToast('magazine '+this.magazine.name+' has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
@@ -451,47 +434,47 @@ export default {
       this.$refs.addElectronicCopy.hide();
       let electronicExample = {};
       electronicExample.availability = true;
-      electronicExample.book = this.book;
+      electronicExample.magazine = this.magazine;
       electronicExample.borrowPeriod = this.electronicPeriod;
       electronicExample.maximumNumberOfExtension = this.electronicExtension;
       electronicExample.state = "ELECTRONIC";
-      electronicExample.titleName = this.book.name;
+      electronicExample.titleName = this.magazine.name;
       electronicExample.id = 0;
       ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
         console.log(response);
       })
       this.makeToast('Electronic copy was added successfully.')
-      ApiConnect.get('/books/'+this.book.id).then((response) =>{
-        this.book.electronicCopyExemplars = response.data.electronicCopyExemplars
+      ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+        this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
       });
     },
     addHardExample() {
       this.$refs.addHardCopy.hide();
       let hardExample = {};
       hardExample.availability = true;
-      hardExample.book = this.book;
+      hardExample.magazine = this.magazine;
       hardExample.borrowPeriod = this.hardPeriod;
       hardExample.maximumNumberOfExtension = this.hardExtension;
       hardExample.state = this.hardState;
-      hardExample.titleName = this.book.name;
+      hardExample.titleName = this.magazine.name;
       hardExample.id = 0;
       ApiConnect.post('/hard-copy-exemplars',hardExample).then(response => {
         console.log(response);
       })
       this.makeToast('Hard copy was added successfully.')
-      ApiConnect.get('/books/'+this.book.id).then((response) =>{
-        this.book.hardCopyExemplars = response.data.hardCopyExemplars
+      ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+        this.magazine.hardCopyExemplars = response.data.hardCopyExemplars
       });
     }
   },
   created() {
-    this.getBook(this.$route.params.id);
-    this.getGenres();
+    this.getMagazine(this.$route.params.id);
+    this.getFields();
   },
   computed: {
     hasElectronicCopy (){
-      if (this.book !== 'undefined'){
-        if (this.book.electronicCopyExemplars.length > 0	){
+      if (this.magazine !== 'undefined'){
+        if (this.magazine.electronicCopyExemplars.length > 0	){
           return true;
         }
       }
