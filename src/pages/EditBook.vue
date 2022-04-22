@@ -4,7 +4,7 @@
     <b-container class="edit-book-page">
       <b-row class="text-center mb-4">
         <b-col>
-          <b-button v-b-modal.modal-1>preview book page</b-button>
+          <b-button v-b-modal.modal-preview>preview book page</b-button>
         </b-col>
       </b-row>
       <b-form @submit.prevent="submit">
@@ -185,9 +185,9 @@
             </multiselect>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row class="mt-3">
           <b-col cols="6" class="text-left">
-            <label for="dropdown-menu">Hard exemplars</label><br>
+            <label >Hard exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
               <template v-for="hardCopy in book.hardCopyExemplars">
                 <span v-if="hardCopy.availability === false" class="dropdown-item text-danger">
@@ -200,7 +200,7 @@
             </div>
           </b-col>
           <b-col cols="6" class="text-left">
-            <label for="dropdown-menu">Electronic exemplars</label><br>
+            <label >Electronic exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
               <template v-for="Copy in book.electronicCopyExemplars">
                 <span v-if="Copy.availability === false" class="dropdown-item text-danger">
@@ -215,7 +215,15 @@
         </b-row>
         <b-row class="mt-3">
           <b-col>
-            <label for="description">Description:</label>
+            <b-button variant="success" class="ml-4"  v-b-modal.modal-addHardCopy> Add </b-button>
+          </b-col>
+          <b-col>
+            <b-button variant="success" class="ml-4"  v-b-modal.modal-addElectronicCopy> Add </b-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+            <label>Description:</label>
             <b-form-textarea
                 id="description"
                 placeholder="Tall textarea"
@@ -233,7 +241,7 @@
     </b-container>
   <!--<pre class="language-json"><code>{{ selectedCountries  }}</code></pre>-->
     <MyFooter></MyFooter>
-    <b-modal id="modal-1" title="Preview" size="xl" hide-footer>
+    <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
       <b-row>
         <b-col cols="4">
           <BookTitle
@@ -262,6 +270,96 @@
           </BookInfo>
         </b-col>
       </b-row>
+    </b-modal>
+    <b-modal
+        id="modal-addElectronicCopy"
+        title="Add electronic copy"
+        hide-footer
+        ref="addElectronicCopy"
+    >
+      <b-form @submit.prevent="submit">
+        <b-form-group
+            id="maximumNumberOfExtension-label"
+            label="Maximum number of extension:"
+            label-for="maximumNumberOfExtension"
+        >
+          <b-form-input
+              ref="maximumNumberOfExtension"
+              id="maximumNumberOfExtension"
+              v-model="electronicExtension"
+              type="number"
+              placeholder="Enter maximum number of borrowing extension"
+              required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+            id="borrowPeriod-label"
+            label="Borrow period:"
+            label-for="borrowPeriod"
+        >
+          <b-form-input
+              ref="borrowPeriod"
+              id="borrowPeriod"
+              v-model="electronicPeriod"
+              type="number"
+              placeholder="Enter maximus day that book could be borrowed"
+              required
+          ></b-form-input>
+        </b-form-group>
+        <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
+      </b-form>
+    </b-modal>
+    <b-modal
+        id="modal-addHardCopy"
+        title="Add hard copy"
+        hide-footer
+        ref="addHardCopy"
+    >
+      <b-form @submit.prevent="submit">
+        <b-form-group
+            id="maximumNumberOfExtension-label"
+            label="Maximum number of extension:"
+            label-for="maximumNumberOfExtension"
+        >
+          <b-form-input
+              ref="maximumNumberOfExtension"
+              id="maximumNumberOfExtension"
+              v-model="hardExtension"
+              type="number"
+              placeholder="Enter maximum number of borrowing extension"
+              required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+            id="borrowPeriod-label"
+            label="Borrow period:"
+            label-for="borrowPeriod"
+        >
+          <b-form-input
+              ref="borrowPeriod"
+              id="borrowPeriod"
+              v-model="hardPeriod"
+              type="number"
+              placeholder="Enter maximus day that book could be borrowed"
+              required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+            id="state-label"
+            label="Books state:"
+            label-for="state"
+        >
+          <b-form-input
+              ref="state"
+              id="state"
+              v-model="hardState"
+              type="text"
+              placeholder="Enter exemplar state"
+              required
+          ></b-form-input>
+        </b-form-group>
+        <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
+      </b-form>
     </b-modal>
   </div>
 </template>
@@ -295,6 +393,11 @@ export default {
       genres: [],
       isLoadingGenre: false,
       book: {},
+      electronicExtension: 1,
+      electronicPeriod: 42,
+      hardExtension: 1,
+      hardPeriod: 42,
+      hardState: 'NEW',
     }
   },
   methods: {
@@ -327,18 +430,54 @@ export default {
     submit(){
       ApiConnect.put('/books', this.book).then((response) =>{
         console.log(response)
-        this.makeToast(this.book.name)
+        this.makeToast('Book '+this.book.name+' has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
     },
-    makeToast(name) {
-      this.$bvToast.toast('Book '+name+' has been updated successfully.', {
+    makeToast(text) {
+      this.$bvToast.toast(text, {
         title: 'Library',
         variant: 'success',
         autoHideDelay: 5000,
       })
     },
+    addElectronicExample() {
+      this.$refs.addElectronicCopy.hide();
+      let electronicExample = {};
+      electronicExample.availability = true;
+      electronicExample.book = this.book;
+      electronicExample.borrowPeriod = this.electronicPeriod;
+      electronicExample.maximumNumberOfExtension = this.electronicExtension;
+      electronicExample.state = "ELECTRONIC";
+      electronicExample.titleName = this.book.name;
+      electronicExample.id = 0;
+      ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
+        console.log(response);
+      })
+      this.makeToast('Electronic copy was added successfully.')
+      ApiConnect.get('/books/'+this.book.id).then((response) =>{
+        this.book.electronicCopyExemplars = response.data.electronicCopyExemplars
+      });
+    },
+    addHardExample() {
+      this.$refs.addHardCopy.hide();
+      let hardExample = {};
+      hardExample.availability = true;
+      hardExample.book = this.book;
+      hardExample.borrowPeriod = this.hardPeriod;
+      hardExample.maximumNumberOfExtension = this.hardExtension;
+      hardExample.state = this.hardState;
+      hardExample.titleName = this.book.name;
+      hardExample.id = 0;
+      ApiConnect.post('/hard-copy-exemplars',hardExample).then(response => {
+        console.log(response);
+      })
+      this.makeToast('Hard copy was added successfully.')
+      ApiConnect.get('/books/'+this.book.id).then((response) =>{
+        this.book.hardCopyExemplars = response.data.hardCopyExemplars
+      });
+    }
   },
   created() {
     this.getBook(this.$route.params.id);
