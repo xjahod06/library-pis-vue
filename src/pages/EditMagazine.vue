@@ -172,7 +172,7 @@
             </multiselect>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
+        <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col cols="6" class="text-left">
             <label >Hard exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
@@ -200,7 +200,7 @@
             </div>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
+        <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col>
             <b-button variant="success" class="ml-4"  v-b-modal.modal-addHardCopy> Add </b-button>
           </b-col>
@@ -213,15 +213,20 @@
             <label>Description:</label>
             <b-form-textarea
                 id="description"
-                placeholder="Tall textarea"
+                placeholder="Description"
                 rows="8"
                 v-model="magazine.description"
             ></b-form-textarea>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
             <b-button @click="submit" variant="primary">Update</b-button>
+          </b-col>
+        </b-row>
+        <b-row v-if="this.$route.params.id == 0">
+          <b-col class="text-center mt-4">
+            <b-button @click="create" variant="success">Create</b-button>
           </b-col>
         </b-row>
       </b-form>
@@ -359,12 +364,6 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 
-Date.prototype.toDateInputValue = (function() {
-  var local = new Date(this);
-  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-  return local.toJSON().slice(0,10);
-});
-
 export default {
   name: "EditBook",
   components: {
@@ -423,6 +422,17 @@ export default {
         console.log(error)
       })
     },
+    create(){
+      ApiConnect.post('/magazines', this.magazine).then((response) =>{
+        console.log(response)
+        this.makeToast('Magazine '+this.magazine.name+' has been created successfully.')
+      }).catch(error => {
+        console.log(error)
+      })
+      ApiConnect.get('/magazines/').then(resp =>{
+        this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))
+      })
+    },
     makeToast(text) {
       this.$bvToast.toast(text, {
         title: 'Library',
@@ -468,7 +478,25 @@ export default {
     }
   },
   created() {
-    this.getMagazine(this.$route.params.id);
+    if(this.$route.params.id == 0){
+      this.magazine = {
+        id: 0,
+        name: '',
+        description: '',
+        publisher: '',
+        language: '',
+        coverPhoto: '',
+        authors: [],
+        hardCopyExemplars: [],
+        electronicCopyExemplars: [],
+        issn: undefined,
+        number: undefined,
+        publicationYear: undefined,
+        fields: [],
+      }
+    }else{
+      this.getMagazine(this.$route.params.id);
+    }
     this.getFields();
   },
   computed: {
