@@ -1,0 +1,124 @@
+<template>
+  <b-container>
+    <b-row>
+      <b-col cols="11">
+        <b-pagination
+            v-model="currentPageBook"
+            :total-rows="rows"
+            :per-page="perPageBook"
+            aria-controls="table"
+            align="center"
+        ></b-pagination>
+      </b-col>
+      <b-col class="text-right" cols="1">
+        <router-link :to="{path: endpointEdit+'0'}">
+          <b-button variant="success">create</b-button>
+        </router-link>
+      </b-col>
+    </b-row>
+    <b-table
+        id="table"
+        ref="table"
+        :per-page="perPageBook"
+        :current-page="currentPageBook"
+        :busy.sync="isBusy"
+        :items="myProvider"
+        :fields="fieldsData"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        striped hover
+    >
+      <template v-slot:cell(edit)="{ item }">
+        <router-link :to="{path: endpointEdit+item.id}">
+          <b-button variant="info">EDIT</b-button>
+        </router-link>
+      </template>
+      <template v-slot:cell(delete)="{ item }">
+        <b-button  @click="deleteData(item.id,item.name)" variant="danger">delete</b-button>
+      </template>
+      <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+    </b-table>
+  </b-container>
+</template>
+
+<script>
+import ApiConnect from "@/services/ApiConnect";
+
+export default {
+  name: "dataTable",
+  props:{
+    endpointGet: String,
+    endpointEdit: String,
+    endpointDel: String,
+    type: String,
+    fields: [],
+    sortBy: String,
+    parse: {type: Function},
+  },
+  data(){
+    return{
+      fieldsData: this.fields,
+      sortDesc: false,
+      Count: 0,
+      isBusy: false,
+      perPageBook: 10,
+      currentPageBook: 1,
+    }
+  },
+  methods: {
+    myProvider() {
+      console.log('provider')
+      this.isBusy = true
+      let promise = ApiConnect.get(this.endpointGet);
+      return promise.then((data) =>{
+        const items = data.data
+        this.isBusy = false
+        this.Count = items.length
+        this.$emit('parse');
+        return (this.parse(items).slice((this.currentPageBook-1)*this.perPageBook,this.perPageBook*this.currentPageBook))
+      }).catch(error => {
+        this.isBusy = false
+        console.log('err',error)
+        return []
+      })
+    },
+    deleteData(id,name){
+      console.log(id)
+      ApiConnect.delete(this.endpointDel+id).then(response =>{
+        console.log(response)
+        this.makeToast(this.type+' '+name+' has been deleted successfully.','success');
+        this.$root.$emit('bv::refresh::table', 'table')
+      }).catch(err =>{
+        console.log(err)
+        this.makeToast('error:\n'+err,'danger');
+      });
+
+    },
+    makeToast(text,variant) {
+      this.$bvToast.toast(text, {
+        title: 'Library',
+        variant: variant,
+        autoHideDelay: 5000,
+      })
+    }
+  },
+  computed: {
+    rows() {
+      return this.Count;
+    }
+  },
+  created() {
+    this.fieldsData = this.fields;
+    console.log(this.fields)
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
