@@ -4,13 +4,22 @@
         <b-tabs content-class="mt-3" fill class="bg-light">
           <b-tab title="Books" active>
             <b-container>
-              <b-pagination
-                  v-model="currentPageBook"
-                  :total-rows="rowsBooks"
-                  :per-page="perPageBook"
-                  aria-controls="bookTable"
-                  align="center"
-              ></b-pagination>
+              <b-row>
+                <b-col cols="11">
+                  <b-pagination
+                      v-model="currentPageBook"
+                      :total-rows="rowsBooks"
+                      :per-page="perPageBook"
+                      aria-controls="bookTable"
+                      align="center"
+                  ></b-pagination>
+                </b-col>
+                <b-col class="text-right" cols="1">
+                  <router-link :to="{path: '/edit_books/0'}">
+                    <b-button variant="success">create</b-button>
+                  </router-link>
+                </b-col>
+              </b-row>
               <b-table
                   id="bookTable"
                   ref="bookTable"
@@ -42,13 +51,22 @@
           </b-tab>
           <b-tab title="Magazines">
             <b-container>
-              <b-pagination
-                  v-model="currentPageMagazine"
-                  :total-rows="rowsMagazines"
-                  :per-page="perPageMagazine"
-                  aria-controls="magazineTable"
-                  align="center"
-              ></b-pagination>
+              <b-row>
+                <b-col cols="11">
+                  <b-pagination
+                      v-model="currentPageMagazine"
+                      :total-rows="rowsMagazines"
+                      :per-page="perPageMagazine"
+                      aria-controls="magazineTable"
+                      align="center"
+                  ></b-pagination>
+                </b-col>
+                <b-col class="text-right" cols="1">
+                  <router-link :to="{path: '/edit_magazines/0'}">
+                    <b-button variant="success">create</b-button>
+                  </router-link>
+                </b-col>
+              </b-row>
               <b-table
                   id="magazineTable"
                   ref="magazineTable"
