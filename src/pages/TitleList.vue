@@ -40,6 +40,18 @@
             >
             </dataTable>
           </b-tab>
+          <b-tab title="Genres">
+            <dataTable
+                endpointGet="/genres/"
+                endpointDel="/genres/"
+                type="genre"
+                :fields="fieldsGenres"
+                sortBy="name"
+                :parse="parseGenres"
+                tableId="tableGenres"
+            >
+            </dataTable>
+          </b-tab>
         </b-tabs>
     <MyFooter></MyFooter>
   </div>
@@ -107,6 +119,12 @@ export default {
         {key: 'authorCount', sortable: true},
         {key: 'magazinesCount', sortable: true},
         {key: 'delete', sortable: false},
+      ],
+      fieldsGenres: [
+        {key: 'name', sortable: true},
+        {key: 'authorCount', sortable: true},
+        {key: 'magazinesCount', sortable: true},
+        {key: 'delete', sortable: false},
       ]
 
     }
@@ -134,7 +152,6 @@ export default {
         })
         data.forEach(subparse)
       }else{
-        console.log('loading old data')
         data.forEach(function (book, index){
           book.authorCount = oldData[index].authorCount
           book.magazinesCount = oldData[index].magazinesCount
@@ -157,6 +174,36 @@ export default {
 
       return data;
     },
+    parseGenres(data,oldData){
+      if(oldData === undefined){
+        data.forEach(function (book){
+          book.authorCount = 0
+          book.magazinesCount = 0
+        })
+        data.forEach(subparse)
+      }else{
+        data.forEach(function (book, index){
+          book.authorCount = oldData[index].authorCount
+          book.magazinesCount = oldData[index].magazinesCount
+        })
+      }
+
+      function subparse(field){
+        let paramsMagazine = {params: {"genres": field.name}};
+        ApiConnect.get('/books/', paramsMagazine).then(resp =>{
+          field.magazinesCount = resp.data.length
+          let authors = []
+          resp.data.forEach( magazine =>{
+            magazine.authors.forEach(author => {
+              authors.push(author.name+author.surname)
+            })
+          })
+          field.authorCount = authors.getUnique().length
+        })
+      }
+
+      return data;
+    }
   }
 }
 </script>
