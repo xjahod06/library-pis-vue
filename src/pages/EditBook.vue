@@ -190,6 +190,17 @@
             </multiselect>
           </b-col>
         </b-row>
+        <b-row class="mt-3">
+          <b-col cols="6" class="text-left"><label>Cover photo</label><br>
+            <div style="position: initial">
+              <b-form-file
+                  v-model="coverPhoto"
+                  placeholder="Choose a file or drop it here..."
+                  drop-placeholder="Drop file here..."
+              ></b-form-file>
+            </div>
+          </b-col>
+        </b-row>
         <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col cols="6" class="text-left">
             <label >Hard exemplars</label><br>
@@ -255,7 +266,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              :img="book.coverPhoto"
+              :img="imgPreview"
               format="book"
               :publisher="book.publisher"
               :released="new Date(book.publicationDate)"
@@ -408,6 +419,7 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
+      coverPhoto: null
     }
   },
   methods: {
@@ -437,7 +449,12 @@ export default {
         this.genres = response.data
       })
     },
-    submit(){
+    async submit(){
+      if (this.coverPhoto !== null){
+        var fileBuffer = await this.convertFileToArrayBuffer();
+        var array = new Uint8Array(fileBuffer);
+        this.book.coverPhoto = Array.from(array);
+      }
       ApiConnect.put('/books', this.book).then((response) =>{
         console.log(response)
         this.makeToast('Book '+this.book.name+' has been updated successfully.')
@@ -445,7 +462,12 @@ export default {
         console.log(error)
       })
     },
-    create(){
+    async create(){
+      if (this.coverPhoto !== null){
+        var fileBuffer = await this.convertFileToArrayBuffer();
+        var array = new Uint8Array(fileBuffer);
+        this.book.coverPhoto = Array.from(array);
+      }
       ApiConnect.post('/books', this.book).then((response) =>{
         console.log(response)
         this.makeToast('Book '+this.book.name+' has been created successfully.')
@@ -454,6 +476,19 @@ export default {
       })
       ApiConnect.get('/books/').then(resp =>{
         this.$router.push('/edit_books/'+(resp.data[resp.data.length -1].id+1))
+      })
+    },
+    convertFileToArrayBuffer(){
+      return new Promise((resolve, reject) => {
+        try {
+          if (this.coverPhoto !== null){
+            resolve(this.coverPhoto.arrayBuffer());
+          }
+
+        }
+        catch (e){
+          reject (e);
+        }
       })
     },
     makeToast(text) {
@@ -532,6 +567,16 @@ export default {
       }
 
       return false;
+    },
+    imgPreview: function() {
+      if (this.coverPhoto !== null){
+        this.convertFileToArrayBuffer().then(fileBuffer => {
+          var array = new Uint8Array(fileBuffer);
+          this.book.coverPhoto = Array.from(array);
+        });
+
+      }
+      return this.book.coverPhoto;
     }
   }
 }

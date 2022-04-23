@@ -172,6 +172,17 @@
             </multiselect>
           </b-col>
         </b-row>
+        <b-row class="mt-3">
+          <b-col cols="6" class="text-left"><label>Cover photo</label><br>
+            <div style="position: initial">
+              <b-form-file
+                  v-model="coverPhoto"
+                  placeholder="Choose a file or drop it here..."
+                  drop-placeholder="Drop file here..."
+              ></b-form-file>
+            </div>
+          </b-col>
+        </b-row>
         <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col cols="6" class="text-left">
             <label >Hard exemplars</label><br>
@@ -237,7 +248,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              :img="magazine.coverPhoto"
+              :img="imgPreview"
               format="Magazine"
               :publisher="magazine.publisher"
               :released="magazine.publicationDate"
@@ -353,7 +364,6 @@
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
     </b-modal>
-    {{ magazine }}
   </div>
 </template>
 <script>
@@ -385,6 +395,7 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
+      coverPhoto: null
     }
   },
   methods: {
@@ -414,7 +425,12 @@ export default {
         this.fields = response.data
       })
     },
-    submit(){
+    async submit(){
+      if (this.coverPhoto !== null){
+        var fileBuffer = await this.convertFileToArrayBuffer();
+        var array = new Uint8Array(fileBuffer);
+        this.magazine.coverPhoto = Array.from(array);
+      }
       ApiConnect.put('/magazines', this.magazine).then((response) =>{
         console.log(response)
         this.makeToast('magazine '+this.magazine.name+' has been updated successfully.')
@@ -422,7 +438,12 @@ export default {
         console.log(error)
       })
     },
-    create(){
+    async create(){
+      if (this.coverPhoto !== null){
+        var fileBuffer = await this.convertFileToArrayBuffer();
+        var array = new Uint8Array(fileBuffer);
+        this.magazine.coverPhoto = Array.from(array);
+      }
       ApiConnect.post('/magazines', this.magazine).then((response) =>{
         console.log(response)
         this.makeToast('Magazine '+this.magazine.name+' has been created successfully.')
@@ -431,6 +452,19 @@ export default {
       })
       ApiConnect.get('/magazines/').then(resp =>{
         this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))
+      })
+    },
+    convertFileToArrayBuffer(){
+      return new Promise((resolve, reject) => {
+        try {
+          if (this.coverPhoto !== null){
+            resolve(this.coverPhoto.arrayBuffer());
+          }
+
+        }
+        catch (e){
+          reject (e);
+        }
       })
     },
     makeToast(text) {
@@ -508,6 +542,16 @@ export default {
       }
 
       return false;
+    },
+     imgPreview: function() {
+      if (this.coverPhoto !== null){
+         this.convertFileToArrayBuffer().then(fileBuffer => {
+           var array = new Uint8Array(fileBuffer);
+           this.magazine.coverPhoto = Array.from(array);
+         });
+
+      }
+      return this.magazine.coverPhoto;
     }
   }
 }

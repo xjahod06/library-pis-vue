@@ -27,7 +27,6 @@ export default {
   },
   computed: {
     imageSrc: function (){
-      console.log(this.img);
       const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
       return "data:image/png;base64," + base64String;
     }

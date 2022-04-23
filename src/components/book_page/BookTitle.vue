@@ -85,7 +85,7 @@ import ApiConnect from "@/services/ApiConnect";
 export default {
   name: "BookTitle",
   props: {
-    img: String,
+    img: [],
     format: String,
     publisher: String,
     released: Date,

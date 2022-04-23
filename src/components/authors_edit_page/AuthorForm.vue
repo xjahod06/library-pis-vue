@@ -60,7 +60,7 @@
           </b-form-datepicker></b-col>
       </b-row>
         <b-row class="form-row">
-          <b-col cols="4" class="form-label">Pictre: </b-col>
+          <b-col cols="4" class="form-label">Picture: </b-col>
           <b-col cols="8">
             <b-form-file
                 v-model="photograph"
@@ -97,7 +97,6 @@ export default {
          var fileBuffer = await this.convertFileToArrayBuffer();
          var array = new Uint8Array(fileBuffer);
          this.form.photograph = Array.from(array);
-         console.log(this.form.photograph);
        }
 
        ApiConnect.put('authors/', this.form).then(response => {
