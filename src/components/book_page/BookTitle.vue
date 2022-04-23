@@ -6,7 +6,7 @@
       {{alertMessage}}</b-alert>
     <b-row>
       <b-col>
-        <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
+        <b-img class="book-cover" :src="imageSrc" alt="Book cover" ></b-img>
       </b-col>
     </b-row>
     <b-row class="text-left">
@@ -213,6 +213,10 @@ export default {
     loggedUser: function (){
       if (localStorage.getItem('role') === "\"READER\"") return true;
       return false;
+    },
+    imageSrc: function (){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
+      return "data:image/png;base64," + base64String;
     }
 
   }

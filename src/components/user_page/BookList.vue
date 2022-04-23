@@ -23,6 +23,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :img="val.electronicCopy.book.coverPhoto"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -35,6 +36,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :img="val.electronicCopy.book.coverPhoto"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -50,6 +52,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :img="val.electronicCopy.magazine.coverPhoto"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -62,6 +65,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :img="val.electronicCopy.magazine.coverPhoto"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -78,6 +82,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
+                                :img="val.exemplar.book.coverPhoto"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -89,6 +94,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
+                                :img="val.exemplar.book.coverPhoto"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>
@@ -103,6 +109,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
+                                :img="val.exemplar.magazine.coverPhoto"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -114,6 +121,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
+                                :img="val.exemplar.magazine.coverPhoto"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>
@@ -137,7 +145,7 @@
       data: {},
       borrowing: Boolean,
       electronic: Boolean,
-      user: {}
+      user: {},
     },
     components: {
       BookListItem

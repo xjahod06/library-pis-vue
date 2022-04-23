@@ -1,7 +1,7 @@
 <template>
   <b-col cols="2">
     <b-row>
-      <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
+      <b-img class="tile-img" :src="imageSrc" alt="Book cover" ></b-img>
     </b-row>
     <b-row class="text-left">
       <b-badge pill variant="warning">{{ type }}</b-badge>
@@ -34,7 +34,7 @@ name: 'MainTile',
     name: String,
     authors: {},
     genres: {},
-    img: String,
+    img: [],
     fields: {},
     id: Number,
     root: String,
@@ -66,6 +66,11 @@ name: 'MainTile',
     },
     genresToPrint() {
       return this.getNames(this.genres);
+    },
+
+    imageSrc: function (){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
+      return "data:image/png;base64," + base64String;
     }
   }
 }

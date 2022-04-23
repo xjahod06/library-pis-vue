@@ -101,7 +101,7 @@ export default {
        }
 
        ApiConnect.put('authors/', this.form).then(response => {
-         // window.location.reload();
+         window.location.reload();
        }).catch(error => {
        })
 

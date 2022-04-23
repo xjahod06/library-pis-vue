@@ -6,7 +6,7 @@
       <h1>Books:</h1>
       <b-row>
         <MainTile v-for="book in books"
-                  img="@/assets/logo.png"
+                  :img="book.coverPhoto"
                   :genres = book.genres
                   :type = book.language
                   :name = book.name

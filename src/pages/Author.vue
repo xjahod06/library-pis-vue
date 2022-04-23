@@ -17,7 +17,7 @@
       </b-row>
       <b-row>
         <MainTile v-for="load in books"
-                  img="@/assets/logo.png"
+                  :img="load.coverPhoto"
                   :genres = load.genres
                   :type = load.language
                   :name = load.name
@@ -32,7 +32,7 @@
       </b-row>
       <b-row>
         <MainTile v-for="load in magazines"
-                  img="@/assets/logo.png"
+                  :img="load.coverPhoto"
                   :fields = load.fields
                   :type = load.language
                   :name = load.name
@@ -57,7 +57,6 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 export default {
   name: "Author",
   components: {
-    NavbarFinal,
     MyFooter,
     MainTile,
     AuthorBigTile,

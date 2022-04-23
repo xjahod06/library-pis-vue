@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="2"><b-img class="book-user-img" src="@/assets/logo.png"></b-img>
+      <b-col cols="2"><b-img class="book-user-img" :src="imageSrc"></b-img>
         <div id="type">
           <h5>{{ type }}</h5>
         </div></b-col>
@@ -74,6 +74,7 @@ export default {
     id: Number,
     user: {},
     data: {},
+    img: [],
     electronic: Boolean
   },
   data() {
@@ -216,6 +217,10 @@ export default {
       }
       return result;
     },
+    imageSrc: function (){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
+      return "data:image/png;base64," + base64String;
+    }
   }
 }
 </script>

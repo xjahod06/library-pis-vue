@@ -255,7 +255,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              img="@/assets/logo.png"
+              :img="book.coverPhoto"
               format="book"
               :publisher="book.publisher"
               :released="new Date(book.publicationDate)"

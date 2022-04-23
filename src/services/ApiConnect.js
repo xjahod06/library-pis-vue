@@ -7,6 +7,6 @@ const headers = {
 
 export default axios.create({
     baseURL: serviceConfig.hostname,
-    timeout: 5000,
+    timeout: 15000,
     headers: headers
 })

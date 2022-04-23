@@ -15,7 +15,7 @@
 .book-user-img {
     width: 80px;
     height: 115px;
-    padding: 0;
+    padding-bottom: 10px;
 }
 
 .book-user-text {

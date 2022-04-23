@@ -5,7 +5,7 @@
      <h1>Authors:</h1>
      <b-row>
        <AuthorTile v-for="author in authors"
-                 img="@/assets/logo.png"
+                 :img="author.photograph"
                  :name = author.name
                  :surname = author.surname
                  :id = author.id
