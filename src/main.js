@@ -3,7 +3,6 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import router from './router'
-import store from './store'
 import axios from 'axios'
 import Home from "@/pages/Home";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -48,6 +47,5 @@ axios.interceptors.response.use(undefined, function (error) {
 new Vue({
   el: '#app',
   router,
-  store,
   render: h => h(Home)
 }).$mount('#app')
