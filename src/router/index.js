@@ -159,7 +159,7 @@ const Routes = [
     }
   },
   {
-    path : '/edit_author/:id', 
+    path : '/edit_authors/:id',
     component: EditAuthor,
     meta: {
       title: 'Edit specific author',

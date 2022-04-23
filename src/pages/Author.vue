@@ -12,10 +12,10 @@
         :img = "author.photograph"
       ></AuthorBigTile>
 
-      <b-row>
+      <b-row v-if="books.length > 0">
         <b-col><h1>Books</h1></b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="books.length > 0">
         <MainTile v-for="load in books"
                   :img="load.coverPhoto"
                   :genres = load.genres
@@ -27,10 +27,10 @@
         >
         </MainTile>
       </b-row>
-      <b-row>
+      <b-row v-if="magazines.length > 0">
         <b-col><h1>Magazines</h1></b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="magazines.length > 0">
         <MainTile v-for="load in magazines"
                   :img="load.coverPhoto"
                   :fields = load.fields
