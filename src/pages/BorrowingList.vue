@@ -37,6 +37,7 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import NavbarFinal from "@/components/main_page/NavbarFinal"
 import DataTable from "@/components/title_list/dataTable";
+import Vue from "vue";
 
 export default {
   name: "BorrowingList",
@@ -74,7 +75,8 @@ export default {
       data.forEach(function (borrowing){
         borrowing.reader_name = borrowing.reader.fullname
         borrowing.title = borrowing.exemplar.titleName;
-
+        borrowing.dateOfBorrowStart = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowStart))
+        borrowing.dateOfBorrowEnd = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowEnd))
       })
       return data;
     },
@@ -82,7 +84,8 @@ export default {
       data.forEach(function (borrowing){
         borrowing.reader_name = borrowing.reader.fullname
         borrowing.title = borrowing.electronicCopy.titleName;
-
+        borrowing.dateOfBorrowStart = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowStart))
+        borrowing.dateOfBorrowEnd = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowEnd))
       })
       return data;
     },

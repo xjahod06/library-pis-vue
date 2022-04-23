@@ -24,6 +24,7 @@
 import DataTable from "@/components/title_list/dataTable";
 import MyFooter from "@/components/main_page/MyFooter";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import Vue from "vue";
 
 export default {
   name: "ReservationList",
@@ -50,7 +51,10 @@ export default {
     parseReservations(data){
       data.forEach(reservation => {
         reservation.title = reservation.exemplar.titleName;
-        reservation.reader = reservation.reader.fullname})
+        reservation.reader = reservation.reader.fullname;
+        reservation.dateFrom = Vue.filter('formatDate')(new Date(reservation.dateFrom))
+        reservation.dateUntil = Vue.filter('formatDate')(new Date(reservation.dateUntil))
+      })
       return data
     },
   },

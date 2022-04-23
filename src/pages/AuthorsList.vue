@@ -24,6 +24,7 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import DataTable from "@/components/title_list/dataTable";
+import Vue from "vue";
 
 export default {
   name: "AuthorsList",
@@ -49,6 +50,8 @@ export default {
     parseAuthors(data){
       data.forEach(author => {
         author.name = author.name + ' ' + author.surname;
+        author.dateOfBirth = Vue.filter('formatDate')(new Date(author.dateOfBirth))
+        author.dateOfDeath = Vue.filter('formatDate')(new Date(author.dateOfDeath))
       })
       return data
     },
