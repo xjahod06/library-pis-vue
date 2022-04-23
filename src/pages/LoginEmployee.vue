@@ -86,9 +86,12 @@ export default {
       const data = {email: this.form.email, password: this.form.password};
       ApiConnect.post('/employees/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
+          if(response.status == 200)
+          {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
             this.$router.push('/employee_dashboard');
+          }
         }
       ).catch(error => {
         if (error.response) {
@@ -105,7 +108,6 @@ export default {
         {
           this.errMessage = "Error ocured on server side. Please, try again later."
         }
-        
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;

@@ -20,12 +20,15 @@
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id :key="load.id" />
           </b-nav-item-dropdown>
          <div v-if="isLoggedIn">
-            <span @click="logout">
+            <b-nav-item @click="logout">
               <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
-            </span>
-            <span v-show="isNotReader" @click="dashboard">
+            </b-nav-item>
+            <b-nav-item @click="home">
               <font-awesome-icon icon="fa-solid fa-house"/>
-            </span>
+            </b-nav-item>
+            <b-nav-item v-show="isReader" @click="userProfile">
+              <font-awesome-icon icon="fa-solid fa-user-circle"/>
+            </b-nav-item>
           </div>
           <div v-else>
             <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
@@ -49,8 +52,8 @@ import SearchBar from "@/components/main_page/SearchBar";
 import BookGenre from "@/components/main_page/BookGenre";
 import ApiConnect from "@/services/ApiConnect";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faDisplay, faHouse, faArrowRightFromBracket} from "@fortawesome/free-solid-svg-icons";
-library.add(faDisplay, faHouse, faArrowRightFromBracket)
+import { faDisplay, faHouse, faArrowRightFromBracket, faUserCircle} from "@fortawesome/free-solid-svg-icons";
+library.add(faDisplay, faHouse, faArrowRightFromBracket, faUserCircle)
 
 export default {
   name: 'NavBar',
@@ -60,7 +63,7 @@ export default {
   },
   computed: {
     isLoggedIn : function (){ return (localStorage.getItem('id') != null)},
-    isNotReader : function (){ return (localStorage.removeItem('role') != "\"READER\"")}
+    isReader : function (){return (localStorage.getItem('role') == "\"READER\"")}
   },
   methods : {
     logout (){
@@ -83,8 +86,15 @@ export default {
     userProfile() {
       this.$router.push('/readers/' + localStorage.getItem('id'));
     },
-    dashboard() {
-      this.$router.push('/employee_dashboard');
+    home() {
+      if(this.isReader)
+      {
+        this.$router.push('/');
+      }
+      else
+      {
+        this.$router.push('/employee_dashboard/');
+      }
     },
     deleteSearch(){
       this.search_input = '';

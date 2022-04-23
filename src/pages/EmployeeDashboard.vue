@@ -112,19 +112,19 @@
             </b-card>
           </router-link>
         </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+        </b-col>
         <b-col cols="4">
-          <router-link to="/edit_employees" class="router-link-dashboard">
+          <router-link to="/edit_employees/" class="router-link-dashboard">
           <b-card text-variant="white" class="pb-4">
             <b-card-title class="text-center text-light">
               Edit Employees
             </b-card-title>
-            <font-awesome-icon icon="fa-solid fa-user-tie" size="4x" v-b-modal.modal-preview type="button" class="preview"/>
+            <font-awesome-icon class="h1" style="width: 120px; height: 120px" icon="fa-solid fa-user-tie"/>
           </b-card>
           </router-link>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
         </b-col>
         <b-col>
         </b-col>

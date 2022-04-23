@@ -90,10 +90,12 @@ export default {
       const data = {email: this.form.email, password: this.form.password};
       ApiConnect.post('/readers/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
+          if (response)
+          {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
             this.$router.push('/');
-            return;
+          }
         }
       ).catch(error => {
         if (error.response) {
