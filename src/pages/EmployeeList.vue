@@ -2,6 +2,11 @@
   <div id="edit_employees">
     <NavbarFinal></NavbarFinal>
     <b-container>
+      <div align="right">
+        <b-button @click="newEmployee" v-b-tooltip.hover title="Create new employee">
+            <font-awesome-icon icon="fa-solid fa-user-plus"/>
+        </b-button>
+      </div>
       <b-pagination
           v-model="currentPage"
           :total-rows="rows"
@@ -39,10 +44,13 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faDisplay, faUserPlus} from "@fortawesome/free-solid-svg-icons";
+library.add(faDisplay, faUserPlus)
 
 export default {
   name: "EmployeeList",
-
+  
   components: {
     MyFooter,
     NavbarFinal
@@ -70,6 +78,9 @@ export default {
       }).catch(error => {
         this.errorMessage = "There was a problem while deleting an Employee.";
       })
+    },
+    newEmployee() {
+      this.$router.push("/register_employee");
     }
   },
 
