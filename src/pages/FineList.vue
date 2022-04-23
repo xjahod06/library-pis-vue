@@ -3,7 +3,7 @@
     <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Fines" active>
-        <data-table
+        <fine-table
             endpointGet="/fines/"
             endpointEdit="/edit_fines/"
             endpointDel="/fines/"
@@ -13,7 +13,7 @@
             :parse="parseFines"
             tableId="tableFines"
         >
-        </data-table>
+        </fine-table>
       </b-tab>
     </b-tabs>
     <MyFooter></MyFooter>
@@ -24,12 +24,12 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
-import DataTable from "@/components/title_list/dataTable";
+import fineTable from "@/components/title_list/fineTable";
 
 export default {
   name: "FineList",
   components: {
-    DataTable,
+    fineTable,
     MyFooter,
     NavbarFinal
   },
@@ -40,7 +40,7 @@ export default {
         {key: 'state', sortable: true},
         {key: 'borrowing_name', sortable: true},
         {key: 'reader', sortable: true},
-        {key: 'edit', sortable: false},
+        {key: 'pay', sortable: false},
         {key: 'delete', sortable: false},
 
       ],
