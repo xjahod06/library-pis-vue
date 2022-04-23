@@ -25,6 +25,7 @@ import EditBook from "@/pages/EditBook";
 import EditMagazine from "@/pages/EditMagazine";
 import NotFound from "@/pages/NotFound";
 import FineList from "@/pages/FineList";
+import ReservationList from "@/pages/ReservationList";
 
 Vue.use(VueRouter)
 
@@ -209,6 +210,14 @@ const Routes = [
     component: FineList,
     meta: {
       title: 'Edit Fines',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_reservations',
+    component: ReservationList,
+    meta: {
+      title: 'Edit Reservations',
       employee: true
     }
   },

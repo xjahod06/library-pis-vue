@@ -3,40 +3,17 @@
     <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Fines" active>
-        <b-container>
-          <b-pagination
-              v-model="currentPageFines"
-              :total-rows="rowsFines"
-              :per-page="perPageFines"
-              aria-controls="fineTable"
-              align="center"
-          ></b-pagination>
-          <b-table
-              id="fineTable"
-              ref="fineTable"
-              :per-page="perPageFines"
-              :current-page="currentPageFines"
-              :busy.sync="isBusyFines"
-              :items="myProviderFines"
-              :fields="fields"
-              :sort-by.sync="sortByFines"
-              :sort-desc.sync="sortDescFines"
-              striped hover
-          >
-            <template v-slot:cell(pay)="{ item }">
-                <b-button @click="payFine(item)" variant="success">PAY</b-button>
-            </template>
-            <template v-slot:cell(delete)="{ item }">
-              <b-button @click="deleteFine(item.id,item.name)" variant="danger">delete</b-button>
-            </template>
-            <template #table-busy>
-              <div class="text-center text-danger my-2">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong>Loading...</strong>
-              </div>
-            </template>
-          </b-table>
-        </b-container>
+        <data-table
+            endpointGet="/fines/"
+            endpointEdit="/edit_fines/"
+            endpointDel="/fines/"
+            type="fines"
+            :fields="fieldsFines"
+            sortBy="name"
+            :parse="parseFines"
+            tableId="tableFines"
+        >
+        </data-table>
       </b-tab>
     </b-tabs>
     <MyFooter></MyFooter>
@@ -47,56 +24,41 @@
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import DataTable from "@/components/title_list/dataTable";
 
 export default {
   name: "FineList",
   components: {
+    DataTable,
     MyFooter,
     NavbarFinal
   },
   data() {
     return{
-      fields: [
+      fieldsFines: [
         {key: 'amount', sortable: true},
         {key: 'state', sortable: true},
         {key: 'borrowing_name', sortable: true},
-        {key: 'pay', sortable: false},
+        {key: 'reader', sortable: true},
+        {key: 'edit', sortable: false},
         {key: 'delete', sortable: false},
 
       ],
-      sortByFines: 'isbn',
-      sortDescFines: false,
-      finesCount: 0,
-      isBusyFines: false,
-      perPageFines: 10,
-      currentPageFines: 1,
 
     }
   },
   methods: {
-    myProviderFines() {
-      console.log('provider')
-      this.isBusyFines = true
-      let promise = ApiConnect.get('/fines/');
-      return promise.then((data) =>{
-        const items = data.data
-        this.isBusyFines = false
-        this.finesCount = items.length
-        return (this.parseFines(items).slice((this.currentPageFines-1)*this.perPageFines,this.perPageFines*this.currentPageFines))
-      }).catch(error => {
-        this.isBusyFines = false
-        console.log('err',error)
-        return []
-      })
-    },
-
     parseFines(data){
+      data.forEach(fine => {
+        fine.borrowing_name = '';
+        fine.reader = ''})
       data.forEach(function (fine){
-        ApiConnect.get('/hard-copy-borrowings/'+fine.borrowingId).then((response) =>
-            fine.borrowing_name = response.data.exemplar.titleName,
+        ApiConnect.get('/hard-copy-borrowings/'+fine.borrowingId).then((response) => {
+          fine.borrowing_name = response.data.exemplar.titleName;
+          fine.reader = response.data.reader.fullname;
+            }
         )
       })
-      console.log(data)
       return data
     },
 
@@ -130,11 +92,6 @@ export default {
       })
     }
   },
-  computed: {
-    rowsFines() {
-      return this.finesCount;
-    },
-  }
 }
 </script>
 
