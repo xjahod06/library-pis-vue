@@ -113,6 +113,22 @@
           </router-link>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+        </b-col>
+        <b-col cols="4">
+          <router-link to="/edit_employees/" class="router-link-dashboard">
+          <b-card text-variant="white" class="pb-4">
+            <b-card-title class="text-center text-light">
+              Edit Employees
+            </b-card-title>
+            <font-awesome-icon class="h1" style="width: 120px; height: 120px" icon="fa-solid fa-user-tie"/>
+          </b-card>
+          </router-link>
+        </b-col>
+        <b-col>
+        </b-col>
+      </b-row>
     </b-container>
 
     <MyFooter></MyFooter>
@@ -124,6 +140,9 @@ import NavBar from "@/components/main_page/NavBar";
 import MyFooter from "@/components/main_page/MyFooter";
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import Vue from "vue";
+import { faDisplay, faUserTie} from "@fortawesome/free-solid-svg-icons";
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faDisplay, faUserTie);
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)

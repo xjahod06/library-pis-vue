@@ -26,6 +26,7 @@ import EditMagazine from "@/pages/EditMagazine";
 import NotFound from "@/pages/NotFound";
 import FineList from "@/pages/FineList";
 import ReservationList from "@/pages/ReservationList";
+import RegisterEmployee from "@/pages/RegisterEmployee";
 
 Vue.use(VueRouter)
 
@@ -182,6 +183,14 @@ const Routes = [
     }
   },
   {
+    path: '/register_employee',
+    component: RegisterEmployee,
+    meta: {
+      title: 'Register employee',
+      administrator: true
+    }
+  },
+  {
     path: '/employee_dashboard',
     component: EmployeeDashboard,
     meta: {
@@ -236,8 +245,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some((record)=>record.meta.requiresAuth)) {
-    console.log(localStorage.getItem('role'));
-    console.log("TEST");
     if((localStorage.getItem('id') === to.params.id || (localStorage.getItem('role') === "\"ADMIN\"" || localStorage.getItem('role') === "\"EMPLOYEE\""))) {
       next();
       return;
@@ -251,10 +258,16 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some((record)=>record.meta.guest)) {
-    console.log(from)
-    if(localStorage.getItem('id')) {
-      next("/readers/");
+  if (to.matched.some((record)=>record.meta.guest)) {
+    if (localStorage.getItem('id')) {
+      if (localStorage.getItme('role') == "\"EMPLOYEE\"" || localStorage.getItme('role') == "\"ADMIN\"")
+      {
+        next("/employee_dashboard")
+      }
+      else
+      {
+        next("/");
+      }
       return;
     }
     next();

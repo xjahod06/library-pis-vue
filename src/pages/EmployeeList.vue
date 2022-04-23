@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="edit_employees">
     <NavbarFinal></NavbarFinal>
     <b-container>
       <b-pagination
@@ -8,8 +8,9 @@
           :per-page="perPage"
           aria-controls="my-table"
           align="center"
-          class="mt-3"
-      ></b-pagination>
+          class="mt-3">
+        <span><b-btn @click="deleteEmployee(item)" variant="danger">Delete</b-btn></span>
+      </b-pagination>
 
       <b-table
           id="my-table"
