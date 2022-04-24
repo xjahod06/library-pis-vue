@@ -176,6 +176,7 @@
           <b-col cols="6" class="text-left"><label>Cover photo</label><br>
             <div style="position: initial">
               <b-form-file
+                  @input="coverPhotoInputChange"
                   v-model="coverPhoto"
                   placeholder="Choose a file or drop it here..."
                   drop-placeholder="Drop file here..."
@@ -248,7 +249,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              :img="imgPreview"
+              :img="magazine.coverPhoto"
               format="Magazine"
               :publisher="magazine.publisher"
               :released="magazine.publicationDate"
@@ -308,6 +309,20 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+        </b-form-group>
+        <b-form-group
+            id="electronicExampleFileInput-label"
+            label="File:"
+            label-for="electronicExampleFileInput"
+        >
+          <b-form-file
+              ref="electronicExampleFileInput"
+              id="electronicExampleFileInput"
+              v-model="electronicExampleFile"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+              required
+          ></b-form-file>
         </b-form-group>
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
       </b-form>
@@ -373,6 +388,7 @@ import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
+import * as file from "@/assets/js/file";
 
 export default {
   name: "EditBook",
@@ -395,7 +411,8 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
-      coverPhoto: null
+      coverPhoto: null,
+      electronicExampleFile: null
     }
   },
   methods: {
@@ -425,12 +442,18 @@ export default {
         this.fields = response.data
       })
     },
-    async submit(){
+    coverPhotoInputChange() {
       if (this.coverPhoto !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.magazine.coverPhoto = Array.from(array);
+        this.coverPhoto = file.renameFile(this.coverPhoto);
       }
+      let formData = new FormData();
+      formData.append('file', this.coverPhoto, this.coverPhoto.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        this.magazine.coverPhotoPath = filePath;
+      })
+    },
+    submit(){
       ApiConnect.put('/magazines', this.magazine).then((response) =>{
         console.log(response)
         this.makeToast('magazine '+this.magazine.name+' has been updated successfully.')
@@ -438,12 +461,7 @@ export default {
         console.log(error)
       })
     },
-    async create(){
-      if (this.coverPhoto !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.magazine.coverPhoto = Array.from(array);
-      }
+    create(){
       ApiConnect.post('/magazines', this.magazine).then((response) =>{
         console.log(response)
         this.makeToast('Magazine '+this.magazine.name+' has been created successfully.')
@@ -452,19 +470,6 @@ export default {
       })
       ApiConnect.get('/magazines/').then(resp =>{
         this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))
-      })
-    },
-    convertFileToArrayBuffer(){
-      return new Promise((resolve, reject) => {
-        try {
-          if (this.coverPhoto !== null){
-            resolve(this.coverPhoto.arrayBuffer());
-          }
-
-        }
-        catch (e){
-          reject (e);
-        }
       })
     },
     makeToast(text) {
@@ -484,13 +489,23 @@ export default {
       electronicExample.state = "ELECTRONIC";
       electronicExample.titleName = this.magazine.name;
       electronicExample.id = 0;
-      ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
-        console.log(response);
+      if (this.electronicExampleFile !== null){
+        this.electronicExampleFile = file.renameFile(this.electronicExampleFile);
+      }
+      let formData = new FormData();
+      formData.append('file', this.electronicExampleFile, this.electronicExampleFile.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        electronicExample.filePath = filePath;
+        ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
+          console.log(response);
+        })
+        this.makeToast('Electronic copy was added successfully.')
+        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+          this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
+        });
       })
-      this.makeToast('Electronic copy was added successfully.')
-      ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
-        this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
-      });
+
     },
     addHardExample() {
       this.$refs.addHardCopy.hide();
@@ -543,16 +558,6 @@ export default {
 
       return false;
     },
-     imgPreview: function() {
-      if (this.coverPhoto !== null){
-         this.convertFileToArrayBuffer().then(fileBuffer => {
-           var array = new Uint8Array(fileBuffer);
-           this.magazine.coverPhoto = Array.from(array);
-         });
-
-      }
-      return this.magazine.coverPhoto;
-    }
   }
 }
 </script>

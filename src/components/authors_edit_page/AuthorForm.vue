@@ -65,7 +65,7 @@
         <b-col>
           <b-form-group
               id="dateOfDeath-label"
-              label="Date of death*:"
+              label="Date of death:"
               label-for="dateOfDeath">
           <b-form-datepicker
               id="dateOfDeath"
@@ -74,10 +74,10 @@
               label-reset-button="Clear"
               v-model="form.dateOfDeath "
               type="date"
-              required
               placeholder="Enter date of death">
           </b-form-datepicker>
           </b-form-group>
+
         </b-col>
       </b-row>
 
@@ -90,6 +90,7 @@
           <b-form-file
               v-model="photograph"
               id="photograph"
+              @input="photographInputChange"
               ref="photograph"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
@@ -131,17 +132,17 @@
     </b-form>
 
     <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
-        <b-row>
+        <b-container>
             <AuthorBigTile
                 :name="form.name"
                 :surname="form.surname"
                 :birth="new Date(form.dateOfBirth)"
                 :death="new Date(form.dateOfDeath)"
                 :description="form.description"
-                :img = "imgPreview"
+                :img = "form.photographPath"
             ></AuthorBigTile>
 
-        </b-row>
+        </b-container>
 
     </b-modal>
 
@@ -151,6 +152,7 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
+import * as file from "@/assets/js/file";
 
 export default {
   name: 'AuthorForm',
@@ -168,25 +170,18 @@ export default {
     form: {},
   },
   methods: {
-     async onSubmit() {
-       if (this.photograph !== null){
-         var fileBuffer = await this.convertFileToArrayBuffer();
-         var array = new Uint8Array(fileBuffer);
-         this.form.photograph = Array.from(array);
-       }
-
-       ApiConnect.put('authors/', this.form).then(response => {
-         window.location.reload();
-       }).catch(error => {
-       })
-
-     },
-    async submit(){
+    photographInputChange() {
       if (this.photograph !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.form.photograph = Array.from(array);
+        this.photograph = file.renameFile(this.photograph);
       }
+      let formData = new FormData();
+      formData.append('file', this.photograph, this.photograph.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        this.form.photographPath = filePath;
+      })
+    },
+    submit(){
       ApiConnect.put('/authors', this.form).then((response) =>{
         console.log(response)
         this.makeToast('Author '+this.author.name+' ' + this.author.surname  +'has been updated successfully.')
@@ -194,12 +189,7 @@ export default {
         console.log(error)
       })
     },
-    async create(){
-      if (this.photograph !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.form.photograph = Array.from(array);
-      }
+    create(){
       ApiConnect.post('/authors', this.form).then((response) =>{
         this.makeToast('Author '+this.form.name+' ' + this.form.surname  +'has been created successfully.')
 
@@ -207,19 +197,6 @@ export default {
       })
       ApiConnect.get('/authors/').then(resp =>{
         this.$router.push('/edit_authors/'+(resp.data[resp.data.length -1].id+1))
-      })
-    },
-    convertFileToArrayBuffer(){
-      return new Promise((resolve, reject) => {
-        try {
-          if (this.photograph !== null){
-            resolve(this.photograph.arrayBuffer());
-          }
-
-        }
-        catch (e){
-          reject (e);
-        }
       })
     },
     makeToast(text) {
@@ -230,19 +207,6 @@ export default {
       })
     },
   },
-  computed: {
-    imgPreview: function() {
-      if (this.photograph !== null){
-        this.convertFileToArrayBuffer().then(fileBuffer => {
-          var array = new Uint8Array(fileBuffer);
-          this.form.photograph = Array.from(array);
-        });
-
-      }
-      return this.form.photograph;
-    }
-  },
-
 }
 </script>
 

@@ -194,6 +194,8 @@
           <b-col cols="6" class="text-left"><label>Cover photo</label><br>
             <div style="position: initial">
               <b-form-file
+                  id="coverPhotoInput"
+                  @input="coverPhotoInputChange"
                   v-model="coverPhoto"
                   placeholder="Choose a file or drop it here..."
                   drop-placeholder="Drop file here..."
@@ -266,7 +268,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              :img="imgPreview"
+              :img="book.coverPhotoPath"
               format="book"
               :publisher="book.publisher"
               :released="new Date(book.publicationDate)"
@@ -327,6 +329,21 @@
               required
           ></b-form-input>
         </b-form-group>
+        <b-form-group
+            id="electronicExampleFileInput-label"
+            label="File:"
+            label-for="electronicExampleFileInput"
+        >
+          <b-form-file
+              ref="electronicExampleFileInput"
+              id="electronicExampleFileInput"
+              v-model="electronicExampleFile"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+              required
+          ></b-form-file>
+        </b-form-group>
+
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
       </b-form>
     </b-modal>
@@ -418,6 +435,7 @@ export default {
       book: {},
       electronicExtension: 1,
       electronicPeriod: 42,
+      electronicExampleFile: null,
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
@@ -451,57 +469,32 @@ export default {
         this.genres = response.data
       })
     },
-    submit(){
+    coverPhotoInputChange() {
       if (this.coverPhoto !== null){
-        console.log(this.coverPhoto);
         this.coverPhoto = file.renameFile(this.coverPhoto);
-        console.log(this.coverPhoto);
-
       }
       let formData = new FormData();
-
       formData.append('file', this.coverPhoto, this.coverPhoto.name);
       ApiConnect.post('uploadFile', formData).then((response)=> {
-        console.log(response.data.fileDownloadUri);
         let filePath = response.data.fileDownloadUri;
         this.book.coverPhotoPath = filePath;
+      })
+    },
+    submit(){
         ApiConnect.put('/books', this.book).then((response) =>{
-          console.log(response)
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
         })
-      })
-
-
     },
-    async create(){
-      if (this.coverPhoto !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.book.coverPhoto = Array.from(array);
-      }
-      ApiConnect.post('/books', this.book).then((response) =>{
-        console.log(response)
-        this.makeToast('Book '+this.book.name+' has been created successfully.')
-      }).catch(error => {
-        console.log(error)
-      })
+    create(){
+        ApiConnect.post('/books', this.book).then((response) =>{
+          this.makeToast('Book '+this.book.name+' has been created successfully.')
+        }).catch(error => {
+          console.log(error)
+        })
       ApiConnect.get('/books/').then(resp =>{
         this.$router.push('/edit_books/'+(resp.data[resp.data.length -1].id+1))
-      })
-    },
-    convertFileToArrayBuffer(){
-      return new Promise((resolve, reject) => {
-        try {
-          if (this.coverPhoto !== null){
-            resolve(this.coverPhoto.arrayBuffer());
-          }
-
-        }
-        catch (e){
-          reject (e);
-        }
       })
     },
     makeToast(text) {
@@ -521,13 +514,22 @@ export default {
       electronicExample.state = "ELECTRONIC";
       electronicExample.titleName = this.book.name;
       electronicExample.id = 0;
-      ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
-        console.log(response);
+      if (this.electronicExampleFile !== null){
+        this.electronicExampleFile = file.renameFile(this.electronicExampleFile);
+      }
+      let formData = new FormData();
+      formData.append('file', this.electronicExampleFile, this.electronicExampleFile.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        electronicExample.filePath = filePath;
+        ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
+          console.log(response);
+        })
+        this.makeToast('Electronic copy was added successfully.')
+        ApiConnect.get('/books/'+this.book.id).then((response) =>{
+          this.book.electronicCopyExemplars = response.data.electronicCopyExemplars
+        });
       })
-      this.makeToast('Electronic copy was added successfully.')
-      ApiConnect.get('/books/'+this.book.id).then((response) =>{
-        this.book.electronicCopyExemplars = response.data.electronicCopyExemplars
-      });
     },
     addHardExample() {
       this.$refs.addHardCopy.hide();
@@ -580,16 +582,6 @@ export default {
       }
 
       return false;
-    },
-    imgPreview: function() {
-      if (this.coverPhoto !== null){
-        this.convertFileToArrayBuffer().then(fileBuffer => {
-          var array = new Uint8Array(fileBuffer);
-          this.book.coverPhoto = Array.from(array);
-        });
-
-      }
-      return this.book.coverPhoto;
     }
   }
 }

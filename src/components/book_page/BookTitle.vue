@@ -213,10 +213,6 @@ export default {
     loggedUser: function (){
       if (localStorage.getItem('role') === "\"READER\"") return true;
       return false;
-    },
-    imageSrc: function (){
-      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
-      return "data:image/png;base64," + base64String;
     }
 
   }

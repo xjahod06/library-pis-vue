@@ -33,7 +33,7 @@ export default {
         id: 0,
         name: '',
         surname: '',
-        photograph: null,
+        photographPath: null,
         dateOfBirth: '',
         dateOfDeath: '',
         books: [],
@@ -41,17 +41,16 @@ export default {
       },
     }
   },
-
   methods : {
     getAuthor() {
-      if (this.$route.params.id !== 0){
+      if (this.$route.params.id != 0){
         ApiConnect.get('authors/' + this.$route.params.id).then((response) =>
             {
               this.author = response.data;
               this.form.id = this.author.id;
               this.form.name = this.author.name;
               this.form.surname = this.author.surname;
-              this.form.photograph = this.author.photograph;
+              this.form.photographPath = this.author.photographPath;
               this.form.dateOfBirth = new Date(this.author.dateOfBirth);
               if (this.author.dateOfDeath) this.form.dateOfDeath = new Date(this.author.dateOfDeath);
               this.form.description = this.author.description;
