@@ -1,7 +1,7 @@
 <template>
   <b-col cols="2">
     <b-row>
-      <b-img class="tile-img" :src="imageSrc" alt="Book cover" ></b-img>
+      <b-img class="tile-img" :src="img" alt="Book cover" ></b-img>
     </b-row>
     <b-row class="text-left">
       <b-badge pill variant="warning">{{ type }}</b-badge>

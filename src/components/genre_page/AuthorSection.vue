@@ -10,7 +10,7 @@
 
       <b-row>
         <AuthorTile v-for="load in data.slice(0,6)"
-                    :img="load.photograph"
+                    :img="load.photographPath"
                     :name = load.name
                     :surname = load.surname
                     :id = "load.id"

@@ -6,7 +6,7 @@
       <h1>Books:</h1>
       <b-row>
         <MainTile v-for="book in books"
-                  :img="book.coverPhoto"
+                  :img="book.coverPhotoPath"
                   :genres = book.genres
                   :type = book.language
                   :name = book.name

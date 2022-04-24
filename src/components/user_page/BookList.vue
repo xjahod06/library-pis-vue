@@ -23,7 +23,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
-                                  :img="val.electronicCopy.book.coverPhoto"
+                                  :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -36,7 +36,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
-                                  :img="val.electronicCopy.book.coverPhoto"
+                                  :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -52,7 +52,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
-                                  :img="val.electronicCopy.magazine.coverPhoto"
+                                  :img="val.electronicCopy.magazine.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -65,7 +65,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
-                                  :img="val.electronicCopy.magazine.coverPhoto"
+                                  :img="val.electronicCopy.magazine.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -82,7 +82,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
-                                :img="val.exemplar.book.coverPhoto"
+                                :img="val.exemplar.book.coverPhotoPath"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -94,7 +94,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
-                                :img="val.exemplar.book.coverPhoto"
+                                :img="val.exemplar.book.coverPhotoPath"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>
@@ -109,7 +109,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
-                                :img="val.exemplar.magazine.coverPhoto"
+                                :img="val.exemplar.magazine.coverPhotoPath"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -121,7 +121,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
-                                :img="val.exemplar.magazine.coverPhoto"
+                                :img="val.exemplar.magazine.coverPhotoPath"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>

@@ -6,7 +6,7 @@
       {{alertMessage}}</b-alert>
     <b-row>
       <b-col>
-        <b-img class="book-cover" :src="imageSrc" alt="Book cover" ></b-img>
+        <b-img class="book-cover" :src="img" alt="Book cover" ></b-img>
       </b-col>
     </b-row>
     <b-row class="text-left">

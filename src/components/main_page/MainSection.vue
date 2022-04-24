@@ -17,7 +17,7 @@
                 :name = "load.name"
                 :authors = "load.authors"
                 :fields = "load.fields"
-                :img="load.coverPhoto"
+                :img="load.coverPhotoPath"
                 :id = "load.id"
                 :root = "root"
                 >

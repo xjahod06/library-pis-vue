@@ -385,12 +385,14 @@
   </div>
 </template>
 <script>
+
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
+import * as file from "../assets/js/file.js"
 
 Date.prototype.toDateInputValue = (function() {
   var local = new Date(this);
@@ -449,18 +451,29 @@ export default {
         this.genres = response.data
       })
     },
-    async submit(){
+    submit(){
       if (this.coverPhoto !== null){
-        var fileBuffer = await this.convertFileToArrayBuffer();
-        var array = new Uint8Array(fileBuffer);
-        this.book.coverPhoto = Array.from(array);
+        console.log(this.coverPhoto);
+        this.coverPhoto = file.renameFile(this.coverPhoto);
+        console.log(this.coverPhoto);
+
       }
-      ApiConnect.put('/books', this.book).then((response) =>{
-        console.log(response)
-        this.makeToast('Book '+this.book.name+' has been updated successfully.')
-      }).catch(error => {
-        console.log(error)
+      let formData = new FormData();
+
+      formData.append('file', this.coverPhoto, this.coverPhoto.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        console.log(response.data.fileDownloadUri);
+        let filePath = response.data.fileDownloadUri;
+        this.book.coverPhotoPath = filePath;
+        ApiConnect.put('/books', this.book).then((response) =>{
+          console.log(response)
+          this.makeToast('Book '+this.book.name+' has been updated successfully.')
+        }).catch(error => {
+          console.log(error)
+        })
       })
+
+
     },
     async create(){
       if (this.coverPhoto !== null){

@@ -2,7 +2,7 @@
   <div class="Author-big-tile">
     <b-row align-v="center">
       <b-col cols="3">
-        <b-img :src="imageSrc" class="author-img" alt="Author Photo" ></b-img>
+        <b-img :src="img" class="author-img" alt="Author Photo" ></b-img>
       </b-col>
       <b-col id="author-info" class="py-2 px-4 pt-4">
         <h1 class="text-left display-3 mb-0"> {{ name }} {{ surname }}</h1>

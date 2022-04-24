@@ -1,7 +1,7 @@
 <template>
   <b-col cols="2" class="mx-2">
     <b-row class="text-center">
-      <b-img class="tile-img" :src="imageSrc" alt="Author photo" ></b-img>
+      <b-img class="tile-img" :src="img" alt="Author photo" ></b-img>
     </b-row>
 
     <b-row class="text-left mt-2">

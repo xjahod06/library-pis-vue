@@ -9,7 +9,7 @@
         :birth="new Date(author.dateOfBirth)"
         :death="dateDeath"
         :description="author.description"
-        :img = "author.photograph"
+        :img = "author.photographPath"
       ></AuthorBigTile>
 
       <b-row v-if="books.length > 0">
@@ -17,7 +17,7 @@
       </b-row>
       <b-row v-if="books.length > 0">
         <MainTile v-for="load in books"
-                  :img="load.coverPhoto"
+                  :img="load.coverPhotoPath"
                   :genres = load.genres
                   :type = load.language
                   :name = load.name
@@ -32,7 +32,7 @@
       </b-row>
       <b-row v-if="magazines.length > 0">
         <MainTile v-for="load in magazines"
-                  :img="load.coverPhoto"
+                  :img="load.coverPhotoPath"
                   :fields = load.fields
                   :type = load.language
                   :name = load.name
