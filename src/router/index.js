@@ -183,10 +183,10 @@ const Routes = [
     }
   },
   {
-    path: '/register_employee',
+    path: '/register_employee/:id',
     component: RegisterEmployee,
     meta: {
-      title: 'Register employee',
+      title: 'Employee',
       administrator: true
     }
   },
