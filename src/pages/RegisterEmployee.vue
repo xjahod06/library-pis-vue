@@ -4,8 +4,11 @@
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
-          <b-col>
+          <b-col v-if="notRegistered">
             <h1 class="text-center">Register</h1>
+          </b-col>
+          <b-col v-else>
+            <h1 class="text-center">Edit</h1>
           </b-col>
         </b-row>
         <b-form @submit.prevent="submit" id="form-1" novalidate>
@@ -76,7 +79,7 @@
                     required
                 ></b-form-input>
                 <b-form-invalid-feedback>
-                  {{errMessage}}
+                  {{ errMessage }}
                 </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
@@ -203,13 +206,11 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col class="text-center">
-              <b-button @click="submit" variant="primary">Register</b-button>
+            <b-col class="text-center" v-if="notRegistered">
+              <b-button @click="register" variant="primary">Register</b-button>
             </b-col>
-          </b-row>
-          <b-row class="mt-3">
-            <b-col class="text-center">
-              Already have account? <router-link to="/login_employee">Login</router-link>
+            <b-col class="text-center" v-else>
+              <b-button @click="submit" variant="primary">Submit</b-button>
             </b-col>
           </b-row>
         </b-form>
@@ -224,15 +225,18 @@ import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
-
 export default {
   name: "RegisterEmployee",
   components: {
     NavbarFinal,
     MyFooter
   },
+  computed: {
+    notRegistered : function (){return this.$route.params.id == 0}
+  },
   data() {
     return {
+      employee: {},
       form: {
         id: 0,
         name: "",
@@ -251,7 +255,7 @@ export default {
     };
   },
   methods: {
-    submit(){
+    register(){
       if (this.form.password != this.form.confirmPassword){
         return;
       }
@@ -269,10 +273,50 @@ export default {
           }
           else
           {
-            this.errMessage = "Error ocured on server side. Please, try again later."  
+            this.errMessage = "This email address is already in use. Please, select another email."  
           }
         }
       })
+    },
+    submit() {
+      ApiConnect.put('/employees', JSON.stringify(this.form), ApiConnect.headers).then((response) =>
+      {
+        console.log(response);
+        if (response.data)
+        {
+          if (response.data.status != 200)
+          {
+            this.errMessage = "Update of informations did not save corectly. Try again.";
+          }
+        }
+      }
+      ).catch((error) =>
+      {
+        this.errMessage = "Update of informations did not save. Try again.";
+      })
+    },
+    getEmployee(){
+      if (this.$route.params.id !== 0){
+        ApiConnect.get('/employees/' + this.$route.params.id).then((response) =>
+            {
+              console.log(response);
+              this.employee = response.data;
+              this.form.id = this.employee.id;
+              this.form.name = this.employee.name;
+              this.form.surname = this.employee.surname;
+              this.form.email = this.employee.email;
+              this.form.city = this.employee.city;
+              this.form.street = this.employee.street;
+              this.form.houseNumber = this.employee.houseNumber;
+              this.form.postcode = this.employee.postcode;
+              this.form.role = this.employee.role;
+              this.selectedRole = this.employee.role == "EMPLOYEE" ? "Employee" : "Admin";
+              this.form.password = this.employee.password;
+              this.form.fullname = this.employee.fullname;
+            }
+        ).catch((error) =>
+        console.log(error))
+      }
     },
     Employee(){
         this.form.role = "EMPLOYEE";
@@ -280,6 +324,9 @@ export default {
     Admin(){
         this.form.role = "ADMIN";
     }
+  },
+  created(){
+    this.getEmployee();
   }
 }
 </script>

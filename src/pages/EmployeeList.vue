@@ -23,10 +23,7 @@
 <script>
 import MyFooter from "@/components/main_page/MyFooter";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faDisplay, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 import dataTable from "@/components/title_list/dataTable";
-library.add(faDisplay, faUserPlus)
 
 export default {
   name: "EmployeeList",
