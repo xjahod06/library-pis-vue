@@ -132,7 +132,6 @@
 
     <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
         <b-row>
-          <b-col cols="4">
             <AuthorBigTile
                 :name="form.name"
                 :surname="form.surname"
@@ -141,7 +140,6 @@
                 :description="form.description"
                 :img = "imgPreview"
             ></AuthorBigTile>
-          </b-col>
 
         </b-row>
 
