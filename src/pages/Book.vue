@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     hasElectronicCopy (){
-      if (this.book !== 'undefined'){
+      if (this.book){
         if (this.book.electronicCopyExemplars.length > 0	){
           return true;
         }

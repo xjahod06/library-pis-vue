@@ -1,7 +1,9 @@
 <template>
   <div id="book-title" class="text-center">
     <b-alert class="mt-2" v-model="showDismissibleAlertBorrow" variant="success" dismissible>
-      {{ alertMessage }}</b-alert>
+      {{ alertMessage }}. <br>
+    You can download it <a :href="filePath">here.</a>
+    </b-alert>
     <b-alert class="mt-2" v-model="showDismissibleAlertErrorBorrow" variant="danger" dismissible>
       {{alertMessage}}</b-alert>
     <b-row>
@@ -103,7 +105,8 @@ export default {
       alertMessage: '',
       dateFrom: new Date(),
       dateTo: new Date(),
-      selectedHardCopy: null
+      selectedHardCopy: null,
+      filePath: ''
     }
   },
   methods: {
@@ -163,13 +166,16 @@ export default {
       }
     },
 
-    borrowEcopy(){
+    async borrowEcopy(){
       if (confirm("Do you really want to borrow electronic copy?")){
         let borrowing = {};
         borrowing.id = 0;
         borrowing.dateOfBorrowStart = new Date();
 
         let ecopy = this.electronicCopies[0];
+        ApiConnect.get('electronic-copy-exemplars/' + ecopy.id).then((response) => {
+          this.filePath = response.data.filePath;
+        })
 
         let borrowPeriod = ecopy.borrowPeriod;
         let dateTo = new Date();
@@ -187,7 +193,7 @@ export default {
           this.showDismissibleAlertBorrow = true;
           this.showDismissibleAlertErrorBorrow = false;
           this.alertMessage = "Succesfully borrowed electronic copy.";
-          // todo link na stiahnutie suboru
+
         }).catch(error => {
           this.showDismissibleAlertError = true;
           this.showDismissibleAlert = false;

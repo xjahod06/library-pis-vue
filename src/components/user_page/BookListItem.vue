@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="2"><b-img class="book-user-img" :src="imageSrc"></b-img>
+      <b-col cols="2"><b-img class="book-user-img" :src="img"></b-img>
         <div id="type">
           <h5>{{ type }}</h5>
         </div></b-col>
@@ -10,7 +10,7 @@
         <b>From: </b>{{ dateFrom | formatDate }}<br>
         <b>To: </b>{{ dateTo | formatDate }}
         </p></b-col>
-      <b-col cols="2" style="padding-top: 20px;" align="left"><h3>
+      <b-col cols="2" v-if="state" style="padding-top: 20px;" align="left"><h3>
         <b-badge
             v-if="state === 'ACTIVE'"
             variant="success">{{state}}</b-badge>
@@ -21,7 +21,13 @@
                  variant="danger">{{state}}</b-badge>
         <b-badge v-if="state === 'RETURNED' || state === 'NOT_ACTIVE'"
                  variant="info" >{{state}}</b-badge>
-      </h3></b-col>
+      </h3>
+      </b-col>
+      <b-col cols="2" v-else-if="electronic && borrowing" style="padding-top: 20px;" align="left">
+        <h3 align="left" >
+          <a :href="filePath"><font-awesome-icon icon="fa-solid fa-2xl fa-file-arrow-down"  /></a>
+        </h3>
+      </b-col>
       <b-col class="mt-3">
 
         <div  v-if="canManipulate">
@@ -61,6 +67,9 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFileArrowDown} from "@fortawesome/free-solid-svg-icons";
+library.add(faFileArrowDown)
 
 export default {
   name: 'BookListItem',
@@ -72,9 +81,10 @@ export default {
     type: String,
     borrowing: Boolean,
     id: Number,
+    file: Number,
     user: {},
     data: {},
-    img: [],
+    img: String,
     electronic: Boolean
   },
   data() {
@@ -84,7 +94,16 @@ export default {
       successMessage: '',
       errorMessage: '',
       dateToNew: this.dateTo,
+      filePath: ''
     }
+  },
+  async mounted() {
+    if (this.file) {
+      ApiConnect.get('electronic-copy-exemplars/' + this.file).then( (result) => {
+        this.filePath = result.data.filePath;
+      })
+    }
+
   },
   methods: {
     deleteReservation(){
@@ -216,10 +235,6 @@ export default {
         result = false;
       }
       return result;
-    },
-    imageSrc: function (){
-      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
-      return "data:image/png;base64," + base64String;
     }
   }
 }

@@ -23,6 +23,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
                                   :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
@@ -36,6 +37,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
                                   :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
@@ -50,6 +52,7 @@
                                   :id="val.id"
                                   :user="user"
                                   :data="val"
+                                  :file="val.electronicCopy.id"
                                   :borrowing="true"
                                   :electronic="true"
                                   :img="val.electronicCopy.magazine.coverPhotoPath"
@@ -65,6 +68,7 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
                                   :img="val.electronicCopy.magazine.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
@@ -138,6 +142,7 @@
 
 <script>
   import BookListItem from "@/components/user_page/BookListItem";
+  import ApiConnect from "@/services/ApiConnect";
   export default {
     name: 'BookList',
     props: {
