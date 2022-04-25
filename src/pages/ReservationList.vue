@@ -9,7 +9,7 @@
             endpointDel="/reservations/"
             type="reservations"
             :fields="fieldsReservations"
-            sortBy="name"
+            sortBy="dateUntil"
             :parse="parseReservations"
             tableId="tableReservations"
         >

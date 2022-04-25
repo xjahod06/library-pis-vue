@@ -27,7 +27,6 @@
         :sort-by.sync="sortByVal"
         :sort-desc.sync="sortDesc"
         striped hover
-        @sort-changed="sortingChanged"
     >
       <template v-slot:cell(edit)="{ item }" v-if="endpointEdit !== undefined">
         <router-link :to="{path: endpointEdit+item.id}">

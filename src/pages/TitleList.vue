@@ -31,6 +31,7 @@
           <b-tab title="Fields">
             <dataTable
                 endpointGet="/fields/"
+                endpointEdit="/edit_fields/"
                 endpointDel="/fields/"
                 type="field"
                 :fields="fieldsFields"
@@ -43,6 +44,7 @@
           <b-tab title="Genres">
             <dataTable
                 endpointGet="/genres/"
+                endpointEdit="/edit_genres/"
                 endpointDel="/genres/"
                 type="genre"
                 :fields="fieldsGenres"
@@ -118,12 +120,14 @@ export default {
         {key: 'name', sortable: true},
         {key: 'authorCount', sortable: true},
         {key: 'magazinesCount', sortable: true},
+        {key: 'edit', sortable: false},
         {key: 'delete', sortable: false},
       ],
       fieldsGenres: [
         {key: 'name', sortable: true},
         {key: 'authorCount', sortable: true},
         {key: 'magazinesCount', sortable: true},
+        {key: 'edit', sortable: false},
         {key: 'delete', sortable: false},
       ]
 
