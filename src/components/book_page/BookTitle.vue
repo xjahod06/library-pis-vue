@@ -16,6 +16,9 @@
         <b-button @click="showModalReservation" variant="info" class="mr-2"> Reserve </b-button>
         <b-button v-if="hasElectronicCopy" @click="borrowEcopy" variant="success">Borrow electronic copy</b-button>
       </b-col>
+      <b-col v-if="loggedEmployee && id !== undefined" offset-md="2">
+        <router-link :to="{path: '/edit_books/'+id}"><b-button variant="secondary" class="mr-2"> Edit </b-button></router-link>
+      </b-col>
     </b-row>
 
     <!--MODAL RESERVATION--->
@@ -94,7 +97,8 @@ export default {
     pages: Number,
     hasElectronicCopy: Boolean,
     hardCopies: [],
-    electronicCopies: []
+    electronicCopies: [],
+    id: Number,
   },
   data (){
     return {
@@ -218,6 +222,10 @@ export default {
     },
     loggedUser: function (){
       if (localStorage.getItem('role') === "\"READER\"") return true;
+      return false;
+    },
+    loggedEmployee: function (){
+      if (localStorage.getItem('role') == "\"EMPLOYEE\"" || localStorage.getItem('role') == "\"ADMIN\"") return true;
       return false;
     }
 

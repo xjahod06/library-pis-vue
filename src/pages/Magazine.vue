@@ -13,6 +13,7 @@
               :hasElectronicCopy="hasElectronicCopy"
               :hardCopies="magazine.hardCopyExemplars"
               :electronicCopies="magazine.electronicCopyExemplars"
+              :id="book.id"
           >
 
           </BookTitle>

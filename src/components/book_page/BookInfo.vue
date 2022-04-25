@@ -8,12 +8,19 @@
 
     <b-row class="text-left">
       <b-col>
-        <h2>By {{ authorsToPrint }}</h2>
+        <h2>
+          By
+          <span v-for="author in authors">
+            <router-link :to="{path: '/authors/'+author.id}" class="author-link">{{author.name}} {{author.surname}}</router-link>&nbsp;
+          </span>
+        </h2>
       </b-col>
     </b-row>
     <b-row class="text-right">
       <b-col>
-        {{ genresToPrint }}
+        <span v-for="genre in genres">
+            <router-link :to="{path: '/genre/'+genre.id}" class="author-link">{{genre.name}}</router-link>&nbsp;
+          </span>
       </b-col>
     </b-row>
 
@@ -92,6 +99,13 @@ h5{
 }
 small{
   color: #cbcbcb !important;
+}
+.author-link{
+  color: inherit;
+  text-decoration: underline;
+}
+.author-link:hover{
+  color: #6a6a6a;
 }
 
 </style>

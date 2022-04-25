@@ -13,6 +13,7 @@
             :hasElectronicCopy="hasElectronicCopy"
             :hardCopies="book.hardCopyExemplars"
             :electronicCopies="book.electronicCopyExemplars"
+            :id="book.id"
           >
 
           </BookTitle>

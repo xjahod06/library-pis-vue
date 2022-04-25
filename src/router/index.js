@@ -287,7 +287,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record)=>record.meta.guest)) {
     if (localStorage.getItem('id')) {
-      if (localStorage.getItme('role') == "\"EMPLOYEE\"" || localStorage.getItme('role') == "\"ADMIN\"")
+      if (localStorage.getItem('role') == "\"EMPLOYEE\"" || localStorage.getItem('role') == "\"ADMIN\"")
       {
         next("/employee_dashboard")
       }
