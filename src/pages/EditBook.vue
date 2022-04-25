@@ -89,7 +89,7 @@
               <b-form-input
                   ref="publicationDate"
                   id="publicationDate"
-                  v-model="new Date(book.publicationDate).toDateInputValue()"
+                  v-model="book.publicationDate"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
@@ -462,7 +462,9 @@ export default {
     getBook(id){
       ApiConnect.get('/books/'+id).then((response) =>{
         this.book = response.data
+        this.book.publicationDate = new Date(this.book.publicationDate).toDateInputValue()
       });
+
     },
     getGenres(){
       ApiConnect.get('/genres/').then((response) =>{

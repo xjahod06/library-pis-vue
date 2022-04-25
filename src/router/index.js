@@ -29,6 +29,7 @@ import ReservationList from "@/pages/ReservationList";
 import RegisterEmployee from "@/pages/RegisterEmployee";
 import EditGenre from "@/pages/EditGenre";
 import EditField from "@/pages/EditField";
+import EditReservation from "@/pages/EditReservation";
 
 Vue.use(VueRouter)
 
@@ -229,6 +230,14 @@ const Routes = [
     component: ReservationList,
     meta: {
       title: 'Edit Reservations',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_reservations/:id',
+    component: EditReservation,
+    meta: {
+      title: 'Edit Reservation',
       employee: true
     }
   },
