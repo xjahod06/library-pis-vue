@@ -17,10 +17,15 @@
       </b-col>
     </b-row>
     <b-row class="text-right">
-      <b-col>
+      <b-col v-if="genres !== undefined">
         <span v-for="genre in genres">
-            <router-link :to="{path: '/genre/'+genre.id}" class="author-link">{{genre.name}}</router-link>&nbsp;
-          </span>
+          <router-link :to="{path: '/genre/'+genre.id}" class="author-link">{{genre.name}}</router-link>&nbsp;
+        </span>
+      </b-col>
+      <b-col v-if="fields !== undefined">
+        <span v-for="field in fields">
+          <router-link :to="{path: '/field/'+field.id}" class="author-link">{{field.name}}</router-link>&nbsp;
+        </span>
       </b-col>
     </b-row>
 
@@ -53,34 +58,9 @@ export default {
     authors: {},
     isbn: String,
     issn: Number,
-    genres: {},
+    genres: [],
+    fields: [],
     description: String,
-  },
-  methods: {
-    getNames(data){
-      let dataParsed = JSON.parse(JSON.stringify(data));
-      let string = "";
-      dataParsed.forEach((dato) => string += "&" + dato.name);
-      string = string.replace('&','')
-      string = string.replaceAll("&",", ")
-      return string;
-    },
-    getAuthors(data){
-      let dataParsed = JSON.parse(JSON.stringify(data));
-      let string = "";
-      dataParsed.forEach((dato) => string += "&" + dato.surname + " " + dato.name);
-      string = string.replace('&','')
-      string = string.replaceAll("&",", ")
-      return string;
-    }
-  },
-  computed: {
-    authorsToPrint() {
-      return this.getAuthors(this.authors);
-    },
-    genresToPrint() {
-      return this.getNames(this.genres);
-    }
   }
 }
 </script>

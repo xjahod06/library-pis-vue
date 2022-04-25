@@ -13,7 +13,7 @@
               :hasElectronicCopy="hasElectronicCopy"
               :hardCopies="magazine.hardCopyExemplars"
               :electronicCopies="magazine.electronicCopyExemplars"
-              :id="book.id"
+              :id="magazine.id"
           >
 
           </BookTitle>
@@ -24,7 +24,7 @@
               :publicationNumber="magazine.number + '/' + magazine.pubcationYear"
               :authors="magazine.authors"
               :issn="magazine.issn"
-              :genres="magazine.fields"
+              :fields="magazine.fields"
               :description="magazine.description"
           >
 

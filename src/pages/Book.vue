@@ -6,7 +6,7 @@
         <b-col cols="4">
           <BookTitle
             :img="book.coverPhotoPath"
-            format="book"
+            format="Book"
             :publisher="book.publisher"
             :released="new Date(book.publicationDate)"
             :pages="book.pages"

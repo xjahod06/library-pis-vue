@@ -17,7 +17,8 @@
         <b-button v-if="hasElectronicCopy" @click="borrowEcopy" variant="success">Borrow electronic copy</b-button>
       </b-col>
       <b-col v-if="loggedEmployee && id !== undefined" offset-md="2">
-        <router-link :to="{path: '/edit_books/'+id}"><b-button variant="secondary" class="mr-2"> Edit </b-button></router-link>
+        <router-link :to="{path: '/edit_books/'+id}"><b-button variant="secondary" class="mr-2" v-if="format === 'Book' "> Edit </b-button></router-link>
+        <router-link :to="{path: '/edit_magazines/'+id}"><b-button variant="secondary" class="mr-2" v-if="format === 'Magazine' "> Edit </b-button></router-link>
       </b-col>
     </b-row>
 
