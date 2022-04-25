@@ -4,7 +4,7 @@
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
-    <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
+    <MainSection name="Books" :fullPage="'/books/?genres='+this.genre_name.name" :data="books" root="/books/"></MainSection>
     <AuthorSection name="Authors"
                    :data="authors"
                    root="/authors/"

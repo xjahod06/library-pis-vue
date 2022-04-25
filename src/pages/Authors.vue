@@ -2,7 +2,7 @@
  <div>
    <NavbarFinal></NavbarFinal>
    <b-container>
-     <h1>Authors:</h1>
+     <h1><span v-if="this.$route.query.genres !== undefined">{{ this.$route.query.genres }}</span> Authors:</h1>
      <b-row>
        <AuthorTile v-for="author in authors"
                  :img="author.photographPath"
@@ -36,7 +36,13 @@ export default {
 
   methods: {
     getAuthors(){
-      ApiConnect.get('authors/').then((response) =>
+      let params;
+      if(this.$route.query.genres !== undefined) {
+        params = {params: {"genres": this.$route.query.genres}}
+      }else{
+        params = {params: {}}
+      }
+      ApiConnect.get('authors/',params).then((response) =>
           this.authors = response.data,
       )}
   },
