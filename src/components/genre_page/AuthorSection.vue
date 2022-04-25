@@ -10,11 +10,11 @@
 
       <b-row>
         <AuthorTile v-for="load in data.slice(0,6)"
-                    img="@/assets/logo.png"
+                    :img="load.photographPath"
                     :name = load.name
                     :surname = load.surname
-                    :id = load.id
-                    :dateOfBirth = load.dateOfBirth
+                    :id = "load.id"
+                    :dateOfBirth = "new Date(load.dateOfBirth)"
         >
         </AuthorTile>
       </b-row>

@@ -2,7 +2,7 @@
   <div>
     <b-row>
       <b-col v-if="type !== 'genre' && type !== 'field'" cols="2">
-        <b-img class="tile-img" src="@/assets/logo.png" alt="Book cover" ></b-img>
+        <b-img class="tile-img" :src="img" alt="Image" ></b-img>
       </b-col>
 
       <b-col v-if="type === 'book' || type ==='magazine'" cols="5"> <!-- book/magazine -->
@@ -61,7 +61,14 @@ export default {
     item: {},
     type: String,
     id: Number,
+    img: String,
     root: String
+  },
+  computed: {
+    imageSrc: function (){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
+      return "data:image/png;base64," + base64String;
+    }
   }
 }
 </script>

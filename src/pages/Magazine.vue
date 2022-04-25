@@ -5,7 +5,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              img="@/assets/logo.png"
+              :img="magazine.coverPhotoPath"
               format="Magazine"
               :publisher="magazine.publisher"
               :released="magazine.publicationDate"

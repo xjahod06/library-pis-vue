@@ -10,6 +10,7 @@
               <div v-for="book in books" :key="'book' + book.id">
                 <SearchItem :item="book"
                             :id="book.id"
+                            :img="book.coverPhotoPath"
                             root="/books/"
                             type="book">
                 </SearchItem>
@@ -19,6 +20,7 @@
             <div v-for="magazine in magazines" :key="'magazine' + magazine.id">
               <SearchItem :item="magazine"
                           :id="magazine.id"
+                          :img="magazine.coverPhotoPath"
                           root="/magazines/"
                           type="magazine">
               </SearchItem>
@@ -27,6 +29,7 @@
           <b-tab v-if="authors.length >0" title="Authors"><b-card-text>
             <div v-for="author in authors" :key="'author' + author.id">
               <SearchItem :item="author"
+                          :img="author.photographPath"
                           :id="author.id"
                           root="/authors/"
                           type="author">

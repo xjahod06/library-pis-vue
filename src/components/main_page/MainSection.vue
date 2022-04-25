@@ -12,14 +12,14 @@
 
     <b-row>
       <MainTile v-for="load in data.slice(0,6)" :key="load.id"
-          img="@/assets/logo.png"
-                :genres = load.genres
-                :type = load.language
-                :name = load.name
-                :authors = load.authors
-                :fields = load.fields
-                :id = load.id
-                :root = root
+                :genres = "load.genres"
+                :type = "load.language"
+                :name = "load.name"
+                :authors = "load.authors"
+                :fields = "load.fields"
+                :img="load.coverPhotoPath"
+                :id = "load.id"
+                :root = "root"
                 >
       </MainTile>
     </b-row>

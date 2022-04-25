@@ -9,15 +9,15 @@
         :birth="new Date(author.dateOfBirth)"
         :death="dateDeath"
         :description="author.description"
-        :img = "author.photograph"
+        :img = "author.photographPath"
       ></AuthorBigTile>
 
-      <b-row>
+      <b-row v-if="books.length > 0">
         <b-col><h1>Books</h1></b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="books.length > 0">
         <MainTile v-for="load in books"
-                  img="@/assets/logo.png"
+                  :img="load.coverPhotoPath"
                   :genres = load.genres
                   :type = load.language
                   :name = load.name
@@ -27,12 +27,12 @@
         >
         </MainTile>
       </b-row>
-      <b-row>
+      <b-row v-if="magazines.length > 0">
         <b-col><h1>Magazines</h1></b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="magazines.length > 0">
         <MainTile v-for="load in magazines"
-                  img="@/assets/logo.png"
+                  :img="load.coverPhotoPath"
                   :fields = load.fields
                   :type = load.language
                   :name = load.name
@@ -57,7 +57,6 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 export default {
   name: "Author",
   components: {
-    NavbarFinal,
     MyFooter,
     MainTile,
     AuthorBigTile,

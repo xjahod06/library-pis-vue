@@ -1,6 +1,6 @@
 <template>
   <div id="login_employee">
-    <NavbarFinal><h3></h3></NavbarFinal>
+    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
         <b-row><h3 class="text-center" style="font-color: black">We see. You are our colleague.</h3></b-row>
@@ -86,19 +86,28 @@ export default {
       const data = {email: this.form.email, password: this.form.password};
       ApiConnect.post('/employees/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
+          if(response.status == 200)
+          {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
-            console.log(response);
-            this.$router.push('/');
+            this.$router.push('/employee_dashboard');
+          }
         }
       ).catch(error => {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          if (error.response.status == 404)
+          {
+            this.errMessage = "Employee with this credentials was not found."
+          }
+          else
+          {
+            this.errMessage = "Error ocured on server side. Please, try again later."  
+          }
         }
-
-        this.errMessage = "No employee with these credentials was found. Try again.";
+        else
+        {
+          this.errMessage = "Error ocured on server side. Please, try again later."
+        }
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;

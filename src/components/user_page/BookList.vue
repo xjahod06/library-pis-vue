@@ -23,6 +23,8 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
+                                  :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -35,6 +37,8 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
+                                  :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -48,8 +52,10 @@
                                   :id="val.id"
                                   :user="user"
                                   :data="val"
+                                  :file="val.electronicCopy.id"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :img="val.electronicCopy.magazine.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
                                   :dateTo="new Date(val.dateOfBorrowEnd)"
                                   :state="val.state"></BookListItem>
@@ -62,6 +68,8 @@
                                   :data="val"
                                   :borrowing="false"
                                   :electronic="true"
+                                  :file="val.electronicCopy.id"
+                                  :img="val.electronicCopy.magazine.coverPhotoPath"
                                   :dateFrom="new Date(val.dateFrom)"
                                   :dateTo="new Date(val.dateUntil)"
                                   :state="val.state"></BookListItem>
@@ -78,6 +86,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
+                                :img="val.exemplar.book.coverPhotoPath"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -89,6 +98,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
+                                :img="val.exemplar.book.coverPhotoPath"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>
@@ -103,6 +113,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
+                                :img="val.exemplar.magazine.coverPhotoPath"
                                 :dateFrom="new Date(val.dateOfBorrowStart)"
                                 :dateTo="new Date(val.dateOfBorrowEnd)"
                                 :state="val.state"></BookListItem>
@@ -114,6 +125,7 @@
                                 :user="user"
                                 :data="val"
                                 :borrowing="false"
+                                :img="val.exemplar.magazine.coverPhotoPath"
                                 :dateFrom="new Date(val.dateFrom)"
                                 :dateTo="new Date(val.dateUntil)"
                                 :state="val.state"></BookListItem>
@@ -130,6 +142,7 @@
 
 <script>
   import BookListItem from "@/components/user_page/BookListItem";
+  import ApiConnect from "@/services/ApiConnect";
   export default {
     name: 'BookList',
     props: {
@@ -137,7 +150,7 @@
       data: {},
       borrowing: Boolean,
       electronic: Boolean,
-      user: {}
+      user: {},
     },
     components: {
       BookListItem

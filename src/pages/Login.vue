@@ -40,7 +40,7 @@
                 required
             ></b-form-input>
             <b-form-invalid-feedback>
-              {{errMessage}}
+              {{ errMessage }}
             </b-form-invalid-feedback>
           </b-form-group>
           <b-row>
@@ -90,21 +90,29 @@ export default {
       const data = {email: this.form.email, password: this.form.password};
       ApiConnect.post('/readers/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
-          if (response.status == 200) 
+          if (response)
           {
             localStorage.setItem('id', JSON.stringify(response.data.id));
             localStorage.setItem('role', JSON.stringify(response.data.role));
             this.$router.push('/');
-            return;
-          }
-          else
-          {
-            this.errMessage = "Incorect credentials. Try again.";
           }
         }
       ).catch(error => {
-        console.log(error);
-        this.errMessage = "Another error occured. We are sorry for complications."
+        if (error.response) {
+          if (error.response.status == 404)
+          {
+            this.errMessage = "User with this credentials was not found."
+          }
+          else
+          {
+            this.errMessage = "Error ocured on server side. Please, try log in later."  
+          }
+        }
+        else
+        {
+          this.errMessage = "Error ocured on server side. Please, try log in later."
+        }
+        
         this.$refs['password'].state = false;
         this.$refs['password'].value = "";
         this.$refs['email'].state = false;

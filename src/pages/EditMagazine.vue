@@ -172,6 +172,18 @@
             </multiselect>
           </b-col>
         </b-row>
+        <b-row class="mt-3">
+          <b-col cols="6" class="text-left"><label>Cover photo</label><br>
+            <div style="position: initial">
+              <b-form-file
+                  @input="coverPhotoInputChange"
+                  v-model="coverPhoto"
+                  placeholder="Choose a file or drop it here..."
+                  drop-placeholder="Drop file here..."
+              ></b-form-file>
+            </div>
+          </b-col>
+        </b-row>
         <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col cols="6" class="text-left">
             <label >Hard exemplars</label><br>
@@ -237,7 +249,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-              img="@/assets/logo.png"
+              :img="magazine.coverPhoto"
               format="Magazine"
               :publisher="magazine.publisher"
               :released="magazine.publicationDate"
@@ -298,6 +310,20 @@
               required
           ></b-form-input>
         </b-form-group>
+        <b-form-group
+            id="electronicExampleFileInput-label"
+            label="File:"
+            label-for="electronicExampleFileInput"
+        >
+          <b-form-file
+              ref="electronicExampleFileInput"
+              id="electronicExampleFileInput"
+              v-model="electronicExampleFile"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+              required
+          ></b-form-file>
+        </b-form-group>
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
       </b-form>
     </b-modal>
@@ -353,7 +379,6 @@
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
     </b-modal>
-    {{ magazine }}
   </div>
 </template>
 <script>
@@ -363,6 +388,7 @@ import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
+import * as file from "@/assets/js/file";
 
 export default {
   name: "EditBook",
@@ -385,6 +411,8 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
+      coverPhoto: null,
+      electronicExampleFile: null
     }
   },
   methods: {
@@ -412,6 +440,17 @@ export default {
     getFields(){
       ApiConnect.get('/fields/').then((response) =>{
         this.fields = response.data
+      })
+    },
+    coverPhotoInputChange() {
+      if (this.coverPhoto !== null){
+        this.coverPhoto = file.renameFile(this.coverPhoto);
+      }
+      let formData = new FormData();
+      formData.append('file', this.coverPhoto, this.coverPhoto.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        this.magazine.coverPhotoPath = filePath;
       })
     },
     submit(){
@@ -450,13 +489,23 @@ export default {
       electronicExample.state = "ELECTRONIC";
       electronicExample.titleName = this.magazine.name;
       electronicExample.id = 0;
-      ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
-        console.log(response);
+      if (this.electronicExampleFile !== null){
+        this.electronicExampleFile = file.renameFile(this.electronicExampleFile);
+      }
+      let formData = new FormData();
+      formData.append('file', this.electronicExampleFile, this.electronicExampleFile.name);
+      ApiConnect.post('uploadFile', formData).then((response)=> {
+        let filePath = response.data.fileDownloadUri;
+        electronicExample.filePath = filePath;
+        ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
+          console.log(response);
+        })
+        this.makeToast('Electronic copy was added successfully.')
+        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+          this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
+        });
       })
-      this.makeToast('Electronic copy was added successfully.')
-      ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
-        this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
-      });
+
     },
     addHardExample() {
       this.$refs.addHardCopy.hide();
@@ -508,7 +557,7 @@ export default {
       }
 
       return false;
-    }
+    },
   }
 }
 </script>

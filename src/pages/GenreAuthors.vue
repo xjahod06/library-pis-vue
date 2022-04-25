@@ -5,11 +5,11 @@
       <h1>Authors:</h1>
       <b-row>
         <AuthorTile v-for="author in authors"
-                    img="@/assets/logo.png"
+                    :img="author.photographPath"
                     :name = author.name
                     :surname = author.surname
                     :id = author.id
-                    :date-of-birth = author.dateOfBirth
+                    :dateOfBirth ="new Date(author.dateOfBirth)"
         >
 
         </AuthorTile>

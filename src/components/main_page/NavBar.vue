@@ -19,20 +19,22 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id :key="load.id" />
           </b-nav-item-dropdown>
-         <span v-if="isLoggedIn" class="d-flex ml-3">
-              <b-iconstack @click="logout" font-scale="3" animation="" type="button">
-                <b-icon stacked icon="square" variant="white" scale="0.50" shift-h="-4"></b-icon>
-                <b-icon stacked icon="arrow-right" variant="white" scale="0.60" ></b-icon>
-              </b-iconstack>
-              <b-iconstack @click="userProfile" font-scale="3" animation="" type="button">
-                <b-icon stacked icon="person-fill" variant="white" scale="0.50"></b-icon>
-              </b-iconstack>
-          </span>
-          <span v-else class="d-flex">
+         <div v-if="isLoggedIn" class="d-flex">
+            <b-nav-item @click="logout">
+              <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
+            </b-nav-item>
+            <b-nav-item @click="home">
+              <font-awesome-icon icon="fa-solid fa-house"/>
+            </b-nav-item>
+            <b-nav-item v-show="isReader" @click="userProfile">
+              <font-awesome-icon icon="fa-solid fa-user-circle"/>
+            </b-nav-item>
+          </div>
+          <div v-else>
             <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
             <b-nav-item :to="{path: '/register/'}">Register</b-nav-item>
             <b-nav-item :to="{path: '/login_employee'}">Employees</b-nav-item>
-          </span>
+          </div>
         </b-navbar-nav>
 
       </b-collapse>
@@ -49,6 +51,9 @@
 import SearchBar from "@/components/main_page/SearchBar";
 import BookGenre from "@/components/main_page/BookGenre";
 import ApiConnect from "@/services/ApiConnect";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faDisplay, faHouse, faArrowRightFromBracket, faUserCircle} from "@fortawesome/free-solid-svg-icons";
+library.add(faDisplay, faHouse, faArrowRightFromBracket, faUserCircle)
 
 export default {
   name: 'NavBar',
@@ -57,14 +62,22 @@ export default {
     BookGenre
   },
   computed: {
-    isLoggedIn : function (){ return (localStorage.getItem('id') != null)}
+    isLoggedIn : function (){ return (localStorage.getItem('id') != null)},
+    isReader : function (){return (localStorage.getItem('role') == "\"READER\"")}
   },
   methods : {
     logout (){
+      let who = localStorage.getItem('role');
       localStorage.removeItem('id');
       localStorage.removeItem('role');
-      console.log(localStorage.getItem('id'), localStorage.getItem('role'));
-      this.$router.push('/login')
+      if (who == "\"READER\"")
+      {
+        this.$router.push('/login')
+      }
+      else
+      {
+        this.$router.push('/login_employee')
+      }
     },
     getGenres(){
       ApiConnect.get('genres/').then((response) =>
@@ -72,6 +85,16 @@ export default {
       )},
     userProfile() {
       this.$router.push('/readers/' + localStorage.getItem('id'));
+    },
+    home() {
+      if(this.isReader)
+      {
+        this.$router.push('/');
+      }
+      else
+      {
+        this.$router.push('/employee_dashboard/');
+      }
     },
     deleteSearch(){
       this.search_input = '';

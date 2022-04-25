@@ -3,7 +3,6 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import router from './router'
-import store from './store'
 import axios from 'axios'
 import Home from "@/pages/Home";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -13,12 +12,12 @@ import moment from 'moment';
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faDisplay,faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faDisplay,faPenToSquare,faBookOpen } from '@fortawesome/free-solid-svg-icons'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faDisplay,faPenToSquare)
+library.add(faDisplay,faPenToSquare,faBookOpen)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
@@ -48,6 +47,5 @@ axios.interceptors.response.use(undefined, function (error) {
 new Vue({
   el: '#app',
   router,
-  store,
   render: h => h(Home)
 }).$mount('#app')

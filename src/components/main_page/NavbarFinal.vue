@@ -11,7 +11,6 @@
                      :magazines="filteredMagazines"
                      :authors="filteredAuthors"
                      :genres="filteredGenres"
-
                      :fields="filteredFields">
       </SearchResults>
       <b-container v-else>
@@ -68,7 +67,6 @@ export default {
       this.search_input = '';
     },
     hideContent(){
-      console.log("hide");
       this.$emit('hideContent');
     },
   },

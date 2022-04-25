@@ -5,7 +5,7 @@
       <b-row>
         <b-col cols="4">
           <BookTitle
-            img="@/assets/logo.png"
+            :img="book.coverPhotoPath"
             format="book"
             :publisher="book.publisher"
             :released="new Date(book.publicationDate)"
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     hasElectronicCopy (){
-      if (this.book !== 'undefined'){
+      if (this.book){
         if (this.book.electronicCopyExemplars.length > 0	){
           return true;
         }

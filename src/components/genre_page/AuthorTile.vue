@@ -1,7 +1,7 @@
 <template>
   <b-col cols="2" class="mx-2">
     <b-row class="text-center">
-      <b-img class="tile-img" src="@/assets/logo.png" alt="Author photo" ></b-img>
+      <b-img class="tile-img" :src="img" alt="Author photo" ></b-img>
     </b-row>
 
     <b-row class="text-left mt-2">
@@ -27,6 +27,12 @@ export default {
     id: Number,
     dateOfBirth: Date,
   },
+  computed:{
+    imageSrc: function (){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(this.img)));
+      return "data:image/png;base64," + base64String;
+    }
+  }
 }
 </script>
 
