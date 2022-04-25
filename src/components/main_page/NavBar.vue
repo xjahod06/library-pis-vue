@@ -19,7 +19,7 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id :key="load.id" />
           </b-nav-item-dropdown>
-         <div v-if="isLoggedIn">
+         <div v-if="isLoggedIn" class="d-flex">
             <b-nav-item @click="logout">
               <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
             </b-nav-item>
