@@ -113,7 +113,7 @@
           </router-link>
         </b-col>
       </b-row>
-      <b-row align-h="center" class="mt-4">
+      <b-row align-h="center" class="mt-4" v-show="isAdmin">
         <b-col cols="4">
         </b-col>
         <b-col cols="4">
@@ -150,7 +150,10 @@ Vue.use(BootstrapVueIcons)
 
 export default {
   name: "EmployeeDashboard",
-  components: {MyFooter, NavBar}
+  components: {MyFooter, NavBar},
+  computed: {
+    isAdmin : function (){return (localStorage.getItem('role') == "\"ADMIN\"")}
+  }
 }
 </script>
 
