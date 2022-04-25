@@ -9,7 +9,7 @@
             endpointDel="/hard-copy-borrowings/"
             type="hard-copy-borrowings"
             :fields="fieldsBorrowings"
-            sortBy="name"
+            sortBy="dateOfBorrowStart"
             :parse="parseHardCopyBorrowings"
             tableId="tableHardBorrowings"
         >
@@ -22,7 +22,7 @@
             endpointDel="/electronic-copy-borrowings/"
             type="electronic-copy-borrowings"
             :fields="fieldsBorrowings2"
-            sortBy="name"
+            sortBy="dateOfBorrowStart"
             :parse="parseElectronicCopyBorrowings"
             tableId="tableElectronicBorrowings"
         >
@@ -77,6 +77,7 @@ export default {
         borrowing.title = borrowing.exemplar.titleName;
         borrowing.dateOfBorrowStart = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowStart))
         borrowing.dateOfBorrowEnd = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowEnd))
+        borrowing.returnDate = Vue.filter('formatDate')(new Date(borrowing.returnDate))
       })
       return data;
     },

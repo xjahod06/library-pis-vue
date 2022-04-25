@@ -9,7 +9,7 @@
             endpointDel="/fines/"
             type="fines"
             :fields="fieldsFines"
-            sortBy="name"
+            sortBy="state"
             :parse="parseFines"
             tableId="tableFines"
         >

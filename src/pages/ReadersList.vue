@@ -5,11 +5,11 @@
       <b-tab title="Readers" active>
         <data-table
             endpointGet="/readers/"
-            endpointEdit="/edit_readers/"
+            endpointEdit="/readers/"
             endpointDel="/readers/"
             type="readers"
             :fields="fieldsReaders"
-            sortBy="name"
+            sortBy="fullname"
             :parse="parseReaders"
             tableId="tableReaders"
         >
@@ -22,10 +22,8 @@
 
 <script>
 import MyFooter from "@/components/main_page/MyFooter";
-import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import dataTable from "@/components/title_list/dataTable";
-import Vue from "vue";
 
 export default {
   name: "ReadersList",
