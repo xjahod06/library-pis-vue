@@ -186,11 +186,10 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-      /*
       ApiConnect.get('/reservations/').then(resp =>{
         this.$router.push('/edit_reservations/'+(resp.data[resp.data.length -1].id+1))
       })
-       */
+
     },
     makeToast(text) {
       this.$bvToast.toast(text, {
