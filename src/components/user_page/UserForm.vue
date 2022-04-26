@@ -8,7 +8,7 @@
         <b-form @submit="onSubmit" v-if="show" class="user-form">
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label" >Name*:</p> </b-col>
+            <b-col cols="4"><p class="form-label required">Name:</p> </b-col>
             <b-col cols="8">
               <b-form-input
                 v-model="form.name"
@@ -20,7 +20,7 @@
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">Last name:*</p> </b-col>
+            <b-col cols="4"><p class="form-label required">Last name:</p> </b-col>
             <b-col cols="8">
               <b-form-input
                 v-model="form.surname"
@@ -32,7 +32,7 @@
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">Email*:</p></b-col>
+            <b-col cols="4"><p class="form-label required">Email:</p></b-col>
             <b-col cols="8">
               <b-form-input
                   id="email"
@@ -44,48 +44,44 @@
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">Street:*</p> </b-col>
+            <b-col cols="4"><p class="form-label">Street:</p> </b-col>
             <b-col cols="8">
               <b-form-input
                   id="street"
                   v-model="form.street"
-                  placeholder="Enter street name"
-                  required>
+                  placeholder="Enter street name">
               </b-form-input>
             </b-col>
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">House number:*</p></b-col>
+            <b-col cols="4"><p class="form-label">House number:</p></b-col>
             <b-col cols="8">
               <b-form-input
                   v-model="form.houseNumber"
-                  placeholder="Enter house number"
-                  required>
+                  placeholder="Enter house number">
               </b-form-input>
             </b-col>
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">City:*</p> </b-col>
+            <b-col cols="4"><p class="form-label">City:</p> </b-col>
             <b-col cols="8">
               <b-form-input
                   id="city"
                   v-model="form.city"
-                  placeholder="Enter city"
-                  required>
+                  placeholder="Enter city">
               </b-form-input>
             </b-col>
           </b-row>
 
           <b-row class="form-row">
-            <b-col cols="4"><p class="form-label">Postal code:*</p> </b-col>
+            <b-col cols="4"><p class="form-label">Postal code:</p> </b-col>
             <b-col cols="8">
               <b-form-input
                   id="zip"
                   v-model="form.postcode"
-                  placeholder="Enter postal code"
-                  required>
+                  placeholder="Enter postal code">
               </b-form-input>
             </b-col>
           </b-row>

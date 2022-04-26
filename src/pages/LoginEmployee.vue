@@ -83,6 +83,22 @@ export default {
         this.errMessage = "Another user is already logged in.";
         return;
       }
+      if (!this.form.email){
+        this.errMessage = "Please fill in email before trying to login in."
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.form.password = "";
+        this.$refs['email'].state = false;
+        this.$refs['email'].value = "";
+        return;
+      }
+      if (!this.form.password){
+        this.errMessage = "Please fill in password before trying to login in."
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+
+        return;
+      }
       const data = {email: this.form.email, password: this.form.password};
       ApiConnect.post('/employees/authenticate', JSON.stringify(data), ApiConnect.headers).then((response) =>
         {
