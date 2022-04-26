@@ -9,7 +9,7 @@
             <h1 class="text-center">Log in</h1>
           </b-col>
         </b-row>
-        <b-form @submit.prevent="submit" novalidate>
+        <b-form @submit.prevent="submit" @keyup.enter.prevent="submit" novalidate>
           <b-form-group
               id="email-label"
               label="Email address:"

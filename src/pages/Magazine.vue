@@ -54,26 +54,20 @@ export default {
   },
   data(){
     return {
-      magazine: {}
+      magazine: {},
+      hasElectronicCopy: false,
     }
   },
   methods: {
     getMagazine(id) {
-      ApiConnect.get('magazines/'+id).then((response) =>
-          this.magazine = response.data,
-      )},
+      ApiConnect.get('magazines/'+id).then((response) => {
+        this.magazine = response.data;
+        if (this.magazine.electronicCopyExemplars.length > 0) this.hasElectronicCopy = true;
+      })},
   },
   created() {
     this.getMagazine(this.$route.params.id);
   },
-  computed: {
-    hasElectronicCopy (){
-      if (this.magazine.electronicCopyExemplars.length > 0	){
-        return true;
-      }
-      return false;
-    }
-  }
 }
 </script>
 

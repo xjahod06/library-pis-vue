@@ -5,7 +5,7 @@
     <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
       There was error while trying to update your information!</b-alert>
 
-        <b-form @submit="onSubmit" v-if="show" class="user-form">
+        <b-form @submit.prevent="onSubmit"  @keyup.enter.prevent="onSubmit" class="user-form">
 
           <b-row class="form-row">
             <b-col cols="4"><p class="form-label required">Name:</p> </b-col>
@@ -59,6 +59,7 @@
             <b-col cols="8">
               <b-form-input
                   v-model="form.houseNumber"
+                  type="number"
                   placeholder="Enter house number">
               </b-form-input>
             </b-col>
@@ -81,6 +82,7 @@
               <b-form-input
                   id="zip"
                   v-model="form.postcode"
+                  type="number"
                   placeholder="Enter postal code">
               </b-form-input>
             </b-col>
@@ -98,7 +100,6 @@ export default {
   name: 'UserForm',
   data() {
     return {
-      show: true,
       showDismissibleAlert: false,
       showDismissibleAlertError: false
 
