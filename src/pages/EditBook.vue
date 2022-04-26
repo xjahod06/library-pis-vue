@@ -28,6 +28,9 @@
                   placeholder="Enter book title"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Title field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
@@ -44,6 +47,9 @@
                   placeholder="Enter book Language"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Laguage field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -62,6 +68,9 @@
                   placeholder="Enter book publisher"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Publisher field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
@@ -78,6 +87,9 @@
                   placeholder="Enter book isbn"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                ISBN field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
@@ -86,14 +98,17 @@
                 label="Publication date:"
                 label-for="lang"
             >
-              <b-form-input
+              <datepicker
                   ref="publicationDate"
                   id="publicationDate"
                   v-model="book.publicationDate"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
-              ></b-form-input>
+              ></datepicker>
+              <b-form-invalid-feedback>
+                Publication date field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -112,6 +127,9 @@
                   placeholder="Enter book publication number"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Publication number field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
@@ -128,6 +146,9 @@
                   placeholder="Enter number of book pages"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Number of book pages field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -137,6 +158,7 @@
             <multiselect
                 v-model="book.authors"
                 id="authors"
+                ref="authors"
                 label="name"
                 track-by="name"
                 placeholder="Type to search"
@@ -161,7 +183,7 @@
                 <b-badge pill variant="primary">{{ option.name }} <b-icon icon="x" scale="2" @click="remove(option)" type="button"></b-icon></b-badge>
               </template>-->
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.authors.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="book.authors" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
                 <span>Oops! No authors found. Consider changing the search query.</span>
@@ -172,6 +194,7 @@
             <label class="typo__label">Genres</label>
             <multiselect
                 v-model="book.genres"
+                ref="genres"
                 :options="genres"
                 :multiple="true"
                 :close-on-select="false"
@@ -182,7 +205,7 @@
                 track-by="name"
                 :preselect-first="true">
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.genres.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="book.genres" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
                 <span>Oops! No Genres found. Consider changing the search query.</span>
@@ -250,6 +273,9 @@
             ></b-form-textarea>
           </b-col>
         </b-row>
+        <b-row v-if="showError">
+           <p style="color: red">{{errorMessage}} </p>
+        </b-row>
         <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
             <b-button @click="submit" variant="primary">Update</b-button>
@@ -273,7 +299,6 @@
               :publisher="book.publisher"
               :released="new Date(book.publicationDate)"
               :pages="book.pages"
-              :hasElectronicCopy="hasElectronicCopy"
               :hardCopies="book.hardCopyExemplars"
               :electronicCopies="book.electronicCopyExemplars"
           >
@@ -410,12 +435,7 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
-
-Date.prototype.toDateInputValue = (function() {
-  var local = new Date(this);
-  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-  return local.toJSON().slice(0,10);
-});
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: "EditBook",
@@ -424,7 +444,8 @@ export default {
     BookTitle,
     Multiselect,
     NavbarFinal,
-    MyFooter
+    MyFooter,
+    Datepicker
   },
   data () {
     return {
@@ -439,7 +460,9 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
-      coverPhoto: null
+      coverPhoto: null,
+      showError: false,
+      errorMessage: ''
     }
   },
   methods: {
@@ -482,7 +505,68 @@ export default {
         this.book.coverPhotoPath = filePath;
       })
     },
+    check_form(){
+      let form_check_error = false;
+      if (! this.book.name){
+        this.$refs['title'].state = false;
+        this.$refs['title'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.language){
+        this.$refs['lang'].state = false;
+        this.$refs['lang'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publisher){
+        this.$refs['publisher'].state = false;
+        this.$refs['publisher'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.isbn){
+        this.$refs['isbn'].state = false;
+        this.$refs['isbn'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.isbn){
+        this.$refs['isbn'].state = false;
+        this.$refs['isbn'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publicationDate){
+        this.$refs['publicationDate'].state = false;
+        this.$refs['publicationDate'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publicationNumber){
+        this.$refs['publicationNumber'].state = false;
+        this.$refs['publicationNumber'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.pages){
+        this.$refs['pages'].state = false;
+        this.$refs['pages'].value = "";
+        form_check_error = true;
+      }
+      if (this.book.authors.length < 1){
+        this.$refs['authors'].state = false;
+        this.$refs['authors'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Authors field can not be empty.'
+      }
+      if (this.book.genres.length < 1 ){
+        this.$refs['genres'].state = false;
+        this.$refs['genres'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Genres field can not be empty.'
+      }
+
+      return form_check_error;
+    },
     submit(){
+        if (this.check_form()) return;
+
         ApiConnect.put('/books', this.book).then((response) =>{
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
@@ -490,6 +574,7 @@ export default {
         })
     },
     create(){
+      if (this.check_form()) return;
         ApiConnect.post('/books', this.book).then((response) =>{
           this.makeToast('Book '+this.book.name+' has been created successfully.')
         }).catch(error => {
@@ -565,7 +650,7 @@ export default {
             hardCopyExemplars: [],
             electronicCopyExemplars: [],
             isbn: undefined,
-            publicationNumber: undefined,
+            publicationNumber: 1,
             publicationDate: new Date(),
             pages: '',
             genres: [],
@@ -574,17 +659,6 @@ export default {
       this.getBook(this.$route.params.id);
     }
     this.getGenres();
-  },
-  computed: {
-    hasElectronicCopy (){
-      if (this.book !== 'undefined'){
-        if (this.book.electronicCopyExemplars.length > 0	){
-          return true;
-        }
-      }
-
-      return false;
-    }
   }
 }
 </script>
