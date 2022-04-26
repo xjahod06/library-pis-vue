@@ -89,14 +89,17 @@ export default {
       })
     },
     deleteData(id,name){
-      ApiConnect.delete(this.endpointDel+id).then(response =>{
-        console.log(response)
-        this.makeToast(this.type+' '+name+' has been deleted successfully.','success');
-        this.$root.$emit('bv::refresh::table', this.tableId)
-      }).catch(err =>{
-        console.log(err)
-        this.makeToast('error:\n'+err,'danger');
-      });
+      if (confirm("Are you sure you want to delete?")){
+        ApiConnect.delete(this.endpointDel+id).then(response =>{
+          console.log(response)
+          this.makeToast(this.type+' '+this.name+' has been deleted successfully.','success');
+          this.$root.$emit('bv::refresh::table', this.tableId)
+        }).catch(err =>{
+          console.log(err)
+          this.makeToast('error:\n'+err,'danger');
+        });
+      }
+
 
     },
     makeToast(text,variant) {
