@@ -8,6 +8,7 @@
             <b-form-group
                 id="genre_name-label"
                 label="Genre name:"
+                label-class="required"
                 label-for="genre_name"
             >
               <b-form-input
@@ -18,6 +19,9 @@
                   placeholder="Enter genre name"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Genre name can not be empty!
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -147,13 +151,24 @@ export default {
       })
     },
     submit(){
+      if (! this.genre.name){
+        this.$refs['genre_name'].state = false;
+        this.$refs['genre_name'].value = "";
+        return;
+      }
         ApiConnect.put('/genres', this.genre).then((response) =>{
+          this.$refs['genre_name'].state = null;
           this.makeToast('Genre  '+this.genre.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
         })
     },
     create(){
+      if (! this.genre.name){
+        this.$refs['genre_name'].state = false;
+        this.$refs['genre_name'].value = "";
+        return;
+      }
         ApiConnect.post('/genres', this.genre).then((response) =>{
           this.makeToast('Genre '+this.genre.name+' has been created successfully.')
           console.log(response)
