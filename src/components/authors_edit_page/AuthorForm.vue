@@ -16,6 +16,7 @@
         <b-form-group
             id="name-label"
             label="Name:"
+            label-class="required"
             label-for="name"
         >
           <b-form-input
@@ -26,12 +27,16 @@
               placeholder="Enter first name"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Name field can not be empty!
+          </b-form-invalid-feedback>
         </b-form-group>
         </b-col>
         <b-col>
           <b-form-group
               id="surname-label"
-              label="Surname:"
+              label="Last name:"
+              label-class="required"
               label-for="surname"
           >
             <b-form-input
@@ -42,6 +47,9 @@
                 placeholder="Enter last name"
                 required
             ></b-form-input>
+            <b-form-invalid-feedback>
+              Last name field can not be empty!
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -50,16 +58,16 @@
         <b-col>
           <b-form-group
           id="dateOfBirth-label"
-          label="Date of birth*:"
+          label="Date of birth:"
           label-for="dateOfBirth">
-          <b-form-datepicker
+          <datepicker
               id="dateOfBirth"
               ref="dateOfBirth"
               v-model="form.dateOfBirth "
               type="date"
               required
               placeholder="Enter date of birth">
-          </b-form-datepicker>
+          </datepicker>
           </b-form-group>
         </b-col>
         <b-col>
@@ -67,7 +75,7 @@
               id="dateOfDeath-label"
               label="Date of death:"
               label-for="dateOfDeath">
-          <b-form-datepicker
+          <datepicker
               id="dateOfDeath"
               ref="dateOfDeath"
               reset-button
@@ -75,7 +83,7 @@
               v-model="form.dateOfDeath "
               type="date"
               placeholder="Enter date of death">
-          </b-form-datepicker>
+          </datepicker>
           </b-form-group>
 
         </b-col>
@@ -85,7 +93,7 @@
         <b-col>
           <b-form-group
               id="photograph-label"
-              label="Photograph*:"
+              label="Photograph:"
               label-for="photograph">
           <b-form-file
               v-model="photograph"
@@ -153,11 +161,13 @@
 import ApiConnect from "@/services/ApiConnect";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
 import * as file from "@/assets/js/file";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: 'AuthorForm',
   components: {
     AuthorBigTile,
+    Datepicker
   },
   data() {
     return {
@@ -181,18 +191,35 @@ export default {
         this.form.photographPath = filePath;
       })
     },
+    check_author_form(){
+      let form_check_error = false;
+      if (! this.form.name){
+        this.$refs['name'].state = false;
+        this.$refs['name'].value = "";
+        form_check_error = true;
+      }
+      if (! this.form.surname){
+        this.$refs['surname'].state = false;
+        this.$refs['surname'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     submit(){
+      if (this.check_author_form()) return;
       ApiConnect.put('/authors', this.form).then((response) =>{
-        console.log(response)
+        this.$refs['name'].state= null;
+        this.$refs['surname'].state= null;
         this.makeToast('Author '+this.author.name+' ' + this.author.surname  +'has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
     },
     create(){
+      if (this.check_author_form()) return;
       ApiConnect.post('/authors', this.form).then((response) =>{
         this.makeToast('Author '+this.form.name+' ' + this.form.surname  +'has been created successfully.')
-
       }).catch(error => {
       })
       ApiConnect.get('/authors/').then(resp =>{

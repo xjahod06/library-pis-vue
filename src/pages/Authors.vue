@@ -9,9 +9,8 @@
                  :name = author.name
                  :surname = author.surname
                  :id = author.id
-                 :date-of-birth = "new Date(author.dateOfBirth)"
+                 :date-of-birth = "author.dateOfBirth ? new Date(author.dateOfBirth) : null"
        >
-
        </AuthorTile>
      </b-row>
    </b-container>
