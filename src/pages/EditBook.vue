@@ -18,6 +18,7 @@
             <b-form-group
                 id="title-label"
                 label="Title:"
+                label-class="required"
                 label-for="title"
             >
               <b-form-input
@@ -37,6 +38,7 @@
             <b-form-group
                 id="language-label"
                 label="Language:"
+                label-class="required"
                 label-for="lang"
             >
               <b-form-input
@@ -58,6 +60,7 @@
             <b-form-group
                 id="publisher-label"
                 label="Publisher:"
+                label-class="required"
                 label-for="publisher"
             >
               <b-form-input
@@ -77,6 +80,7 @@
             <b-form-group
                 id="isbn-label"
                 label="ISBN:"
+                label-class="required"
                 label-for="isbn"
             >
               <b-form-input
@@ -96,6 +100,7 @@
             <b-form-group
                 id="publicationDate-label"
                 label="Publication date:"
+                label-class="required"
                 label-for="lang"
             >
               <datepicker
@@ -116,7 +121,8 @@
           <b-col>
             <b-form-group
                 id="publicationNumber-label"
-                label="publication number:"
+                label="Publication number:"
+                label-class="required"
                 label-for="publicationNumber"
             >
               <b-form-input
@@ -135,7 +141,8 @@
           <b-col>
             <b-form-group
                 id="pages-label"
-                label="pages:"
+                label="Pages:"
+                label-class="required"
                 label-for="pages"
             >
               <b-form-input
@@ -154,7 +161,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <label class="typo__label" for="authors">Authors</label>
+            <label class="typo__label required" for="authors">Authors</label>
             <multiselect
                 v-model="book.authors"
                 id="authors"
@@ -191,7 +198,7 @@
             </multiselect>
           </b-col>
           <b-col>
-            <label class="typo__label">Genres</label>
+            <label class="typo__label required">Genres</label>
             <multiselect
                 v-model="book.genres"
                 ref="genres"
@@ -329,6 +336,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -339,10 +347,14 @@
               placeholder="Enter maximum number of borrowing extension"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -353,10 +365,14 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="electronicExampleFileInput-label"
             label="File:"
+            label-class="required"
             label-for="electronicExampleFileInput"
         >
           <b-form-file
@@ -367,6 +383,9 @@
               drop-placeholder="Drop file here..."
               required
           ></b-form-file>
+          <b-form-invalid-feedback>
+            Electronic example needs file.
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
@@ -382,6 +401,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -392,10 +412,14 @@
               placeholder="Enter maximum number of borrowing extension"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -406,6 +430,10 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="state-label"
@@ -415,11 +443,16 @@
           <b-form-input
               ref="state"
               id="state"
+              disabled
               v-model="hardState"
               type="text"
               placeholder="Enter exemplar state"
               required
           ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Maximumu number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
@@ -591,7 +624,28 @@ export default {
         autoHideDelay: 5000,
       })
     },
+    check_electronic_exemplar_form(){
+      let form_check_error = false;
+      if (! this.electronicExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicExampleFile){
+        this.$refs['electronicExampleFileInput'].state = false;
+        this.$refs['electronicExampleFileInput'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     addElectronicExample() {
+      if (this.check_electronic_exemplar_form()) return;
       this.$refs.addElectronicCopy.hide();
       let electronicExample = {};
       electronicExample.availability = true;
@@ -618,7 +672,23 @@ export default {
         });
       })
     },
+    check_hard_exemplar_form(){
+      let form_check_error = false;
+      if (! this.hardExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.hardPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     addHardExample() {
+      if (this.check_hard_exemplar_form()) return;
       this.$refs.addHardCopy.hide();
       let hardExample = {};
       hardExample.availability = true;
