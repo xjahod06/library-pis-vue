@@ -481,7 +481,7 @@
             label="Books state:"
             label-for="state"
         >
-          <b-form-input
+          <b-form-select
               ref="state"
               id="state"
               disabled
@@ -489,7 +489,7 @@
               type="text"
               placeholder="Enter exemplar state"
               required
-          ></b-form-input>
+          ></b-form-select>
 
           <b-form-invalid-feedback>
             Maximumu number of extention can not be empty.
@@ -548,14 +548,15 @@
             label="Books state:"
             label-for="stateUpdate"
         >
-          <b-form-input
+          <b-form-select
               ref="stateUpdate"
               id="stateUpdate"
               v-model="hardCopy.state"
+              :options="options"
               type="text"
               placeholder="Enter exemplar state"
               required
-          ></b-form-input>
+          ></b-form-select>
 
           <b-form-invalid-feedback>
             Maximumu number of extention can not be empty.
@@ -664,6 +665,11 @@ export default {
         borrowPeriod: undefined,
         state: undefined,
       },
+      options: [
+        { value: 'NEW', text: 'New' },
+        { value: 'USED', text: 'Used' },
+        { value: 'DAMAGED', text: 'Damaged' }
+      ]
     }
   },
   methods: {
@@ -728,11 +734,6 @@ export default {
         this.$refs['isbn'].value = "";
         form_check_error = true;
       }
-      if (! this.book.isbn){
-        this.$refs['isbn'].state = false;
-        this.$refs['isbn'].value = "";
-        form_check_error = true;
-      }
       if (! this.book.publicationDate){
         this.$refs['publicationDate'].state = false;
         this.$refs['publicationDate'].value = "";
@@ -769,6 +770,15 @@ export default {
         if (this.check_form()) return;
 
         ApiConnect.put('/books', this.book).then((response) =>{
+          this.$refs['title'].state = null;
+          this.$refs['lang'].state=null;
+          this.$refs['publisher'].state=null;
+          this.$refs['isbn'].state=null;
+          this.$refs['publicationDate'].state=null;
+          this.$refs['publicationNumber'].state=null;
+          this.$refs['pages'].state=null;
+          this.$refs['authors'].state=null;
+          this.$refs['genres'].state=null;
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
@@ -777,6 +787,15 @@ export default {
     create(){
       if (this.check_form()) return;
         ApiConnect.post('/books', this.book).then((response) =>{
+          this.$refs['title'].state = null;
+          this.$refs['lang'].state=null;
+          this.$refs['publisher'].state=null;
+          this.$refs['isbn'].state=null;
+          this.$refs['publicationDate'].state=null;
+          this.$refs['publicationNumber'].state=null;
+          this.$refs['pages'].state=null;
+          this.$refs['authors'].state=null;
+          this.$refs['genres'].state=null;
           this.makeToast('Book '+this.book.name+' has been created successfully.')
         }).catch(error => {
           console.log(error)

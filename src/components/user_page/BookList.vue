@@ -23,6 +23,7 @@
                                   :data="val"
                                   :borrowing="true"
                                   :electronic="true"
+                                  :book = "val.electronicCopy.book"
                                   :file="val.electronicCopy.id"
                                   :img="val.electronicCopy.book.coverPhotoPath"
                                   :dateFrom="new Date(val.dateOfBorrowStart)"
@@ -32,6 +33,7 @@
                   <div v-else>
                     <BookListItem :name="val.electronicCopy.book.name"
                                   type="book"
+                                  :book="val.electronicCopy.book"
                                   :id="val.id"
                                   :user="user"
                                   :data="val"
@@ -50,6 +52,7 @@
                     <BookListItem :name="val.electronicCopy.magazine.name"
                                   type="magazine"
                                   :id="val.id"
+                                  :magazine="val.electronicCopy.magazine"
                                   :user="user"
                                   :data="val"
                                   :file="val.electronicCopy.id"
@@ -63,6 +66,7 @@
                   <div v-else>
                     <BookListItem :name="val.electronicCopy.magazine.name"
                                   type="magazine"
+                                  :magazine="val.electronicCopy.magazine"
                                   :id="val.id"
                                   :user="user"
                                   :data="val"
@@ -83,6 +87,7 @@
                   <BookListItem :name="val.exemplar.book.name"
                                 type="book"
                                 :id="val.id"
+                                :book="val.exemplar.book"
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
@@ -94,6 +99,7 @@
                 <div v-else>
                   <BookListItem :name="val.exemplar.book.name"
                                 type="book"
+                                :book="val.exemplar.book"
                                 :id="val.id"
                                 :user="user"
                                 :data="val"
@@ -110,6 +116,7 @@
                   <BookListItem :name="val.exemplar.magazine.name"
                                 type="magazine"
                                 :id="val.id"
+                                :magazine="val.exemplar.magazine"
                                 :user="user"
                                 :data="val"
                                 :borrowing="true"
@@ -121,6 +128,7 @@
                 <div v-else>
                   <BookListItem :name="val.exemplar.magazine.name"
                                 type="magazine"
+                                :magazine="val.exemplar.magazine"
                                 :id="val.id"
                                 :user="user"
                                 :data="val"

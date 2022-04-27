@@ -18,6 +18,7 @@
             <b-form-group
                 id="title-label"
                 label="Title:"
+                label-class="required"
                 label-for="title"
             >
               <b-form-input
@@ -28,12 +29,16 @@
                   placeholder="Enter magazine title"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Title field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="language-label"
                 label="Language:"
+                label-class="required"
                 label-for="lang"
             >
               <b-form-input
@@ -44,12 +49,16 @@
                   placeholder="Enter magazine Language"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Language field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="publisher-label"
                 label="Publisher:"
+                label-class="required"
                 label-for="publisher"
             >
               <b-form-input
@@ -60,6 +69,9 @@
                   placeholder="Enter magazine publisher"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Publisher field can not be empty
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -68,6 +80,7 @@
             <b-form-group
                 id="issn-label"
                 label="ISSN:"
+                label-class="required"
                 label-for="issn"
             >
               <b-form-input
@@ -78,12 +91,16 @@
                   placeholder="Enter magazine issn"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                ISSN field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="number-label"
                 label="Magazine number:"
+                label-class="required"
                 label-for="number"
             >
               <b-form-input
@@ -94,12 +111,16 @@
                   placeholder="Enter magazine number"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Magazine number can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="publicationYear-label"
                 label="Magazine publication year:"
+                label-class="required"
                 label-for="publicationYear"
             >
               <b-form-input
@@ -110,6 +131,9 @@
                   placeholder="Enter magazine publication number"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Magazine publication year can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -173,7 +197,7 @@
           </b-col>
         </b-row>
         <b-row class="mt-3">
-          <b-col cols="6" class="text-left"><label>Cover photo</label><br>
+          <b-col cols="6" class="text-left "><label>Cover photo</label><br>
             <div style="position: initial">
               <b-form-file
                   @input="coverPhotoInputChange"
@@ -252,6 +276,7 @@
             </div>
           </b-col>
         </b-row>
+
         <b-row class="mt-3" v-if="this.$route.params.id != 0">
           <b-col>
             <b-button variant="success" class="ml-4"  v-b-modal.modal-addHardCopy> Add </b-button>
@@ -270,6 +295,9 @@
                 v-model="magazine.description"
             ></b-form-textarea>
           </b-col>
+        </b-row>
+        <b-row v-if="showError">
+          <p style="color: red">{{errorMessage}} </p>
         </b-row>
         <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
@@ -325,6 +353,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -335,10 +364,14 @@
               placeholder="Enter maximum number of borrowing extension"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Number of extensions can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -349,10 +382,14 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="electronicExampleFileInput-label"
             label="File:"
+            label-class="required"
             label-for="electronicExampleFileInput"
         >
           <b-form-file
@@ -363,6 +400,9 @@
               drop-placeholder="Drop file here..."
               required
           ></b-form-file>
+          <b-form-invalid-feedback>
+            Electronic example file can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
       </b-form>
@@ -377,6 +417,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -391,6 +432,7 @@
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -405,6 +447,7 @@
         <b-form-group
             id="state-label"
             label="Books state:"
+            label-class="required"
             label-for="state"
         >
           <b-form-input
@@ -413,6 +456,7 @@
               v-model="hardState"
               type="text"
               placeholder="Enter exemplar state"
+              disabled
               required
           ></b-form-input>
         </b-form-group>
@@ -468,14 +512,15 @@
             label="Books state:"
             label-for="stateUpdate"
         >
-          <b-form-input
+          <b-form-select
               ref="stateUpdate"
               id="stateUpdate"
               v-model="hardCopy.state"
+              :options="options"
               type="text"
               placeholder="Enter exemplar state"
               required
-          ></b-form-input>
+          ></b-form-select>
 
           <b-form-invalid-feedback>
             Maximumu number of extention can not be empty.
@@ -551,7 +596,7 @@ export default {
     BookTitle,
     Multiselect,
     NavbarFinal,
-    MyFooter
+    MyFooter,
   },
   data () {
     return {
@@ -577,6 +622,13 @@ export default {
         borrowPeriod: undefined,
         state: undefined,
       },
+      options: [
+        { value: 'NEW', text: 'New' },
+        { value: 'USED', text: 'Used' },
+        { value: 'DAMAGED', text: 'Damaged' }
+      ],
+      showError: false,
+      errorMessage: '',
     }
   },
   methods: {
@@ -617,24 +669,81 @@ export default {
         this.magazine.coverPhotoPath = filePath;
       })
     },
+    check_form(){
+      let form_check_error = false;
+      if (! this.magazine.name){
+        this.$refs['title'].state = false;
+        this.$refs['title'].value = "";
+        form_check_error = true;
+      }
+      if (! this.magazine.language){
+        this.$refs['lang'].state = false;
+        this.$refs['lang'].value = "";
+        form_check_error = true;
+      }
+      if (! this.magazine.publisher){
+        this.$refs['publisher'].state = false;
+        this.$refs['publisher'].value = "";
+        form_check_error = true;
+      }
+      if (! this.magazine.issn){
+        this.$refs['issn'].state = false;
+        this.$refs['issn'].value = "";
+        form_check_error = true;
+      }
+      if (! this.magazine.number){
+        this.$refs['number'].state = false;
+        this.$refs['number'].value = "";
+        form_check_error = true;
+      }
+      if (! this.magazine.publicationYear){
+        this.$refs['publicationYear'].state = false;
+        this.$refs['publicationYear'].value = "";
+        form_check_error = true;
+      }
+      if (this.magazine.authors.length < 1){
+        this.$refs['authors'].state = false;
+        this.$refs['authors'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Authors field can not be empty.'
+      }
+      if (this.magazine.fields.length < 1 ){
+        this.$refs['fields'].state = false;
+        this.$refs['fields'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Fields field can not be empty.'
+      }
+      return form_check_error;
+    },
     submit(){
+      if (this.check_form()) return;
       ApiConnect.put('/magazines', this.magazine).then((response) =>{
-        console.log(response)
+        this.$refs['title'].state=null;
+        this.$refs['lang'].state=null;
+        this.$refs['publisher'].state=null;
+        this.$refs['issn'].state=null;
+        this.$refs['publicationYear'].state=null;
+        this.showError=false;
         this.makeToast('magazine '+this.magazine.name+' has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
     },
     create(){
+      if (this.check_form()) return;
+      console.log(this.magazine);
       ApiConnect.post('/magazines', this.magazine).then((response) =>{
         console.log(response)
         this.makeToast('Magazine '+this.magazine.name+' has been created successfully.')
+        ApiConnect.get('/magazines/').then(resp =>{
+          this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))
+        })
       }).catch(error => {
         console.log(error)
       })
-      ApiConnect.get('/magazines/').then(resp =>{
-        this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))
-      })
+
     },
     makeToast(text) {
       this.$bvToast.toast(text, {

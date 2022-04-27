@@ -7,62 +7,74 @@
           <h1 class="display-4" >Reservation on book {{this.reservation.exemplar.titleName}}</h1>
         </b-col>
       </b-row>
-      <b-form>
+      <b-form @submit.prevent="submit">
         <b-row>
           <b-col>
             <b-form-group
                 id="dateFrom-label"
                 label="Reserved form:"
+                label-class="required"
                 label-for="dateFrom"
             >
-              <b-form-input
+              <datepicker
                   ref="dateFrom"
                   id="dateFrom"
                   v-model="reservation.dateFrom"
-                  type="date"
                   placeholder="Enter date from of reservation start"
                   required
-              ></b-form-input>
+              ></datepicker>
+              <b-form-invalid-feedback>
+                Reservation has to have start date!
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="dateUntil-label"
                 label="Reserved until:"
+                label-class="required"
                 label-for="dateUntil"
             >
-              <b-form-input
+              <datepicker
                   ref="dateUntil"
                   id="dateUntil"
                   v-model="reservation.dateUntil"
-                  type="date"
                   placeholder="Enter date until end of reservation"
                   required
-              ></b-form-input>
+              ></datepicker>
+              <b-form-invalid-feedback>
+                Reservation has to have end date!
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="state-label"
-                label="state:"
+                label="State:"
+                label-class="required"
                 label-for="state"
             >
-              <b-form-input
+              <b-form-select
                   ref="state"
                   id="state"
                   v-model="reservation.state"
+                  :options="options"
                   type="text"
                   placeholder="Enter state of reservation"
                   required
-              ></b-form-input>
+              ></b-form-select>
+              <b-form-invalid-feedback>
+                Reservation state can not be empty!
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <label class="typo__label">Select Book</label>
+            <label class="typo__label required">Select Book or Magazine</label>
             <multiselect
                 v-model="bookSelection"
+                ref="bookSelection"
                 :options="data"
                 :custom-label="nameWithType"
                 placeholder="Select book or magazine"
@@ -71,11 +83,15 @@
             >
 
             </multiselect>
+            <b-form-invalid-feedback>
+              You have to select book!
+            </b-form-invalid-feedback>
           </b-col>
           <b-col>
-            <label class="typo__label">Select Exemplar</label>
+            <label class="typo__label required">Select Exemplar</label>
             <multiselect
                 v-model="exemplarSelection"
+                ref="exemplarSelection"
                 :options="exemplars"
                 placeholder="Select exemplar"
                 label="state"
@@ -83,20 +99,27 @@
             >
 
             </multiselect>
+            <b-form-invalid-feedback>
+              You have to select exemplar!
+            </b-form-invalid-feedback>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <label class="typo__label">Select reader</label>
+            <label class="typo__label required">Select reader</label>
             <multiselect
                 v-model="reservation.reader"
+                ref="readerSelection"
                 :options="readers"
-                placeholder="Select exemplar"
+                placeholder="Select reader"
                 label="fullname"
                 track-by="id"
             >
 
             </multiselect>
+            <b-form-invalid-feedback>
+              You have to select reader!
+            </b-form-invalid-feedback>
           </b-col>
         </b-row>
         <b-row v-if="this.reservation.reader !== undefined">
@@ -105,6 +128,9 @@
               Reserved for {{ reservation.reader.fullname }}
             </p>
           </b-col>
+        </b-row>
+        <b-row v-if="showError">
+          <p style="color: red">{{errorMessage}} </p>
         </b-row>
         <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
@@ -127,12 +153,7 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
-
-Date.prototype.toDateInputValue = (function() {
-  var local = new Date(this);
-  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-  return local.toJSON().slice(0,10);
-});
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: "EditReservation",
@@ -140,6 +161,7 @@ export default {
     Multiselect,
     NavbarFinal,
     MyFooter,
+    Datepicker
   },
   data () {
     return {
@@ -151,15 +173,22 @@ export default {
       exemplars: [],
       selectedExemplar: undefined,
       readers: [],
+      showError: false,
+      errorMessage: '',
+      selected: null,
+      options: [
+        { value: 'ACTIVE', text: 'Active' },
+        { value: 'PICK_UP', text: 'Can pick up' },
+        { value: 'NOT_ACTIVE', text: 'Not active' }
+      ]
     }
   },
   methods: {
     getReservation(id){
       ApiConnect.get('/reservations/'+id).then(response => {
-        console.log(response.data)
         this.reservation = response.data
-        this.reservation.dateFrom = new Date(this.reservation.dateFrom).toDateInputValue()
-        this.reservation.dateUntil = new Date(this.reservation.dateUntil).toDateInputValue()
+        this.reservation.dateFrom = new Date(this.reservation.dateFrom)
+        this.reservation.dateUntil = new Date(this.reservation.dateUntil)
         if(response.data.exemplar.book !== undefined) {
           ApiConnect.get('/books/'+response.data.exemplar.book.id).then(resp =>
             this.selectedBook = resp.data
@@ -172,22 +201,74 @@ export default {
 
       })
     },
+    check_reservation_form(){
+      let form_check_error = false;
+      if (! this.reservation.dateFrom){
+        this.$refs['dateFrom'].state = false;
+        this.$refs['dateFrom'].value = "";
+        form_check_error = true;
+      }
+      if (! this.reservation.dateUntil){
+        this.$refs['dateUntil'].state = false;
+        this.$refs['dateUntil'].value = "";
+        form_check_error = true;
+      }
+      if (this.reservation.dateUntil <= this.reservation.dateFrom){
+        this.showError = true;
+        this.errorMessage = "Reservation can not end before/same day as starting";
+        form_check_error = true;
+      }
+      if (! this.reservation.state){
+        this.$refs['state'].state = false;
+        this.$refs['state'].value = "";
+        form_check_error = true;
+      }
+      if (! this.bookSelection){
+        this.$refs['bookSelection'].state = false;
+        this.$refs['bookSelection'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Book field can not be empty.';
+        return form_check_error;
+      }
+      if (! this.exemplarSelection ){
+        this.$refs['exemplarSelection'].state = false;
+        this.$refs['exemplarSelection'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Exemplar field can not be empty.';
+        return form_check_error;
+      }
+
+      if (! this.reservation.reader ){
+        this.$refs['readerSelection'].state = false;
+        this.$refs['readerSelection'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Reader field can not be empty.';
+        return form_check_error;
+      }
+      return form_check_error;
+    },
     submit(){
+      if ( this.check_reservation_form()) return;
       ApiConnect.put('/reservations', this.reservation).then((response) =>{
+        this.showError = false;
         this.makeToast('Reservation on book'+this.reservation.exemplar.titleName +' has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
     },
     create(){
+      if (this.check_reservation_form()) return;
       ApiConnect.post('/reservations', this.reservation).then((response) =>{
+        this.showError = false;
         this.makeToast('Reservation on book '+this.reservation.exemplar.titleName+' has been created successfully.')
-        console.log(response)
+        ApiConnect.get('/reservations/').then(resp =>{
+          this.$router.push('/edit_reservations/'+(resp.data[resp.data.length -1].id+1))
+        })
       }).catch(error => {
         console.log(error)
-      })
-      ApiConnect.get('/reservations/').then(resp =>{
-        this.$router.push('/edit_reservations/'+(resp.data[resp.data.length -1].id+1))
       })
 
     },
@@ -214,15 +295,15 @@ export default {
     getReaders(){
       ApiConnect.get('/readers/').then(resp =>{
         this.readers = resp.data
-      })
+      }).catch(error => console.log(error));
     }
   },
   created() {
     if(this.$route.params.id == 0){
       this.reservation = {
         id: 0,
-        dateFrom: new Date().toDateInputValue(),
-        dateUntil: undefined,
+        dateFrom: new Date(),
+        dateUntil: new Date(),
         exemplar: undefined,
         state: 'ACTIVE'
       }
