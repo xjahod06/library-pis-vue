@@ -1,31 +1,21 @@
 <template>
 <div>
       <NavbarFinal></NavbarFinal>
-        <b-container class="edit_hard-copy-borrowings">
-            <b-row class="text-center">
-        <b-col>
-          <font-awesome-icon icon="fa-solid fa-display" size="4x" v-b-modal.modal-preview type="button" class="preview"/>
-        </b-col>
-      </b-row>
-      <b-row class="text-center mb-4">
-        <b-col>
-          preview borrow hard copy page
-        </b-col>
-      </b-row>
+      <b-container class="edit_hard-copy-borrowings">
       <b-form @submit.prevent="submit">
         <b-row class="text-left">
           <b-col>
             <b-form-group
-                id="start-date-label"
-                label="Range of borrowing:"
-                label-for="dateOfBorrowStart"
+                id="state-label"
+                label="ID:"
+                label-for="state"
             >
-            <div class="box">
-              <section>
-                <date-picker v-model="borrowingStarts" @selected="Start" value-type="timestamp"></date-picker>
-                <date-picker v-model="borrowingEnds" @selected="End" value-type="timestamp"></date-picker>
-              </section>
-            </div>
+              <b-form-input readonly
+                  ref="state"
+                  id="state"
+                  v-model="borrowing.id"
+                  type="number"
+              ></b-form-input>
             </b-form-group>
           </b-col>
           <b-col>
@@ -34,46 +24,57 @@
                 label="State:"
                 label-for="state"
             >
-              <b-form-input
+              <b-form-input readonly
                   ref="state"
                   id="state"
                   v-model="borrowing.state"
                   type="text"
-                  placeholder="Edit item state"
-                  required
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col>
+          <b-col v-if="isReturned === false">
             <b-form-group
                 id="state-label"
                 label="Borrowed by:"
-                label-for="state"
+                label-for="reader"
             >
-              
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-form-group
-                id="borrowCounter-label"
-                label="Borrow Counter:"
-                label-for="borrowCounter"
-            >
-              <b-form-input
-                  ref="borrowCounter"
-                  id="borrowCounter"
-                  v-model="borrowing.borrowCounter"
-                  type="number"
-                  placeholder="Enter book publisher"
-                  required
+            <b-form-input readonly
+                  ref="reader.fullname"
+                  id="reader.fullname"
+                  v-model="borrowing.reader.fullname"
+                  type="text"
               ></b-form-input>
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
+          </b-row>
+          <b-row>
           <b-col>
+            <b-form-group
+                id="start-date-label"
+                label="Borrowed from:"
+                label-for="dateOfBorrowStart"
+            >
+            <div class="box">
+              <section>
+                <date-picker v-model="borrowingStarts" value-type="timestamp"></date-picker>
+              </section>
+            </div>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-group
+                id="start-date-label"
+                label="Borrowed until:"
+                label-for="dateOfBorrowStart"
+            >
+            <div class="box">
+              <section>
+                <date-picker v-model="borrowingEnds" value-type="timestamp"></date-picker>
+              </section>
+            </div>
+            </b-form-group>
+          </b-col>
+          <b-col v-show="isReturned">
             <b-form-group
                 id="return-date-label"
                 label="Return date:"
@@ -88,14 +89,23 @@
           </b-col>
         </b-row>
         <b-row>
-        <b-col v-show="isBook">
-         <a>Title: {{ book.name }}</a>
-          <p>Language: {{ book.language }} </p>
+        <b-col>
+          <font-awesome-icon icon="fa-solid fa-book-open " @click="getExemplar" size="4x" v-b-modal.modal-preview type="button" class="preview"/>
         </b-col>
-        <b-col v-show="isMagazine">
-          <p>Title: {{ magazine.name }}</p>
-          <p>Language: {{ magazine.language }} </p>
-        </b-col>
+        <b-col>
+            <b-form-group
+                id="borrowCounter-label"
+                label="Borrow Counter:"
+                label-for="borrowCounter"
+            >
+              <b-form-input readonly
+                  ref="borrowCounter"
+                  id="borrowCounter"
+                  v-model="borrowing.borrowCounter"
+                  type="number"
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
         </b-row>
         <b-col class="text-center mt-4">
           <b-button @click="submit" variant="primary">Update</b-button>
@@ -103,6 +113,58 @@
       </b-form>
     </b-container>
     <MyFooter></MyFooter>
+    <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
+      <b-row v-if="isBook">
+        <b-col cols="4">
+          <BookTitle
+              :img="exemplar_parent.coverPhotoPath"
+              format="book"
+              :publisher="exemplar_parent.publisher"
+              :released="new Date(exemplar_parent.publicationDate)"
+              :pages="exemplar_parent.pages"
+              :hardCopies="exemplar_parent.hardCopyExemplars"
+              :electronicCopies="exemplar_parent.electronicCopyExemplars"
+          >
+          </BookTitle>
+        </b-col>
+        <b-col cols="8">
+          <BookInfo
+              :title="exemplar_parent.name"
+              :publicationNumber="''+exemplar_parent.publicationNumber"
+              :authors="exemplar_parent.authors"
+              :isbn="exemplar_parent.isbn"
+              :genres="exemplar_parent.genres"
+              :description="exemplar_parent.description"
+          >
+          </BookInfo>
+        </b-col>
+      </b-row>
+      <b-row v-else>
+        <b-col cols="4">
+          <BookTitle
+              :img="exemplar_parent.coverPhotoPath"
+              format="magazine"
+              :publisher="exemplar_parent.publisher"
+              :released="new Date(exemplar_parent.publicationDate)"
+              :pages="exemplar_parent.pages"
+              :hardCopies="exemplar_parent.hardCopyExemplars"
+              :electronicCopies="exemplar_parent.electronicCopyExemplars"
+          >
+          </BookTitle>
+        </b-col>
+        <b-col cols="8">
+          <BookInfo
+              :title="exemplar_parent.name"
+              :publicationNumber="''+exemplar_parent.publicationNumber"
+              :authors="exemplar_parent.authors"
+              :isbn="exemplar_parent.isbn"
+              :genres="exemplar_parent.genres"
+              :description="exemplar_parent.description"
+          >
+          </BookInfo>
+        </b-col>
+      </b-row>
+    </b-modal>
     </div>
 </template>
 
@@ -110,23 +172,22 @@
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
+import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-
-Date.prototype.toDateInputValue = (function() {
-  var local = new Date(this);
-  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-  return local.toJSON().slice(0,10);
-});
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+library.add(faBookOpen)
 
 export default {
     components: {
         MyFooter,
         NavbarFinal,
         DatePicker,
-        BookTitle
+        BookTitle,
+        BookInfo
     },
     data() {
         return {
@@ -136,20 +197,28 @@ export default {
           returnDate: null,
           isMagazine: false,
           isBook: false,
-          book: {},
+          isReturned: false,
+          exemplar_parent: {},
           magazine: {},
-          exemplar: {}
+          exemplar: {},
+          fieldsFines: [
+        {key: 'amount', sortable: true},
+        {key: 'state', sortable: true},
+        {key: 'borrowing_name', sortable: true},
+        {key: 'reader', sortable: true},
+        {key: 'pay', sortable: false},
+        {key: 'delete', sortable: false},
+      ]
         } 
     },
     methods: {
         getBorrowing(id){
           ApiConnect.get('/hard-copy-borrowings/'+id).then((response) =>
           {
-            console.log(response);
             this.borrowing = response.data;
             this.borrowingStarts = this.borrowing.dateOfBorrowStart;
             this.borrowingEnds = this.borrowing.dateOfBorrowEnd;
-            this.returnDate = this.borrowing.returnDate;
+            this.returnDate = this.borrowing.returnDate != null ? this.setReturnDate(true, this.borrowing.returnDate) : this.setReturnDate(false, null);
             if (this.borrowing.exemplar.book == null)
             {
               this.isMagazine = true;
@@ -167,19 +236,68 @@ export default {
             console.log(error);
           })
         },
+        setReturnDate(bool, date)
+        {
+          this.isReturned = bool;
+          return date || null;
+        },
         submit(){
-          console.log(this.borrowingStarts);
-          console.log(this.borrowingEnds);
-          console.log(this.borrowing);
+          this.borrowing.dateOfBorrowStart = this.borrowingStarts;
+          this.borrowing.dateOfBorrowEnd =  this.borrowingEnds;
+          this.borrowing.returnDate =  this.returnDate;
+          ApiConnect.put('/hard-copy-exemplars', JSON.stringify(this.borrowing)).then((response) =>{
+            this.makeToast('Borrowing '+this.borrowing.id+' has been updated successfully.')
+          }).catch(error => {
+          console.log(error)
+          })
         },
         getExemplar(){
           if (this.isBook)
           {
+            ApiConnect.get('/books/'+this.borrowing.exemplar.book.id).then((response) =>
+            {
+              console.log(response);
+              this.exemplar_parent = response.data;
+            }
+            ).catch((error) => console.log(error))
           }
-        }
+          else
+          {
+            ApiConnect.get('/magazines/'+this.borrowing.exemplar.magazine.id).then((response) =>
+            {
+              console.log(response);
+              this.exemplar_parent = response.data;
+            }
+            ).catch((error) => console.log(error))
+          }
+        },
+        makeToast(text) {
+      this.$bvToast.toast(text, {
+        title: 'Library',
+        variant: 'success',
+        autoHideDelay: 5000,
+      })
+    },
   },
   created() {
           this.getBorrowing(this.$route.params.id);
         }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style scoped>
+.edit-book-page{
+  color: black;
+  text-align: left;
+}
+.preview{
+  color: #24433e;
+  box-shadow: 0 6px 10px rgba(0,0,0,0), 0 0 6px rgba(0,0,0,0);
+  transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+}
+.preview:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+</style>
