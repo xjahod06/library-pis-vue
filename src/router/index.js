@@ -29,6 +29,7 @@ import ReservationList from "@/pages/ReservationList";
 import RegisterEmployee from "@/pages/RegisterEmployee";
 import EditGenre from "@/pages/EditGenre";
 import EditField from "@/pages/EditField";
+import EditHardCopyBorrowing from "@/pages/EditHardCopyBorrowing";
 import EditReservation from "@/pages/EditReservation";
 
 Vue.use(VueRouter)
@@ -254,6 +255,13 @@ const Routes = [
     component: EditField,
     meta: {
       title: 'Edit Field',
+      employee: true
+    }
+  },{
+    path: '/edit_hard-copy-borrowings/:id',
+    component: EditHardCopyBorrowing,
+    meta: {
+      title: 'Edit Borrowing',
       employee: true
     }
   },

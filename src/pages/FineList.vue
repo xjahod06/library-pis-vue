@@ -42,7 +42,6 @@ export default {
         {key: 'reader', sortable: true},
         {key: 'pay', sortable: false},
         {key: 'delete', sortable: false},
-
       ],
 
     }
