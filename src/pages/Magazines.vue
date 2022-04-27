@@ -3,7 +3,7 @@
     <NavbarFinal></NavbarFinal>
 
     <b-container>
-      <h1>Magazines:</h1>
+      <h1><span v-if="this.$route.query.fields !== undefined">{{ this.$route.query.fields }}</span>  Magazines:</h1>
       <b-row>
         <MainTile v-for="book in magazines"
                   :img="book.coverPhotoPath"
@@ -45,7 +45,13 @@ export default {
   },
   methods: {
     getMagazines(){
-      ApiConnect.get('magazines/').then((response) =>
+      let params;
+      if(this.$route.query.fields !== undefined) {
+        params = {params: {"fields": this.$route.query.fields}}
+      }else{
+        params = {params: {}}
+      }
+      ApiConnect.get('magazines/', params).then((response) =>
           this.magazines = response.data,
       )},
   },

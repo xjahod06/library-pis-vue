@@ -27,7 +27,7 @@
     </b-row>
     <b-row class="text-left" v-if="fields !== undefined">
       <small v-for="field in fields">
-        <router-link :to="{path: '/fields/'+field.id}" class="author-link">{{field.name}}</router-link>&nbsp;
+        <router-link :to="{path: '/field/'+field.id}" class="author-link">{{field.name}}</router-link>&nbsp;
       </small>
     </b-row>
   </b-col>

@@ -19,6 +19,9 @@
           <b-nav-item-dropdown id="my-dropdown" text="Genre" right>
             <BookGenre v-for="load in this.genre_names" :genre=load.name :id=load.id :key="load.id" />
           </b-nav-item-dropdown>
+          <b-nav-item-dropdown id="my-dropdown" text="Field" right>
+            <MagazineField v-for="load in this.field_names" :field=load.name :id=load.id :key="load.id" />
+          </b-nav-item-dropdown>
          <div v-if="isLoggedIn" class="d-flex">
             <b-nav-item @click="logout">
               <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
@@ -50,6 +53,7 @@
 
 import SearchBar from "@/components/main_page/SearchBar";
 import BookGenre from "@/components/main_page/BookGenre";
+import MagazineField from "@/components/main_page/MagazineField";
 import ApiConnect from "@/services/ApiConnect";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faDisplay, faHouse, faArrowRightFromBracket, faUserCircle} from "@fortawesome/free-solid-svg-icons";
@@ -59,7 +63,8 @@ export default {
   name: 'NavBar',
   components: {
     SearchBar,
-    BookGenre
+    BookGenre,
+    MagazineField
   },
   computed: {
     isLoggedIn : function (){ return (localStorage.getItem('id') != null)},
@@ -83,6 +88,10 @@ export default {
       ApiConnect.get('genres/').then((response) =>
             this.genre_names = response.data
       )},
+    getFields(){
+      ApiConnect.get('fields/').then((response) =>
+          this.field_names = response.data
+      )},
     userProfile() {
       this.$router.push('/readers/' + localStorage.getItem('id'));
     },
@@ -104,11 +113,13 @@ export default {
   data(){
     return {
       genre_names : [],
+      field_names : [],
       search_input: ''
     }
   },
   created() {
-    this.getGenres()
+    this.getGenres(),
+        this.getFields()
   }
 }
 </script>

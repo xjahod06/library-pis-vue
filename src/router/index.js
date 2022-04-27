@@ -31,6 +31,8 @@ import EditGenre from "@/pages/EditGenre";
 import EditField from "@/pages/EditField";
 import EditHardCopyBorrowing from "@/pages/EditHardCopyBorrowing";
 import EditReservation from "@/pages/EditReservation";
+import Field from "@/pages/Field";
+import FieldAuthors from "@/pages/FieldAuthors";
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,13 @@ const Routes = [
     component: Genre,
     meta: {
       title: 'Genre page',
+    }
+  },
+  {
+    path: '/field/:id',
+    component: Field,
+    meta : {
+      title: "Field page"
     }
   },
   {
@@ -138,6 +147,13 @@ const Routes = [
     component: GenreAuthors,
     meta: {
       title: 'Authors by genre',
+    }
+  },
+  {
+    path: '/field_authors/:id',
+    component: FieldAuthors,
+    meta: {
+      title: 'Authors by field',
     }
   },
   {
