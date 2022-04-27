@@ -1,7 +1,8 @@
 <template>
   <b-col cols="2" class="mx-2">
     <b-row class="text-center">
-      <b-img class="b-skeleton-img" :src="img" alt="Author photo" ></b-img>
+      <b-img class="b-skeleton-img" :src="img" alt="Author photo" v-if="img !== null && img !== undefined"></b-img>
+      <font-awesome-icon icon="fa-solid fa-user-pen" size="10x" class="my-3 img-cover" v-else />
     </b-row>
 
     <b-row class="text-left mt-2">
@@ -40,4 +41,7 @@ export default {
  h6{
    color: black;
  }
+.img-cover{
+  color:#24433e;
+}
  </style>
