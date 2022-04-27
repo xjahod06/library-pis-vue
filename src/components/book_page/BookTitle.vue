@@ -7,8 +7,11 @@
     <b-alert class="mt-2" v-model="showDismissibleAlertErrorBorrow" variant="danger" dismissible>
       {{alertMessage}}</b-alert>
     <b-row>
-      <b-col>
+      <b-col v-if="img !== null ">
         <b-img class="book-cover" :src="img" alt="Book cover" ></b-img>
+      </b-col>
+      <b-col v-else class="my-4">
+        <font-awesome-icon icon="fa-solid fa-book" size="10x" class="img-cover"/>
       </b-col>
     </b-row>
     <b-row class="text-left">
@@ -115,7 +118,7 @@ export default {
     Datepicker
   },
   props: {
-    img: [],
+    img: undefined,
     format: String,
     publisher: String,
     released: Date,
@@ -253,7 +256,16 @@ export default {
       return false;
     }
 
+  },
+  created() {
+    console.log(this.img);
   }
 
 }
 </script>
+
+<style scoped>
+.img-cover{
+  color:#24433e;
+}
+</style>

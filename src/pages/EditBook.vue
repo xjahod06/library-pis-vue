@@ -495,7 +495,8 @@ export default {
       hardState: 'NEW',
       coverPhoto: null,
       showError: false,
-      errorMessage: ''
+      errorMessage: '',
+      coverPhotoPath: ''
     }
   },
   methods: {
