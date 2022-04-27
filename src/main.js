@@ -12,12 +12,13 @@ import moment from 'moment';
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faDisplay,faPenToSquare,faBookOpen } from '@fortawesome/free-solid-svg-icons'
+import { faDisplay,faPenToSquare,faBookOpen,faBook,faUserPen } from '@fortawesome/free-solid-svg-icons'
+import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faDisplay,faPenToSquare,faBookOpen)
+library.add(faDisplay,faPenToSquare,faBookOpen,faBook,faUserPen,faCircleXmark)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 

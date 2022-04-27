@@ -1,7 +1,9 @@
 <template>
   <b-col cols="2">
     <b-row>
-      <b-img class="tile-img" :src="img" alt="Book cover" ></b-img>
+      <b-img class="tile-img" :src="img" alt="Book cover" v-if="img !== null && img !== undefined"></b-img>
+      <font-awesome-icon icon="fa-solid fa-book" size="9x" class="my-2 img-cover" v-else />
+
     </b-row>
     <b-row class="text-left">
       <b-badge pill variant="warning">{{ type }}</b-badge>
@@ -88,5 +90,8 @@ name: 'MainTile',
 }
 .author-link:hover{
   color: #333333;
+}
+.img-cover{
+  color:#24433e;
 }
 </style>

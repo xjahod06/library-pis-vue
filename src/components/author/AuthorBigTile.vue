@@ -2,7 +2,8 @@
   <div class="Author-big-tile">
     <b-row align-v="center">
       <b-col cols="3">
-        <b-img :src="img" class="author-img" alt="Author Photo" ></b-img>
+        <b-img :src="img" class="author-img" alt="Author Photo" v-if="img !== null && img !== undefined"></b-img>
+        <font-awesome-icon icon="fa-solid fa-user-pen" size="10x" class="img-cover" v-else />
       </b-col>
       <b-col id="author-info" class="py-2 px-4 pt-4">
         <h1 class="text-left display-3 mb-0"> {{ name }} {{ surname }}</h1>
@@ -49,5 +50,8 @@ h5, p{
 }
 small{
   color: #cbcbcb !important;
+}
+.img-cover{
+  color:#24433e;
 }
 </style>

@@ -2,7 +2,8 @@
   <div>
     <b-row>
       <b-col v-if="type !== 'genre' && type !== 'field'" cols="2">
-        <b-img class="tile-img" :src="img" alt="Image" ></b-img>
+          <b-img class="tile-img" :src="img" alt="Image" v-if="img !== null"></b-img>
+          <font-awesome-icon icon="fa-solid fa-book" size="5x" class="my-3  img-cover" v-else/>
       </b-col>
 
       <b-col v-if="type === 'book' || type ==='magazine'" cols="5"> <!-- book/magazine -->
@@ -72,3 +73,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.img-cover{
+  color:#24433e;
+}
+</style>
