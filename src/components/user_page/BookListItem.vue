@@ -5,7 +5,8 @@
         <div id="type">
           <h5>{{ type }}</h5>
         </div></b-col>
-      <b-col cols="3"><p class="book-user-text">{{name}}</p></b-col>
+      <b-col v-if="book" cols="3"><a class="book-user-text" :href="'#/' + type + 's/' + book.id">{{name}}</a></b-col>
+      <b-col v-if="magazine" cols="3"><a class="book-user-text" :href="'#/' + type + 's/' + magazine.id">{{name}}</a></b-col>
       <b-col cols="3"><p class="book-user-text">
         <b>From: </b>{{ dateFrom | formatDate }}<br>
         <b>To: </b>{{ dateTo | formatDate }}
@@ -90,7 +91,9 @@ export default {
     user: {},
     data: {},
     img: String,
-    electronic: Boolean
+    electronic: Boolean,
+    book: {},
+    magazine: {}
   },
   data() {
     return {
