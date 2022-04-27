@@ -30,6 +30,7 @@ import RegisterEmployee from "@/pages/RegisterEmployee";
 import EditGenre from "@/pages/EditGenre";
 import EditField from "@/pages/EditField";
 import EditHardCopyBorrowing from "@/pages/EditHardCopyBorrowing";
+import EditReservation from "@/pages/EditReservation";
 
 Vue.use(VueRouter)
 
@@ -234,6 +235,14 @@ const Routes = [
     }
   },
   {
+    path: '/edit_reservations/:id',
+    component: EditReservation,
+    meta: {
+      title: 'Edit Reservation',
+      employee: true
+    }
+  },
+  {
     path: '/edit_genres/:id',
     component: EditGenre,
     meta: {
@@ -286,7 +295,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record)=>record.meta.guest)) {
     if (localStorage.getItem('id')) {
-      if (localStorage.getItme('role') == "\"EMPLOYEE\"" || localStorage.getItme('role') == "\"ADMIN\"")
+      if (localStorage.getItem('role') == "\"EMPLOYEE\"" || localStorage.getItem('role') == "\"ADMIN\"")
       {
         next("/employee_dashboard")
       }

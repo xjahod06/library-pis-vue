@@ -6,13 +6,14 @@
         <b-col cols="4">
           <BookTitle
             :img="book.coverPhotoPath"
-            format="book"
+            format="Book"
             :publisher="book.publisher"
             :released="new Date(book.publicationDate)"
             :pages="book.pages"
             :hasElectronicCopy="hasElectronicCopy"
             :hardCopies="book.hardCopyExemplars"
             :electronicCopies="book.electronicCopyExemplars"
+            :id="book.id"
           >
 
           </BookTitle>
@@ -55,32 +56,26 @@ export default {
   },
   data(){
     return {
-      book: {}
+      book: {},
+      hasElectronicCopy: false
     }
   },
   methods: {
     getBook(id) {
       ApiConnect.get('books/'+id).then((response) =>
-          this.book = response.data,
+      {this.book = response.data;
+        if (this.book && this.book.electronicCopyExemplars.length > 0){
+          this.hasElectronicCopy = true;
+        }
+        else {
+          this.hasElectronicCopy = false;
+        }
+      }
       )},
   },
   created() {
     this.getBook(this.$route.params.id);
-  },
-  computed: {
-    hasElectronicCopy (){
-      if (this.book){
-        if (this.book.electronicCopyExemplars.length > 0	){
-          return true;
-        }
-      }
 
-      return false;
-    }
-  }
+  },
 }
 </script>
-
-<style scoped>
-
-</style>

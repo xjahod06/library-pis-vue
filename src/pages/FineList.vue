@@ -60,14 +60,6 @@ export default {
       })
       return data
     },
-
-    deleteFine(id, name){
-      ApiConnect.delete('/fines/'+id).then(response =>
-          console.log(response)
-      );
-      this.makeToast('Fine',name);
-      this.$root.$emit('bv::refresh::table', 'fineTable')
-    },
     payFine(item){
       let params = {id: item.id, state: "PAID", amount: item.amount, borrowingId: item.borrowingId}
       ApiConnect.put('/fines/', JSON.stringify(params), ApiConnect.headers).then(response =>

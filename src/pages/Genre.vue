@@ -4,13 +4,15 @@
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
-    <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
-    <AuthorSection name="Authors"
+    <MainSection v-if="books.length" name="Books" :fullPage="'/books/?genres='+this.genre_name.name" :data="books" root="/books/"></MainSection>
+    <AuthorSection v-if="authors.length"
+                   name="Authors"
                    :data="authors"
                    root="/authors/"
                    :fullPage="fullPage">
 
     </AuthorSection>
+    <h3 style="text-align: center" v-if="! books.length && ! authors.length">No books and authors for this genre.</h3>
     <MyFooter></MyFooter>
   </div>
 </template>

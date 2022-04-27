@@ -12,8 +12,8 @@
           </h5>
         </router-link>
         <p align="left" class="mb-0">
-          <small v-for="author in item.authors"
-                 :key="author.id">
+          <small v-for="(author,index) in item.authors"
+                 :key="index">
             {{author.name}} {{author.surname}}</small>
         </p>
         <div align="left">

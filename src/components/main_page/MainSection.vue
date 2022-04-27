@@ -10,7 +10,7 @@
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row v-if="data">
       <MainTile v-for="load in data.slice(0,6)" :key="load.id"
                 :genres = "load.genres"
                 :type = "load.language"

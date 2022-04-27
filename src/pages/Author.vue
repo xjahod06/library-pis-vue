@@ -6,7 +6,7 @@
       <AuthorBigTile
         :name="author.name"
         :surname="author.surname"
-        :birth="new Date(author.dateOfBirth)"
+        :birth="author.dateOfBirth ? new Date(author.dateOfBirth): null"
         :death="dateDeath"
         :description="author.description"
         :img = "author.photographPath"

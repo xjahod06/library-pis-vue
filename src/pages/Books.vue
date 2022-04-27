@@ -3,7 +3,7 @@
     <NavbarFinal></NavbarFinal>
 
     <b-container>
-      <h1>Books:</h1>
+      <h1><span v-if="this.$route.query.genres !== undefined">{{ this.$route.query.genres }}</span>  Books:</h1>
       <b-row>
         <MainTile v-for="book in books"
                   :img="book.coverPhotoPath"
@@ -45,12 +45,19 @@ export default {
   },
   methods: {
     getBooks(){
-      ApiConnect.get('books').then((response) =>
+      let params;
+      if(this.$route.query.genres !== undefined) {
+        params = {params: {"genres": this.$route.query.genres}}
+      }else{
+        params = {params: {}}
+      }
+      ApiConnect.get('/books', params).then((response) =>
           this.books = response.data,
       )}
   },
   created() {
     this.getBooks();
+      console.log(this.$route.query.genre);
   },
 }
 </script>

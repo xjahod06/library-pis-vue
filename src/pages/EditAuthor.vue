@@ -51,7 +51,7 @@ export default {
               this.form.name = this.author.name;
               this.form.surname = this.author.surname;
               this.form.photographPath = this.author.photographPath;
-              this.form.dateOfBirth = new Date(this.author.dateOfBirth);
+              if (this.author.dateOfBirth) this.form.dateOfBirth= new Date(this.author.dateOfBirth);
               if (this.author.dateOfDeath) this.form.dateOfDeath = new Date(this.author.dateOfDeath);
               this.form.description = this.author.description;
               this.author.books.forEach(book => this.form.books.push(book));

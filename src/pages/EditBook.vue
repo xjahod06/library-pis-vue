@@ -18,6 +18,7 @@
             <b-form-group
                 id="title-label"
                 label="Title:"
+                label-class="required"
                 label-for="title"
             >
               <b-form-input
@@ -28,12 +29,16 @@
                   placeholder="Enter book title"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Title field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="language-label"
                 label="Language:"
+                label-class="required"
                 label-for="lang"
             >
               <b-form-input
@@ -44,6 +49,9 @@
                   placeholder="Enter book Language"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Laguage field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -52,6 +60,7 @@
             <b-form-group
                 id="publisher-label"
                 label="Publisher:"
+                label-class="required"
                 label-for="publisher"
             >
               <b-form-input
@@ -62,12 +71,16 @@
                   placeholder="Enter book publisher"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Publisher field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="isbn-label"
                 label="ISBN:"
+                label-class="required"
                 label-for="isbn"
             >
               <b-form-input
@@ -78,22 +91,29 @@
                   placeholder="Enter book isbn"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                ISBN field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="publicationDate-label"
                 label="Publication date:"
+                label-class="required"
                 label-for="lang"
             >
-              <b-form-input
+              <datepicker
                   ref="publicationDate"
                   id="publicationDate"
-                  v-model="new Date(book.publicationDate).toDateInputValue()"
+                  v-model="book.publicationDate"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
-              ></b-form-input>
+              ></datepicker>
+              <b-form-invalid-feedback>
+                Publication date field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -101,7 +121,8 @@
           <b-col>
             <b-form-group
                 id="publicationNumber-label"
-                label="publication number:"
+                label="Publication number:"
+                label-class="required"
                 label-for="publicationNumber"
             >
               <b-form-input
@@ -112,12 +133,16 @@
                   placeholder="Enter book publication number"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Publication number field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
                 id="pages-label"
-                label="pages:"
+                label="Pages:"
+                label-class="required"
                 label-for="pages"
             >
               <b-form-input
@@ -128,15 +153,19 @@
                   placeholder="Enter number of book pages"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Number of book pages field can not be empty.
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <label class="typo__label" for="authors">Authors</label>
+            <label class="typo__label required" for="authors">Authors</label>
             <multiselect
                 v-model="book.authors"
                 id="authors"
+                ref="authors"
                 label="name"
                 track-by="name"
                 placeholder="Type to search"
@@ -161,7 +190,7 @@
                 <b-badge pill variant="primary">{{ option.name }} <b-icon icon="x" scale="2" @click="remove(option)" type="button"></b-icon></b-badge>
               </template>-->
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.authors.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="book.authors" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
                 <span>Oops! No authors found. Consider changing the search query.</span>
@@ -169,9 +198,10 @@
             </multiselect>
           </b-col>
           <b-col>
-            <label class="typo__label">Genres</label>
+            <label class="typo__label required">Genres</label>
             <multiselect
                 v-model="book.genres"
+                ref="genres"
                 :options="genres"
                 :multiple="true"
                 :close-on-select="false"
@@ -182,7 +212,7 @@
                 track-by="name"
                 :preselect-first="true">
               <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.genres.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+                <div class="multiselect__clear" v-if="book.genres" @mousedown.prevent.stop="clearAll(props.search)"></div>
               </template>
               <template slot="noResult">
                 <span>Oops! No Genres found. Consider changing the search query.</span>
@@ -250,6 +280,9 @@
             ></b-form-textarea>
           </b-col>
         </b-row>
+        <b-row v-if="showError">
+           <p style="color: red">{{errorMessage}} </p>
+        </b-row>
         <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
             <b-button @click="submit" variant="primary">Update</b-button>
@@ -273,7 +306,6 @@
               :publisher="book.publisher"
               :released="new Date(book.publicationDate)"
               :pages="book.pages"
-              :hasElectronicCopy="hasElectronicCopy"
               :hardCopies="book.hardCopyExemplars"
               :electronicCopies="book.electronicCopyExemplars"
           >
@@ -304,6 +336,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -314,10 +347,14 @@
               placeholder="Enter maximum number of borrowing extension"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -328,10 +365,14 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="electronicExampleFileInput-label"
             label="File:"
+            label-class="required"
             label-for="electronicExampleFileInput"
         >
           <b-form-file
@@ -342,6 +383,9 @@
               drop-placeholder="Drop file here..."
               required
           ></b-form-file>
+          <b-form-invalid-feedback>
+            Electronic example needs file.
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-button variant="success" class="ml-4" @click="addElectronicExample"> Add electronic copy </b-button>
@@ -357,6 +401,7 @@
         <b-form-group
             id="maximumNumberOfExtension-label"
             label="Maximum number of extension:"
+            label-class="required"
             label-for="maximumNumberOfExtension"
         >
           <b-form-input
@@ -367,10 +412,14 @@
               placeholder="Enter maximum number of borrowing extension"
               required
           ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="borrowPeriod-label"
             label="Borrow period:"
+            label-class="required"
             label-for="borrowPeriod"
         >
           <b-form-input
@@ -381,6 +430,10 @@
               placeholder="Enter maximus day that book could be borrowed"
               required
           ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
             id="state-label"
@@ -390,11 +443,16 @@
           <b-form-input
               ref="state"
               id="state"
+              disabled
               v-model="hardState"
               type="text"
               placeholder="Enter exemplar state"
               required
           ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Maximumu number of extention can not be empty.
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
@@ -410,12 +468,7 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
-
-Date.prototype.toDateInputValue = (function() {
-  var local = new Date(this);
-  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-  return local.toJSON().slice(0,10);
-});
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: "EditBook",
@@ -424,7 +477,8 @@ export default {
     BookTitle,
     Multiselect,
     NavbarFinal,
-    MyFooter
+    MyFooter,
+    Datepicker
   },
   data () {
     return {
@@ -439,7 +493,9 @@ export default {
       hardExtension: 1,
       hardPeriod: 42,
       hardState: 'NEW',
-      coverPhoto: null
+      coverPhoto: null,
+      showError: false,
+      errorMessage: ''
     }
   },
   methods: {
@@ -462,7 +518,9 @@ export default {
     getBook(id){
       ApiConnect.get('/books/'+id).then((response) =>{
         this.book = response.data
+        this.book.publicationDate = new Date(this.book.publicationDate).toDateInputValue()
       });
+
     },
     getGenres(){
       ApiConnect.get('/genres/').then((response) =>{
@@ -480,7 +538,68 @@ export default {
         this.book.coverPhotoPath = filePath;
       })
     },
+    check_form(){
+      let form_check_error = false;
+      if (! this.book.name){
+        this.$refs['title'].state = false;
+        this.$refs['title'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.language){
+        this.$refs['lang'].state = false;
+        this.$refs['lang'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publisher){
+        this.$refs['publisher'].state = false;
+        this.$refs['publisher'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.isbn){
+        this.$refs['isbn'].state = false;
+        this.$refs['isbn'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.isbn){
+        this.$refs['isbn'].state = false;
+        this.$refs['isbn'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publicationDate){
+        this.$refs['publicationDate'].state = false;
+        this.$refs['publicationDate'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.publicationNumber){
+        this.$refs['publicationNumber'].state = false;
+        this.$refs['publicationNumber'].value = "";
+        form_check_error = true;
+      }
+      if (! this.book.pages){
+        this.$refs['pages'].state = false;
+        this.$refs['pages'].value = "";
+        form_check_error = true;
+      }
+      if (this.book.authors.length < 1){
+        this.$refs['authors'].state = false;
+        this.$refs['authors'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Authors field can not be empty.'
+      }
+      if (this.book.genres.length < 1 ){
+        this.$refs['genres'].state = false;
+        this.$refs['genres'].value = "";
+        form_check_error = true;
+        this.showError = true;
+        this.errorMessage = 'Genres field can not be empty.'
+      }
+
+      return form_check_error;
+    },
     submit(){
+        if (this.check_form()) return;
+
         ApiConnect.put('/books', this.book).then((response) =>{
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
@@ -488,6 +607,7 @@ export default {
         })
     },
     create(){
+      if (this.check_form()) return;
         ApiConnect.post('/books', this.book).then((response) =>{
           this.makeToast('Book '+this.book.name+' has been created successfully.')
         }).catch(error => {
@@ -504,7 +624,28 @@ export default {
         autoHideDelay: 5000,
       })
     },
+    check_electronic_exemplar_form(){
+      let form_check_error = false;
+      if (! this.electronicExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicExampleFile){
+        this.$refs['electronicExampleFileInput'].state = false;
+        this.$refs['electronicExampleFileInput'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     addElectronicExample() {
+      if (this.check_electronic_exemplar_form()) return;
       this.$refs.addElectronicCopy.hide();
       let electronicExample = {};
       electronicExample.availability = true;
@@ -531,7 +672,23 @@ export default {
         });
       })
     },
+    check_hard_exemplar_form(){
+      let form_check_error = false;
+      if (! this.hardExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.hardPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     addHardExample() {
+      if (this.check_hard_exemplar_form()) return;
       this.$refs.addHardCopy.hide();
       let hardExample = {};
       hardExample.availability = true;
@@ -563,7 +720,7 @@ export default {
             hardCopyExemplars: [],
             electronicCopyExemplars: [],
             isbn: undefined,
-            publicationNumber: undefined,
+            publicationNumber: 1,
             publicationDate: new Date(),
             pages: '',
             genres: [],
@@ -572,17 +729,6 @@ export default {
       this.getBook(this.$route.params.id);
     }
     this.getGenres();
-  },
-  computed: {
-    hasElectronicCopy (){
-      if (this.book !== 'undefined'){
-        if (this.book.electronicCopyExemplars.length > 0	){
-          return true;
-        }
-      }
-
-      return false;
-    }
   }
 }
 </script>

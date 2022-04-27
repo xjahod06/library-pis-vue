@@ -18,6 +18,9 @@
                   placeholder="Enter field name"
                   required
               ></b-form-input>
+              <b-form-invalid-feedback>
+                Field name can not be empty!
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
@@ -147,13 +150,24 @@ export default {
       })
     },
     submit(){
+      if (! this.field.name){
+        this.$refs['field_name'].state = false;
+        this.$refs['field_name'].value = "";
+        return;
+      }
         ApiConnect.put('/fields', this.field).then((response) =>{
+          this.$refs["field_name"].state = null;
           this.makeToast('field  '+this.field.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
         })
     },
     create(){
+      if (! this.field.name){
+        this.$refs['field_name'].state = false;
+        this.$refs['field_name'].value = "";
+        return;
+      }
         ApiConnect.post('/fields', this.field).then((response) =>{
           this.makeToast('field '+this.field.name+' has been created successfully.')
           console.log(response)

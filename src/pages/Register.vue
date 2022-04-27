@@ -8,62 +8,73 @@
             <h1 class="text-center">Register</h1>
           </b-col>
         </b-row>
-        <b-form @submit.prevent="submit" id="form-1" novalidate>
+        <b-form @submit.prevent="submit" @keyup.enter.prevent="submit" id="form-1" novalidate>
           <b-row>
             <b-col>
               <b-form-group
                   id="input-group-1"
                   label="Name:"
+                  label-class="required"
                   label-for="fname"
               >
                 <b-form-input
                     id="fname"
+                    ref="fname"
                     v-model="form.name"
                     type="text"
                     placeholder="Enter your name"
                     autocomplete="given-name"
                     required
                 ></b-form-input>
+                <b-form-invalid-feedback>
+                  Name field can not be empty.
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col>
               <b-form-group
                   id="input-group-2"
                   label="Surname:"
+                  label-class="required"
                   label-for="lname"
               >
                 <b-form-input
                     id="lname"
+                    ref="lname"
                     v-model="form.surname"
                     type="text"
                     placeholder="Enter your surname"
                     autocomplete="family-name"
                     required
                 ></b-form-input>
+                <b-form-invalid-feedback>
+                  Surname field can not be empty.
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-row>
           <b-row>
-            <b-col>
-              <b-form-group
-                  id="input-group-3"
-                  label="Full name:"
-                  label-for="name"
-              >
-                <b-form-input
-                    id="name"
-                    v-model="form.fullname"
-                    type="text"
-                    placeholder="Enter your full name"
-                    autocomplete="name"
-                    required
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
+<!--            <b-col>-->
+<!--              <b-form-group-->
+<!--                  id="input-group-3"-->
+<!--                  label="Full name:"-->
+<!--                  label-for="name"-->
+<!--              >-->
+<!--                <b-form-input-->
+<!--                    id="name"-->
+<!--                    v-model="form.fullname"-->
+<!--                    type="text"-->
+<!--                    placeholder="Enter your full name"-->
+<!--                    autocomplete="name"-->
+<!--                    required-->
+<!--                ></b-form-input>-->
+<!--              </b-form-group>-->
+<!--            </b-col>-->
             <b-col>
               <b-form-group
                   id="input-group-4"
                   label="Email:"
+                  label-class="required"
                   label-for="email"
               >
                 <b-form-input
@@ -76,8 +87,9 @@
                     required
                 ></b-form-input>
                 <b-form-invalid-feedback>
-                  This email address is already used. Please, select another email.
+                  {{ errMessage }}
                 </b-form-invalid-feedback>
+
               </b-form-group>
 
             </b-col>
@@ -96,7 +108,6 @@
                     type="text"
                     placeholder="Enter your city"
                     autocomplete="address-level2"
-                    required
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -111,7 +122,6 @@
                     v-model="form.street"
                     type="text"
                     placeholder="Enter your street"
-                    required
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -128,7 +138,6 @@
                     v-model="form.houseNumber"
                     type="number"
                     placeholder="Enter your house number"
-                    required
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -144,7 +153,6 @@
                     type="number"
                     placeholder="Enter your post code"
                     autocomplete="postal-code"
-                    required
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -155,10 +163,12 @@
               <b-form-group
                   id="input-group-9"
                   label="Password:"
+                  label-class="required"
                   label-for="password"
               >
                 <b-form-input
                     id="password"
+                    ref="password"
                     v-model="form.password"
                     type="password"
                     placeholder="Enter your password"
@@ -171,6 +181,7 @@
               <b-form-group
                   id="input-group-9"
                   label="Confirm password:"
+                  label-class="required"
                   label-for="confirm-password"
               >
                 <b-form-input
@@ -193,7 +204,7 @@
               <b-button @click="submit" variant="primary">Register</b-button>
             </b-col>
           </b-row>
-          <p v-if="this.showError" style="font-color:red">This email address is already used. Please, select another email.</p>
+          <p v-if="this.showError" style="font-color:red"> {{errMessage}}</p>
           <b-row class="mt-3">
             <b-col class="text-center">
               Already have account? <router-link to="/login/">Login</router-link>
@@ -233,29 +244,70 @@ export default {
         password: "",
         fullname: ""
       },
-      showError: false
+      showError: false,
+      errMessage: ""
     };
   },
   methods: {
     submit(){
+      let form_required_error = false;
+      if (!this.form.name) {
+        this.$refs['fname'].state = false;
+        this.$refs['fname'].value = "";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
+      }
+
+      if (! this.form.surname){
+        this.$refs['lname'].state = false;
+        this.$refs['lname'].value = "";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
+      }
+      if (!this.form.email){
+        this.$refs['email'].state = false;
+        this.$refs['email'].valueOf = "";
+        this.errMessage = "Email address can not be empty.";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
+      }
+      if (form_required_error) return;
+
       if (this.form.password != this.form.confirmPassword){
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.$refs['confirm-password'].state = false;
+        this.$refs['confirm-password'].value = "";
         return;
       }
-        ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
-          {
-            if (response.status == 200)
+
+
+      ApiConnect.post('/readers', JSON.stringify(this.form), ApiConnect.headers).then((response) => {
+        if (response.status == 200)
+        {
+          let user = {}
+          user.email = this.form.email;
+          user.password = this.form.password;
+          ApiConnect.post('/readers/authenticate', user, ApiConnect.headers).then((response) =>{
+            if (response)
             {
-              this.$router.push('/login');
-              this.showError = false
+              localStorage.setItem('id', JSON.stringify(response.data.id));
+              localStorage.setItem('role', JSON.stringify(response.data.role));
+              this.$router.push('/');
             }
-            else
-            {
-              this.showError = true
-            }
-          }
-        ).catch(error => {
-        console.log(error)
-        this.showError = true;
+            this.showError = false
+          }).catch(error => {
+            console.log(error);
+          })
+
+        }}
+      ).catch(error => {
+        console.log(error);
+        this.$refs['email'].state=false;
+        this.errMessage = "Email already registered.";
       })
     }
   }

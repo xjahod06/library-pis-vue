@@ -9,7 +9,7 @@
             <h1 class="text-center">Log in</h1>
           </b-col>
         </b-row>
-        <b-form @submit.prevent="submit" novalidate>
+        <b-form @submit.prevent="submit" @keyup.enter.prevent="submit" novalidate>
           <b-form-group
               id="email-label"
               label="Email address:"
@@ -81,6 +81,22 @@ export default {
       if (localStorage.getItem('id') != null)
       {
         this.errMessage = "Another user is already logged in.";
+        return;
+      }
+      if (!this.form.email){
+        this.errMessage = "Please fill in email before trying to login in."
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.form.password = "";
+        this.$refs['email'].state = false;
+        this.$refs['email'].value = "";
+        return;
+      }
+      if (!this.form.password){
+        this.errMessage = "Please fill in password before trying to login in."
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+
         return;
       }
       const data = {email: this.form.email, password: this.form.password};

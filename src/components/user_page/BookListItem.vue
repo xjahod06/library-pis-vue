@@ -43,16 +43,17 @@
                      variant="warning">Prolong</b-button>
 
           <b-modal ref="my-modal" hide-footer title="Change date." @hidden="onHidden">
-            <div class="d-block text-center">
+            <div class="d-block text-center" align="center" style="align-content: center">
               <b-alert class="mt-2" v-model="showDismissibleAlert" variant="success" dismissible>
                 {{ successMessage }}</b-alert>
               <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
                 {{errorMessage}}</b-alert>
-              <b-form-datepicker id="example-datepicker"
+              <datepicker id="example-datepicker"
                                  v-model="dateToNew"
                                  placeholder="Choose new date"
+                                 inline
                                  class="mb-2">
-              </b-form-datepicker>            </div>
+              </datepicker>            </div>
             <b-button v-if="!borrowing" class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
             <b-button v-else-if="!electronic" class="mt-2" variant="outline-primary" block @click="prolongBorrowing">Save</b-button>
             <b-button v-if="electronic" class="mt-2" variant="outline-primary" block @click="prolongElectronicBorrowing">Save</b-button>
@@ -69,10 +70,14 @@
 import ApiConnect from "@/services/ApiConnect";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faFileArrowDown} from "@fortawesome/free-solid-svg-icons";
+import Datepicker from "vuejs-datepicker";
 library.add(faFileArrowDown)
 
 export default {
   name: 'BookListItem',
+  components: {
+    Datepicker
+  },
   props: {
     name: String,
     dateFrom: Date,

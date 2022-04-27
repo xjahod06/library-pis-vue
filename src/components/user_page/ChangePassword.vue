@@ -7,7 +7,7 @@
      {{errorMessage}}</b-alert>
     <b-form @submit="verifyPassword" v-if="show" class="user-form">
       <b-row class="form-row">
-        <b-col cols="5"><p class="form-label" >Old password*:</p> </b-col>
+        <b-col cols="5"><p class="form-label required" >Old password:</p> </b-col>
         <b-col cols="7">
           <b-form-input
               v-model="form.oldPassword"
@@ -18,7 +18,7 @@
         </b-col>
       </b-row>
       <b-row class="form-row">
-        <b-col cols="5"><p class="form-label" >New password*:</p> </b-col>
+        <b-col cols="5"><p class="form-label required" >New password:</p> </b-col>
         <b-col cols="7">
           <b-form-input
               v-model="form.password"
@@ -29,7 +29,7 @@
         </b-col>
       </b-row>
       <b-row class="form-row">
-        <b-col cols="5"><p class="form-label" >Confirm password*:</p> </b-col>
+        <b-col cols="5"><p class="form-label required" >Confirm password:</p> </b-col>
         <b-col cols="7">
           <b-form-input
               v-model="form.confirmPassword"

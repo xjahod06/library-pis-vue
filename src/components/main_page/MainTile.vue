@@ -14,13 +14,19 @@
       </router-link>
     </b-row>
     <b-row class="text-left">
-      <small>{{ authorsToPrint }}</small>
+      <small v-for="author in authors">
+        <router-link :to="{path: '/authors/'+author.id}" class="author-link">{{author.name}} {{author.surname}}</router-link>&nbsp;
+      </small>
     </b-row>
     <b-row class="text-left" v-if="genres !== undefined">
-      <small>{{ genresToPrint }}</small>
+      <small v-for="genre in genres">
+        <router-link :to="{path: '/genre/'+genre.id}" class="author-link">{{genre.name}}</router-link>&nbsp;
+      </small>
     </b-row>
     <b-row class="text-left" v-if="fields !== undefined">
-      <small>{{ fieldsToPrint }}</small>
+      <small v-for="field in fields">
+        <router-link :to="{path: '/fields/'+field.id}" class="author-link">{{field.name}}</router-link>&nbsp;
+      </small>
     </b-row>
   </b-col>
 </template>
@@ -75,3 +81,12 @@ name: 'MainTile',
   }
 }
 </script>
+
+<style scoped>
+.author-link{
+  color: inherit;
+}
+.author-link:hover{
+  color: #333333;
+}
+</style>

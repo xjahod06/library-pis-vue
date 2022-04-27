@@ -1,7 +1,7 @@
 <template>
   <div id="book-title" class="text-center">
     <b-alert class="mt-2" v-model="showDismissibleAlertBorrow" variant="success" dismissible>
-      {{ alertMessage }}. <br>
+      {{ alertMessage }}<br>
     You can download it <a :href="filePath">here.</a>
     </b-alert>
     <b-alert class="mt-2" v-model="showDismissibleAlertErrorBorrow" variant="danger" dismissible>
@@ -16,6 +16,10 @@
         <b-button @click="showModalReservation" variant="info" class="mr-2"> Reserve </b-button>
         <b-button v-if="hasElectronicCopy" @click="borrowEcopy" variant="success">Borrow electronic copy</b-button>
       </b-col>
+      <b-col v-if="loggedEmployee && id !== undefined" offset-md="2">
+        <router-link :to="{path: '/edit_books/'+id}"><b-button variant="secondary" class="mr-2" v-if="format === 'Book' "> Edit </b-button></router-link>
+        <router-link :to="{path: '/edit_magazines/'+id}"><b-button variant="secondary" class="mr-2" v-if="format === 'Magazine' "> Edit </b-button></router-link>
+      </b-col>
     </b-row>
 
     <!--MODAL RESERVATION--->
@@ -25,21 +29,41 @@
           {{ alertMessage }}</b-alert>
         <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
           {{alertMessage}}</b-alert>
+        <b-row>
+          <b-col cols="5">
+            <p style="text-align: left" class="form-label required" >Select start date:</p>
+          </b-col>
+          <b-col>
+            <datepicker id="example-datepickerRes"
+                        monday-first
+                        v-model="dateFrom"
+                        placeholder="Choose new date"
+                        class="mb-1 mt-1 ml-0"
+            ></datepicker>
+          </b-col>
+        </b-row>
 
-        <p style="text-align: left" class="form-label" >Select start date*:</p>
-        <b-form-datepicker id="example-datepickerRes"
-                           v-model="dateFrom"
-                           placeholder="Choose new date"
-                           class="mb-2">
-        </b-form-datepicker>
-        <p style="text-align: left" class="form-label" >Select end date*:</p>
-        <b-form-datepicker id="example-datepickerRes2"
-                           v-model="dateTo"
-                           placeholder="Choose new date"
-                           class="mb-2">
-        </b-form-datepicker>
-        <p style="text-align: left" class="form-label" >Select hard copy*:</p>
-        <b-form-select v-model="selectedHardCopy" :options="hardCopiesOptions"></b-form-select>
+        <b-row>
+          <b-col cols="5">
+            <p style="text-align: left" class="form-label required" >Select end date:</p>
+          </b-col>
+          <b-col>
+            <datepicker id="example-datepickerRes2"
+                        monday-first
+                        v-model="dateTo"
+                        placeholder="Choose new date"
+                        class="mb-1 mt-1 ml-0"
+            ></datepicker>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="5">
+            <p style="text-align: left" class="form-label required" >Select hard copy:</p>
+          </b-col>
+          <b-col>
+            <b-form-select v-if="hardCopies" v-model="selectedHardCopy" :options="hardCopiesOptions"></b-form-select>
+          </b-col>
+        </b-row>
 
       </div>
       <b-button class="mt-3" variant="outline-primary" block @click="makeReservation">Save</b-button>
@@ -83,9 +107,13 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
+import Datepicker from 'vuejs-datepicker';
 
 export default {
   name: "BookTitle",
+  components: {
+    Datepicker
+  },
   props: {
     img: [],
     format: String,
@@ -94,7 +122,8 @@ export default {
     pages: Number,
     hasElectronicCopy: Boolean,
     hardCopies: [],
-    electronicCopies: []
+    electronicCopies: [],
+    id: Number,
   },
   data (){
     return {
@@ -117,7 +146,6 @@ export default {
       this.$refs['new-borrow'].show()
     },
     makeReservation(){
-      let bookId = this.$route.params.id;
       let reservation = {}
       reservation.id = 0;
 
@@ -146,7 +174,7 @@ export default {
         reservation.dateUntil = endDate;
         reservation.exemplar = this.selectedHardCopy;
         let user = {};
-        user.id = parseInt(localStorage.getItem('id')); // todo mozno to zmenit na id
+        user.id = parseInt(localStorage.getItem('id'));
         reservation.reader= user;
 
         ApiConnect.post('/reservations', reservation).then(response => {
@@ -219,13 +247,13 @@ export default {
     loggedUser: function (){
       if (localStorage.getItem('role') === "\"READER\"") return true;
       return false;
+    },
+    loggedEmployee: function (){
+      if (localStorage.getItem('role') == "\"EMPLOYEE\"" || localStorage.getItem('role') == "\"ADMIN\"") return true;
+      return false;
     }
 
   }
 
 }
 </script>
-
-<style scoped>
-
-</style>
