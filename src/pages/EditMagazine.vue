@@ -189,12 +189,32 @@
             <label >Hard exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
               <template v-for="hardCopy in magazine.hardCopyExemplars">
-                <span v-if="hardCopy.availability === false" class="dropdown-item text-danger">
-                  state: {{ hardCopy.state }}, not available
-                </span>
-                <span v-if="hardCopy.availability !== false" class="dropdown-item text-success">
-                  state: {{ hardCopy.state }}, available
-                </span>
+                <b-row>
+                  <b-col cols="8">
+                    <span v-if="hardCopy.availability === false" class="dropdown-item text-danger">
+                      state: {{ hardCopy.state }}, not available
+                    </span>
+                    <span v-if="hardCopy.availability !== false" class="dropdown-item text-success">
+                      state: {{ hardCopy.state }}, available
+                    </span>
+                  </b-col>
+                  <b-col cols="1" class="text-center">
+                    <font-awesome-icon
+                        icon="fa-solid fa-pen-to-square"
+                        class="text-info"
+                        type="button"
+                        @click="editHardCopy(hardCopy)"
+                    />
+                  </b-col>
+                  <b-col cols="1" class="text-center">
+                    <font-awesome-icon
+                        icon="fa-regular fa-circle-xmark"
+                        class="text-danger"
+                        type="button"
+                        @click="deleteHardCopy(hardCopy.id)"
+                    />
+                  </b-col>
+                </b-row>
               </template>
             </div>
           </b-col>
@@ -202,12 +222,32 @@
             <label >Electronic exemplars</label><br>
             <div class="dropdown-menu d-block" style="position: initial">
               <template v-for="Copy in magazine.electronicCopyExemplars">
-                <span v-if="Copy.availability === false" class="dropdown-item text-danger">
-                  state: {{ Copy.state }}, not available
-                </span>
-                <span v-if="Copy.availability !== false" class="dropdown-item text-success">
-                  state: {{ Copy.state }}, available
-                </span>
+                <b-row>
+                  <b-col cols="9">
+                    <span v-if="Copy.availability === false" class="dropdown-item text-danger">
+                      state: {{ Copy.state }}, not available
+                    </span>
+                    <span v-if="Copy.availability !== false" class="dropdown-item text-success">
+                      state: {{ Copy.state }}, available
+                    </span>
+                  </b-col>
+                  <b-col cols="1" class="text-center">
+                    <font-awesome-icon
+                        icon="fa-solid fa-pen-to-square"
+                        class="text-info"
+                        type="button"
+                        @click="editElectronicCopy(Copy)"
+                    />
+                  </b-col>
+                  <b-col cols="1" class="text-center">
+                    <font-awesome-icon
+                        icon="fa-regular fa-circle-xmark"
+                        class="text-danger"
+                        type="button"
+                        @click="deleteElectroCopy(Copy.id)"
+                    />
+                  </b-col>
+                </b-row>
               </template>
             </div>
           </b-col>
@@ -379,6 +419,120 @@
         <b-button variant="success" class="ml-4" @click="addHardExample"> Add hard copy </b-button>
       </b-form>
     </b-modal>
+    <b-modal
+        id="modal-updateHardCopy"
+        title="Edit hard copy"
+        hide-footer
+        ref="updateHardCopy"
+    >
+      <b-form @submit.prevent="submit">
+        <b-form-group
+            id="maximumNumberOfExtensionUpdate-label"
+            label="Maximum number of extension:"
+            label-class="required"
+            label-for="maximumNumberOfExtensionUpdate"
+        >
+          <b-form-input
+              ref="maximumNumberOfExtensionUpdate"
+              id="maximumNumberOfExtensionUpdate"
+              v-model="hardCopy.maximumNumberOfExtension"
+              type="number"
+              placeholder="Enter maximum number of borrowing extension"
+              required
+          ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+            id="borrowPeriodUpdate-label"
+            label="Borrow period:"
+            label-class="required"
+            label-for="borrowPeriodUpdate"
+        >
+          <b-form-input
+              ref="borrowPeriodUpdate"
+              id="borrowPeriodUpdate"
+              v-model="hardCopy.borrowPeriod"
+              type="number"
+              placeholder="Enter maximus day that book could be borrowed"
+              required
+          ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+            id="stateUpdate-label"
+            label="Books state:"
+            label-for="stateUpdate"
+        >
+          <b-form-input
+              ref="stateUpdate"
+              id="stateUpdate"
+              v-model="hardCopy.state"
+              type="text"
+              placeholder="Enter exemplar state"
+              required
+          ></b-form-input>
+
+          <b-form-invalid-feedback>
+            Maximumu number of extention can not be empty.
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-button variant="info" class="ml-4" @click="editHardExample"> Update hard copy </b-button>
+      </b-form>
+    </b-modal>
+
+    <b-modal
+        id="modal-updateElectronicCopy"
+        title="Update electronic copy"
+        hide-footer
+        ref="updateElectronicCopy"
+    >
+      <b-form @submit.prevent="submit">
+        <b-form-group
+            id="maximumNumberOfExtensionUpdate-label"
+            label="Maximum number of extension:"
+            label-class="required"
+            label-for="maximumNumberOfExtensionUpdate"
+        >
+          <b-form-input
+              ref="maximumNumberOfExtensionUpdate"
+              id="maximumNumberOfExtensionUpdate"
+              v-model="electronicCopy.maximumNumberOfExtension"
+              type="number"
+              placeholder="Enter maximum number of borrowing extension"
+              required
+          ></b-form-input>
+          <b-form-invalid-feedback>
+            Maximum number of extention can not be empty.
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+            id="borrowPeriodUpdate-label"
+            label="Borrow period:"
+            label-class="required"
+            label-for="borrowPeriodUpdate"
+        >
+          <b-form-input
+              ref="borrowPeriodUpdate"
+              id="borrowPeriodUpdate"
+              v-model="electronicCopy.borrowPeriod"
+              type="number"
+              placeholder="Enter maximus day that book could be borrowed"
+              required
+          ></b-form-input>
+          <b-form-invalid-feedback>
+            Borrow period can not be empty.
+          </b-form-invalid-feedback>
+        </b-form-group>
+
+        <b-button variant="info" class="ml-4" @click="editElectronicExample"> Update electronic copy </b-button>
+      </b-form>
+    </b-modal>
+
   </div>
 </template>
 <script>
@@ -412,7 +566,17 @@ export default {
       hardPeriod: 42,
       hardState: 'NEW',
       coverPhoto: null,
-      electronicExampleFile: null
+      electronicExampleFile: null,
+      hardCopy: {
+        maximumNumberOfExtension: undefined,
+        borrowPeriod: undefined,
+        state: undefined,
+      },
+      electronicCopy: {
+        maximumNumberOfExtension: undefined,
+        borrowPeriod: undefined,
+        state: undefined,
+      },
     }
   },
   methods: {
@@ -479,7 +643,28 @@ export default {
         autoHideDelay: 5000,
       })
     },
+    check_electronic_exemplar_form(){
+      let form_check_error = false;
+      if (! this.electronicExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
+      if (! this.electronicExampleFile){
+        this.$refs['electronicExampleFileInput'].state = false;
+        this.$refs['electronicExampleFileInput'].value = "";
+        form_check_error = true;
+      }
+
+      return form_check_error;
+    },
     addElectronicExample() {
+      if (this.check_electronic_exemplar_form()) return;
       this.$refs.addElectronicCopy.hide();
       let electronicExample = {};
       electronicExample.availability = true;
@@ -498,16 +683,30 @@ export default {
         let filePath = response.data.fileDownloadUri;
         electronicExample.filePath = filePath;
         ApiConnect.post('/electronic-copy-exemplars',electronicExample).then(response => {
-          console.log(response);
+          this.makeToast('Electronic copy was added successfully.')
+          ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+            this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
+          });
         })
-        this.makeToast('Electronic copy was added successfully.')
-        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
-          this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
-        });
       })
+    },
+    check_hard_exemplar_form(){
+      let form_check_error = false;
+      if (! this.hardExtension){
+        this.$refs['maximumNumberOfExtension'].state = false;
+        this.$refs['maximumNumberOfExtension'].value = "";
+        form_check_error = true;
+      }
+      if (! this.hardPeriod){
+        this.$refs['borrowPeriod'].state = false;
+        this.$refs['borrowPeriod'].value = "";
+        form_check_error = true;
+      }
 
+      return form_check_error;
     },
     addHardExample() {
+      if (this.check_hard_exemplar_form()) return;
       this.$refs.addHardCopy.hide();
       let hardExample = {};
       hardExample.availability = true;
@@ -518,12 +717,48 @@ export default {
       hardExample.titleName = this.magazine.name;
       hardExample.id = 0;
       ApiConnect.post('/hard-copy-exemplars',hardExample).then(response => {
-        console.log(response);
+        this.makeToast('Hard copy was added successfully.')
+        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+          this.magazine.hardCopyExemplars = response.data.hardCopyExemplars
+        });
       })
-      this.makeToast('Hard copy was added successfully.')
-      ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
-        this.magazine.hardCopyExemplars = response.data.hardCopyExemplars
+    },
+    editHardExample(){
+      ApiConnect.put('/hard-copy-exemplars',this.hardCopy).then(response => {
+        this.makeToast('Hard copy was updated successfully.')
+      })
+      this.$refs.updateHardCopy.hide();
+    },
+    editElectronicExample(){
+      ApiConnect.put('/electronic-copy-exemplars',this.electronicCopy).then(response => {
+        this.makeToast('Electronic copy was updated successfully.')
+      })
+      this.$refs.updateElectronicCopy.hide();
+    },
+    deleteHardCopy(id){
+      ApiConnect.delete('/hard-copy-exemplars/'+id).then(response => {
+        this.makeToast('Hard copy exemplar was successfully deleted')
+        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+          this.magazine.hardCopyExemplars = response.data.hardCopyExemplars
+        });
       });
+    },
+    deleteElectroCopy(id){
+      ApiConnect.delete('/electronic-copy-exemplars/'+id).then(response => {
+        this.makeToast('Electronic copy exemplar was successfully deleted')
+        ApiConnect.get('/magazines/'+this.magazine.id).then((response) =>{
+          this.magazine.electronicCopyExemplars = response.data.electronicCopyExemplars
+        });
+      });
+    },
+    editHardCopy(hardCopy){
+      this.hardCopy = hardCopy;
+      this.$refs.updateHardCopy.show();
+    },
+    editElectronicCopy(electronicCopy){
+      console.log(electronicCopy)
+      this.electronicCopy = electronicCopy;
+      this.$refs.updateElectronicCopy.show();
     }
   },
   created() {

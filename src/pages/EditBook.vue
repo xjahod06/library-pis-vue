@@ -263,7 +263,6 @@
                         @click="deleteHardCopy(hardCopy.id)"
                     />
                   </b-col>
-
                 </b-row>
 
               </template>
@@ -298,7 +297,6 @@
                         @click="deleteElectroCopy(Copy.id)"
                     />
                   </b-col>
-
                 </b-row>
               </template>
             </div>
