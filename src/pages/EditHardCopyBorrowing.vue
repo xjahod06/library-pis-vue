@@ -137,7 +137,8 @@ export default {
           isMagazine: false,
           isBook: false,
           book: {},
-          magazine: {}
+          magazine: {},
+          exemplar: {}
         } 
     },
     methods: {
@@ -170,6 +171,11 @@ export default {
           console.log(this.borrowingStarts);
           console.log(this.borrowingEnds);
           console.log(this.borrowing);
+        },
+        getExemplar(){
+          if (this.isBook)
+          {
+          }
         }
   },
   created() {
