@@ -84,6 +84,7 @@ export default {
                 filtrated.push(fine);
             }
         })
+        this.fields = filtrated;
         this.isBusy = false
         this.Count = filtrated.length
         const parsedItems = this.customSort(this.parse(filtrated,this.oldData))
@@ -143,7 +144,17 @@ export default {
       );
     },
     payAll() {
-        console.log(this.fields);
+      ApiConnect.get('/fines/', ApiConnect.headers).then((response) =>
+      {
+        const items = response.data
+        items.forEach(fine =>
+        {
+            if (fine.borrowingId == this.borrowingId)
+            {
+              this.payFine(fine);
+            }
+        })
+      }).catch((error) => console.log(error));
     }
   },
   computed: {
