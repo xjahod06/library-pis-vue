@@ -10,8 +10,8 @@
             align="center"
         ></b-pagination>
       </b-col>
-      <b-col class="text-right" cols="1">
-        <router-link :to="{path: endpointEdit+'0'}">
+      <b-col class="text-right" cols="1" v-if="endpointCreate !== null">
+        <router-link :to="{path: endpointCreateComp}">
           <b-button variant="success">create</b-button>
         </router-link>
       </b-col>
@@ -55,6 +55,7 @@ export default {
     endpointGet: String,
     endpointEdit: String,
     endpointDel: String,
+    endpointCreate: String,
     type: String,
     fields: [],
     sortBy: String,
@@ -131,6 +132,13 @@ export default {
   computed: {
     rows() {
       return this.Count;
+    },
+    endpointCreateComp() {
+      if (this.endpointCreate === undefined){
+        return this.endpointEdit+'0'
+      }else{
+        return this.endpointCreate
+      }
     }
   }
 }
