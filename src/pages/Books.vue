@@ -1,7 +1,6 @@
 <template>
   <div id="books">
     <NavbarFinal></NavbarFinal>
-
     <b-container>
       <h1><span v-if="this.$route.query.genres !== undefined">{{ this.$route.query.genres }}</span>  Books:</h1>
       <b-row>
@@ -19,24 +18,20 @@
         </MainTile>
       </b-row>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import MainTile from "@/components/main_page/MainTile";
-
-import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import ApiConnect from "@/services/ApiConnect";
 
 
 export default {
   name: "Books",
   components: {
-    NavbarFinal,
-    MyFooter,
-    MainTile
+    MainTile,
+    NavbarFinal
   },
   data(){
     return {

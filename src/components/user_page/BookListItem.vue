@@ -121,7 +121,7 @@ export default {
           this.showDismissibleAlertError = false;
           this.successMessage = "Reservation successfully deleted."
           alert("Reservation succesfully deleted.");
-          parent.location.reload();
+            parent.location.reload();
         }).catch(error=>{
           this.showDismissibleAlertError = true;
           this.showDismissibleAlert = false;

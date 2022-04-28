@@ -16,21 +16,18 @@
         </data-table>
       </b-tab>
     </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 import DataTable from "@/components/title_list/dataTable";
-import MyFooter from "@/components/main_page/MyFooter";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Vue from "vue";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "ReservationList",
   components: {
     DataTable,
-    MyFooter,
     NavbarFinal
   },
   data() {

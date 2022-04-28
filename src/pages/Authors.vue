@@ -14,19 +14,17 @@
        </AuthorTile>
      </b-row>
    </b-container>
-   <MyFooter></MyFooter>
  </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
-
+import NavbarFinal
+  from "@/components/main_page/NavbarFinal";
 export default {
   name: "Authors",
-  components: {AuthorTile, MyFooter, NavbarFinal},
+  components: {AuthorTile, NavbarFinal},
   data(){
     return {
       authors: [],

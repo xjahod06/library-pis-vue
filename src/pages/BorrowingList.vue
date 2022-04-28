@@ -20,6 +20,7 @@
             endpointGet="/electronic-copy-borrowings/"
             endpointEdit="/edit_electronic-copy-borrowings/"
             endpointDel="/electronic-copy-borrowings/"
+            :endpointCreate="null"
             type="electronic-copy-borrowings"
             :fields="fieldsBorrowings2"
             sortBy="dateOfBorrowStart"
@@ -29,21 +30,18 @@
         </data-table>
       </b-tab>
     </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
-import NavbarFinal from "@/components/main_page/NavbarFinal"
 import DataTable from "@/components/title_list/dataTable";
 import Vue from "vue";
-
+import NavbarFinal
+  from "@/components/main_page/NavbarFinal";
 export default {
   name: "BorrowingList",
   components: {
     DataTable,
-    MyFooter,
     NavbarFinal
   },
   data() {
@@ -77,7 +75,8 @@ export default {
         borrowing.title = borrowing.exemplar.titleName;
         borrowing.dateOfBorrowStart = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowStart))
         borrowing.dateOfBorrowEnd = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowEnd))
-        borrowing.returnDate = Vue.filter('formatDate')(new Date(borrowing.returnDate))
+        if(borrowing.returnDate === null) borrowing.returnDate = ''
+        else borrowing.returnDate = Vue.filter('formatDate')(new Date(borrowing.returnDate))
       })
       return data;
     },

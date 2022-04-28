@@ -24,63 +24,6 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <!--
-        <b-row>
-          <b-col>
-            <label class="typo__label" for="books">books</label>
-            <multiselect
-                v-model="book.authors"
-                id="books"
-                label="name"
-                track-by="name"
-                placeholder="Type to search"
-                open-direction="bottom"
-                :options="books"
-                :multiple="true"
-                :searchable="true"
-                :loading="isLoading"
-                :internal-search="false"
-                :clear-on-select="false"
-                :close-on-select="false"
-                :options-limit="300"
-                :limit="3"
-                :limit-text="limitTextBook"
-                :max-height="600"
-                :show-no-results="false"
-                :hide-selected="true"
-                @search-change="asyncFindBook"
-            >
-              <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="book.authors.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
-              </template>
-              <template slot="noResult">
-                <span>Oops! No authors found. Consider changing the search query.</span>
-              </template>
-            </multiselect>
-          </b-col>
-          <b-col>
-            <label class="typo__label">fields</label>
-            <multiselect
-                v-model="selectedBooks"
-                :options="books"
-                :multiple="true"
-                :close-on-select="false"
-                :clear-on-select="false"
-                :preserve-search="true"
-                placeholder="Pick some"
-                label="name"
-                track-by="name"
-                :preselect-first="true">
-              <template slot="clear" slot-scope="props">
-                <div class="multiselect__clear" v-if="selectedBooks.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
-              </template>
-              <template slot="noResult">
-                <span>Oops! No fields found. Consider changing the search query.</span>
-              </template>
-            </multiselect>
-          </b-col>
-        </b-row>
-        -->
         <b-row v-if="this.$route.params.id != 0">
           <b-col class="text-center mt-4">
             <b-button @click="submit" variant="primary">Update</b-button>
@@ -93,23 +36,19 @@
         </b-row>
       </b-form>
     </b-container>
-  <!--<pre class="language-json"><code>{{ selectedCountries  }}</code></pre>-->
-    <MyFooter></MyFooter>
   </div>
 </template>
 <script>
 
-import NavbarFinal from "@/components/main_page/NavbarFinal";
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditBook",
   components: {
     Multiselect,
-    NavbarFinal,
-    MyFooter
+    NavbarFinal
   },
   data () {
     return {

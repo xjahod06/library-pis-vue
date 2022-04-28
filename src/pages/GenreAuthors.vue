@@ -15,19 +15,17 @@
         </AuthorTile>
       </b-row>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import AuthorTile from "@/components/genre_page/AuthorTile";
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "GenreAuthors",
-  components: {AuthorTile, MyFooter, NavbarFinal},
+  components: {AuthorTile, NavbarFinal},
   data(){
     return {
       books: [],

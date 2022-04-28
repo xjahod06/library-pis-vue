@@ -33,7 +33,7 @@
               <font-awesome-icon icon="fa-solid fa-user-circle"/>
             </b-nav-item>
           </div>
-          <div v-else>
+          <div v-else class="d-flex">
             <b-nav-item :to="{path: '/login/'}">Login</b-nav-item>
             <b-nav-item :to="{path: '/register/'}">Register</b-nav-item>
             <b-nav-item :to="{path: '/login_employee'}">Employees</b-nav-item>

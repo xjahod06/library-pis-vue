@@ -1,6 +1,6 @@
 <template>
-    <div id="register_employee">
-    <NavbarFinal></NavbarFinal>
+    <di id="register_employee">
+      <NavbarFinal></NavbarFinal>
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -234,12 +234,10 @@
         </b-form>
       </div>
     </b-container>
-    <MyFooter></MyFooter>
     </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Multiselect from "vue-multiselect";
@@ -248,7 +246,6 @@ export default {
   name: "RegisterEmployee",
   components: {
     NavbarFinal,
-    MyFooter,
     Multiselect
   },
   computed: {

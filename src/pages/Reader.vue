@@ -56,12 +56,10 @@
 
       <!--      <BookList type="Borrowings"  name="Harry Potter" date="2022-05-31" state="OK"></BookList>-->
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import BookList from "@/components/user_page/BookList";
 import UserForm from "@/components/user_page/UserForm";
 import ApiConnect from "@/services/ApiConnect";
@@ -71,11 +69,10 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 export default {
   name: 'UserPage',
   components: {
-    NavbarFinal,
-    MyFooter,
     BookList,
     UserForm,
-    ChangePassword
+    ChangePassword,
+    NavbarFinal
   },
   computed: {
     id() {

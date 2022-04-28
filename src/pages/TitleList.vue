@@ -55,15 +55,13 @@
             </dataTable>
           </b-tab>
         </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import dataTable from "@/components/title_list/dataTable";
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 function getNames(data) {
   let string = "";
@@ -91,9 +89,8 @@ Array.prototype.getUnique = function() {
 export default {
   name: "TitleList",
   components: {
-    MyFooter,
-    NavbarFinal,
-    dataTable
+    dataTable,
+    NavbarFinal
   },
   data() {
     return{

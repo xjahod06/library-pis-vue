@@ -7,6 +7,7 @@
             endpointGet="/readers/"
             endpointEdit="/readers/"
             endpointDel="/readers/"
+            endpoint-create="/createReader/"
             type="readers"
             :fields="fieldsReaders"
             sortBy="fullname"
@@ -16,22 +17,19 @@
         </data-table>
       </b-tab>
     </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import dataTable from "@/components/title_list/dataTable";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "ReadersList",
 
   components: {
-    MyFooter,
-    NavbarFinal,
-    dataTable
+    dataTable,
+    NavbarFinal
   },
 
   data() {
@@ -57,6 +55,7 @@ export default {
       })
       return data
     },
+
   },
 }
 </script>

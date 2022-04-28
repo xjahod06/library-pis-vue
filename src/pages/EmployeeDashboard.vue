@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar></NavBar>
+    <NavbarFinal></NavbarFinal>
     <b-container class="bv-example-row">
       <b-row align-h="center">
         <b-col cols="3">
@@ -132,17 +132,15 @@
       </b-row>
     </b-container>
 
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/main_page/NavBar";
-import MyFooter from "@/components/main_page/MyFooter";
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import Vue from "vue";
 import { faDisplay, faUserTie} from "@fortawesome/free-solid-svg-icons";
 import { library } from '@fortawesome/fontawesome-svg-core';
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 library.add(faDisplay, faUserTie);
 
 Vue.use(BootstrapVue)
@@ -150,7 +148,9 @@ Vue.use(BootstrapVueIcons)
 
 export default {
   name: "EmployeeDashboard",
-  components: {MyFooter, NavBar},
+  components: {
+    NavbarFinal
+  },
   computed: {
     isAdmin : function (){return (localStorage.getItem('role') == "\"ADMIN\"")}
   }

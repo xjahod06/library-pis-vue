@@ -86,12 +86,7 @@ p{
     background-color: #24433e!important;
     padding-top: 20px;
     padding-bottom: 20px;
-    bottom:0;
     min-width: 100%;
-}
-
-#GAP{
-    min-height: 40vh;
 }
 
 #my-footer-text{
@@ -109,3 +104,6 @@ p{
     color: red;
 }
 
+.wrapper {
+    min-height: 100vh;
+}

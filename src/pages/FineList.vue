@@ -16,21 +16,18 @@
         </fine-table>
       </b-tab>
     </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import fineTable from "@/components/title_list/fineTable";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "FineList",
   components: {
     fineTable,
-    MyFooter,
     NavbarFinal
   },
   data() {

@@ -58,20 +58,17 @@
         </b-form>
       </div>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Login",
   components: {
-    NavbarFinal,
-    MyFooter
+    NavbarFinal
   },
   data() {
     return {

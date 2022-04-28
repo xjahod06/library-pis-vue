@@ -33,25 +33,21 @@
       </b-row>
 
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
-import MyFooter from "@/components/main_page/MyFooter";
-
-import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import ApiConnect from "@/services/ApiConnect";
 
 export default {
   name: "Book",
   components: {
     BookInfo,
     BookTitle,
-    NavbarFinal,
-    MyFooter,
+    NavbarFinal
   },
   data(){
     return {

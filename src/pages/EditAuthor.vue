@@ -8,12 +8,10 @@
                 :form="form"></AuthorForm>
     </b-container>
 
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorForm from "@/components/authors_edit_page/AuthorForm";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
@@ -21,9 +19,8 @@ import NavbarFinal from "@/components/main_page/NavbarFinal";
 export default {
   name: "EditAuthor.vue",
   components: {
-    MyFooter,
-    NavbarFinal,
     AuthorForm,
+    NavbarFinal
   },
 
   data() {
