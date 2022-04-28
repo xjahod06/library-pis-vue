@@ -1,5 +1,5 @@
 <template>
-    <di id="register_employee">
+    <div id="register_employee">
     <NavbarFinal></NavbarFinal>
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
@@ -17,10 +17,12 @@
               <b-form-group
                   id="input-group-1"
                   label="Name:"
+                  label-class="required"
                   label-for="fname"
               >
                 <b-form-input
                     id="fname"
+                    ref="fname"
                     v-model="form.name"
                     type="text"
                     placeholder="Enter your name"
@@ -33,10 +35,12 @@
               <b-form-group
                   id="input-group-2"
                   label="Surname:"
+                  label-class="required"
                   label-for="lname"
               >
                 <b-form-input
                     id="lname"
+                    ref="lname"
                     v-model="form.surname"
                     type="text"
                     placeholder="Enter your surname"
@@ -59,7 +63,6 @@
                     type="text"
                     placeholder="Enter your full name"
                     autocomplete="name"
-                    required
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -67,6 +70,7 @@
               <b-form-group
                   id="input-group-4"
                   label="Email:"
+                  label-class="required"
                   label-for="email"
               >
                 <b-form-input
@@ -89,11 +93,19 @@
                   <b-form-group
                   id="input-group-5"
                   label="Role:"
+                  label-class="required"
                   label-for="role">
-                      <b-dropdown id="role_dropdown" :text="selectedRole">
-                          <b-dropdown-item-button @click="selectedRole = 'Employee'">Employee</b-dropdown-item-button>
-                          <b-dropdown-item-button @click="selectedRole = 'Admin'">Admin</b-dropdown-item-button>
-                      </b-dropdown>
+<!--                      <b-dropdown id="role_dropdown" :text="selectedRole">-->
+<!--                          <b-dropdown-item-button @click="selectedRole = 'Employee'">Employee</b-dropdown-item-button>-->
+<!--                          <b-dropdown-item-button @click="selectedRole = 'Admin'">Admin</b-dropdown-item-button>-->
+<!--                      </b-dropdown>-->
+                    <multiselect
+                        label="text"
+                        track-by="text"
+                        placeholder="Type to search"
+                        v-model="selectedRole"
+                        :options="options">
+                    </multiselect>
                   </b-form-group>
               </b-col>
               <b-col>
@@ -172,10 +184,12 @@
               <b-form-group
                   id="input-group-10"
                   label="Password:"
+                  label-class="required"
                   label-for="password"
               >
                 <b-form-input
                     id="password"
+                    ref="password"
                     v-model="form.password"
                     type="password"
                     placeholder="Enter your password"
@@ -188,6 +202,7 @@
               <b-form-group
                   id="input-group-10"
                   label="Confirm password:"
+                  label-class="required"
                   label-for="confirm-password"
               >
                 <b-form-input
@@ -204,6 +219,9 @@
                 </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
+            <b-row v-if="showError">
+              <p style="color: red">{{errMessage}} </p>
+            </b-row>
           </b-row>
           <b-row>
             <b-col class="text-center" v-if="notRegistered">
@@ -217,19 +235,21 @@
       </div>
     </b-container>
     <MyFooter></MyFooter>
-    </di>
+    </div>
 </template>
 
 <script>
 import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
+import Multiselect from "vue-multiselect";
 
 export default {
   name: "RegisterEmployee",
   components: {
     NavbarFinal,
-    MyFooter
+    MyFooter,
+    Multiselect
   },
   computed: {
     notRegistered : function (){return this.$route.params.id == 0}
@@ -250,23 +270,93 @@ export default {
         password: "",
         fullname: ""
       },
+      showError: false,
       errMessage: "",
-      selectedRole: "-"
+      selectedRole: { value: 'EMPLOYEE', text: 'Employee' },
+      options: [
+        { value: 'EMPLOYEE', text: 'Employee' },
+        { value: 'ADMIN', text: 'Admin' },
+      ]
     };
   },
   methods: {
-    register(){
-      if (this.form.password != this.form.confirmPassword){
-        return;
+    check_form(){
+      let form_required_error = false;
+      if (!this.form.name) {
+        console.log('a');
+        this.$refs['fname'].state = false;
+        this.$refs['fname'].value = "";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
       }
+
+      if (! this.form.surname){
+        console.log('b');
+        this.$refs['lname'].state = false;
+        this.$refs['lname'].value = "";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
+      }
+      if (!this.form.email){
+        console.log('a');
+        this.$refs['email'].state = false;
+        this.$refs['email'].valueOf = "";
+        this.errMessage = "Email address can not be empty.";
+        this.form.password = "";
+        this.form.confirmPassword = "";
+        form_required_error = true;
+      }
+      else {
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if( ! this.form.email.match(mailformat))
+        {
+          this.$refs['email'].state = false;
+          this.$refs['email'].valueOf = "";
+          this.errMessage = "Please enter valid email address.";
+          this.form.password = "";
+          this.form.confirmPassword = "";
+          form_required_error = true;
+        }
+      }
+      if (! this.selectedRole){
+        console.log('a');
+        this.showError = true;
+        this.errMessage = "Role can not be empty";
+        form_required_error = true;
+      }
+      if (form_required_error) return form_required_error;
+      if (this.form.password.length < 1){
+        console.log('a');
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.$refs['confirm-password'].state = false;
+        this.$refs['confirm-password'].value = "";
+        return true;
+      }
+      if (this.form.password != this.form.confirmPassword){
+        console.log('a');
+        this.$refs['password'].state = false;
+        this.$refs['password'].value = "";
+        this.$refs['confirm-password'].state = false;
+        this.$refs['confirm-password'].value = "";
+        return true;
+      }
+    },
+    register(){
+      this.form.role = this.selectedRole.value;
+      if (this.check_form()) return;
         ApiConnect.post('/employees', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
           {
+            console.log(this.form);
             this.$router.push('/login_employee');
           }
         ).catch(error => {
         if (error.response) {
           if (error.response.status == 400)
           {
+            this.showError = true;
             this.errMessage = "This email address is already in use. Please, select another email."
             this.$refs['email'].state = false;
             this.$refs['email'].value = "";
@@ -278,14 +368,29 @@ export default {
         }
       })
     },
+    makeToast(text) {
+      this.$bvToast.toast(text, {
+        title: 'Library',
+        variant: 'success',
+        autoHideDelay: 5000,
+      })
+    },
     submit() {
+      this.form.role = this.selectedRole.value;
+      if (this.check_form()) return;
       ApiConnect.put('/employees', JSON.stringify(this.form), ApiConnect.headers).then((response) =>
       {
-        console.log(response);
+        this.$refs['fname'].state = null;
+        this.$refs['lname'].state = null;
+        this.$refs['email'].state = null;
+        this.$refs['password'].state = null;
+        this.$refs['confirm-password'].state = null;
+        this.makeToast('Employee '+this.employee.name+' ' + this.employee.surname + 'has been updated successfully.')
         if (response.data)
         {
           if (response.data.status != 200)
           {
+            this.showError = true
             this.errMessage = "Update of informations did not save corectly. Try again.";
           }
         }
@@ -296,7 +401,7 @@ export default {
       })
     },
     getEmployee(){
-      if (this.$route.params.id !== 0){
+      if (this.$route.params.id != 0){
         ApiConnect.get('/employees/' + this.$route.params.id).then((response) =>
             {
               console.log(response);
@@ -310,8 +415,8 @@ export default {
               this.form.houseNumber = this.employee.houseNumber;
               this.form.postcode = this.employee.postcode;
               this.form.role = this.employee.role;
-              this.selectedRole = this.employee.role == "EMPLOYEE" ? "Employee" : "Admin";
-              this.form.password = this.employee.password;
+              this.selectedRole = this.employee.role == "EMPLOYEE" ? { value: 'EMPLOYEE', text: 'Employee' } : { value: 'ADMIN', text: 'Admin' };
+              this.form.password = "";
               this.form.fullname = this.employee.fullname;
             }
         ).catch((error) =>
@@ -330,6 +435,7 @@ export default {
   }
 }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 #register-box{
   text-align: left;
