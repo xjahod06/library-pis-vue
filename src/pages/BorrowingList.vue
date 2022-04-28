@@ -19,6 +19,7 @@
             endpointGet="/electronic-copy-borrowings/"
             endpointEdit="/edit_electronic-copy-borrowings/"
             endpointDel="/electronic-copy-borrowings/"
+            :endpointCreate="null"
             type="electronic-copy-borrowings"
             :fields="fieldsBorrowings2"
             sortBy="dateOfBorrowStart"
