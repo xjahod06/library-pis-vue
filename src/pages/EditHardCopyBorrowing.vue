@@ -112,18 +112,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Multiselect from "vue-multiselect";
-<<<<<<< HEAD
-import BookTitle from "@/components/book_page/BookTitle";
-import BookInfo from "@/components/book_page/BookInfo";
-library.add(faBookOpen)
-
-export default {
-    components: {
-        DatePicker,
-        BookTitle,
-        BookInfo,
-      NavbarFinal
-=======
 import fineBorrowTable from "@/components/borrowing_page/finesBorrowingTable";
 
 export default {
@@ -131,7 +119,6 @@ export default {
       Multiselect,
       DatePicker,
       fineBorrowTable
->>>>>>> Maya
     },
     data() {
         return {
