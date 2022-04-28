@@ -484,7 +484,6 @@
           <b-form-select
               ref="state"
               id="state"
-              disabled
               v-model="hardState"
               type="text"
               placeholder="Enter exemplar state"

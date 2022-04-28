@@ -56,7 +56,7 @@
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowingStarts" value-type="timestamp"></date-picker>
+                <date-picker v-model="borrowing.dateOfBorrowStart" value-type="timestamp"></date-picker>
               </section>
             </div>
             </b-form-group>
@@ -74,6 +74,9 @@
             </div>
             </b-form-group>
           </b-col>
+            <b-col>
+
+            </b-col>
           <b-col v-show="isReturned">
             <b-form-group
                 id="return-date-label"
