@@ -2,50 +2,42 @@
 <div>
       <b-container class="edit_hard-copy-borrowings">
       <b-form @submit.prevent="submit">
+        <b-row>
+        <b-col>
+          <h1 class="display-4" >Borrowing on book {{this.borrowing.exemplar.titleName}}</h1>
+        </b-col>
+      </b-row>
         <b-row class="text-left">
           <b-col>
-            <b-form-group
-                id="state-label"
-                label="ID:"
-                label-for="state"
+            <label class="typo__label required">Reader</label>
+            <multiselect
+                v-model="borrowing.state"
+                :options="options"
+                placeholder="Select state"
+                label="text"
+                track-by="value"
             >
-              <b-form-input readonly
-                  ref="state"
-                  id="state"
-                  v-model="borrowing.id"
-                  type="number"
-              ></b-form-input>
-            </b-form-group>
+            </multiselect>
+            <b-form-invalid-feedback>
+              Reservation state can not be empty!
+            </b-form-invalid-feedback>
           </b-col>
-          <b-col>
-            <b-form-group
-                id="state-label"
-                label="State:"
-                label-for="state"
+           <b-col>
+            <label class="typo__label required">Reader</label>
+            <multiselect
+                v-model="borrowing.reader"
+                ref="readerSelection"
+                :options="readers"
+                placeholder="Select reader"
+                label="fullname"
+                track-by="id"
             >
-              <b-form-input readonly
-                  ref="state"
-                  id="state"
-                  v-model="borrowing.state"
-                  type="text"
-              ></b-form-input>
-            </b-form-group>
+            </multiselect>
+            <b-form-invalid-feedback>
+              You have to select reader!
+            </b-form-invalid-feedback>
           </b-col>
-          <b-col v-if="isReturned === false">
-            <b-form-group
-                id="state-label"
-                label="Borrowed by:"
-                label-for="reader"
-            >
-            <b-form-input readonly
-                  ref="reader.fullname"
-                  id="reader.fullname"
-                  v-model="borrowing.reader.fullname"
-                  type="text"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          </b-row>
+        </b-row>
           <b-row>
           <b-col>
             <b-form-group
@@ -55,7 +47,7 @@
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowing.dateOfBorrowStart" value-type="timestamp"></date-picker>
+                <date-picker v-model="borrowing.dateOfBorrowStart" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
@@ -68,136 +60,58 @@
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowingEnds" value-type="timestamp"></date-picker>
+                <date-picker v-model="borrowing.dateOfBorrowEnd" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
           </b-col>
-            <b-col>
-
-            </b-col>
-          <b-col v-show="isReturned">
+          <b-col>
             <b-form-group
                 id="return-date-label"
                 label="Return date:"
-                label-for="returnDate"
+                label-for="borrowing.returnDate"
+                v-if="borrowing.state.value === 'RETURNED'"
             >
             <div class="box">
               <section>
-                <date-picker v-model="returnDate" value-type="timestamp"></date-picker>
+                <date-picker v-model="borrowing.returnDate" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
-        <b-col>
-          <font-awesome-icon icon="fa-solid fa-book-open " @click="getExemplar" size="4x" v-b-modal.modal-preview type="button" class="preview"/>
-        </b-col>
-        <b-col>
-            <b-form-group
-                id="borrowCounter-label"
-                label="Borrow Counter:"
-                label-for="borrowCounter"
-            >
-              <b-form-input readonly
-                  ref="borrowCounter"
-                  id="borrowCounter"
-                  v-model="borrowing.borrowCounter"
-                  type="number"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
         </b-row>
         <b-col class="text-center mt-4">
           <b-button @click="submit" variant="primary">Update</b-button>
         </b-col>
       </b-form>
     </b-container>
-    <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
-      <b-row v-if="isBook">
-        <b-col cols="4">
-          <BookTitle
-              :img="exemplar_parent.coverPhotoPath"
-              format="book"
-              :publisher="exemplar_parent.publisher"
-              :released="new Date(exemplar_parent.publicationDate)"
-              :pages="exemplar_parent.pages"
-              :hardCopies="exemplar_parent.hardCopyExemplars"
-              :electronicCopies="exemplar_parent.electronicCopyExemplars"
-          >
-          </BookTitle>
-        </b-col>
-        <b-col cols="8">
-          <BookInfo
-              :title="exemplar_parent.name"
-              :publicationNumber="''+exemplar_parent.publicationNumber"
-              :authors="exemplar_parent.authors"
-              :isbn="exemplar_parent.isbn"
-              :genres="exemplar_parent.genres"
-              :description="exemplar_parent.description"
-          >
-          </BookInfo>
-        </b-col>
-      </b-row>
-      <b-row v-else>
-        <b-col cols="4">
-          <BookTitle
-              :img="exemplar_parent.coverPhotoPath"
-              format="magazine"
-              :publisher="exemplar_parent.publisher"
-              :released="new Date(exemplar_parent.publicationDate)"
-              :pages="exemplar_parent.pages"
-              :hardCopies="exemplar_parent.hardCopyExemplars"
-              :electronicCopies="exemplar_parent.electronicCopyExemplars"
-          >
-          </BookTitle>
-        </b-col>
-        <b-col cols="8">
-          <BookInfo
-              :title="exemplar_parent.name"
-              :publicationNumber="''+exemplar_parent.publicationNumber"
-              :authors="exemplar_parent.authors"
-              :isbn="exemplar_parent.isbn"
-              :genres="exemplar_parent.genres"
-              :description="exemplar_parent.description"
-          >
-          </BookInfo>
-        </b-col>
-      </b-row>
-    </b-modal>
     </div>
 </template>
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
-import BookInfo from "@/components/book_page/BookInfo";
-import BookTitle from "@/components/book_page/BookTitle";
-import * as file from "../assets/js/file.js"
+import * as file from "../assets/js/file.js";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
-library.add(faBookOpen)
+import Multiselect from "vue-multiselect";
 
 export default {
     components: {
-        DatePicker,
-        BookTitle,
-        BookInfo
+      Multiselect,
+      DatePicker
     },
     data() {
         return {
           borrowing: {},
-          borrowingStarts: null,
-          borrowingEnds: null,
-          returnDate: null,
           isMagazine: false,
           isBook: false,
           isReturned: false,
           exemplar_parent: {},
           magazine: {},
           exemplar: {},
+          readers: [],
           fieldsFines: [
         {key: 'amount', sortable: true},
         {key: 'state', sortable: true},
@@ -205,7 +119,12 @@ export default {
         {key: 'reader', sortable: true},
         {key: 'pay', sortable: false},
         {key: 'delete', sortable: false},
-      ]
+      ],
+      options: [
+        { value: 'ACTIVE', text: 'Active' },
+        { value: 'CAN_NOT_PROLONG', text: 'Can not prolong' },
+        { value: 'TO_RETURN', text: 'To return' },
+        { value: 'RETURNED', text: 'Returned' }]
         } 
     },
     methods: {
@@ -213,9 +132,7 @@ export default {
           ApiConnect.get('/hard-copy-borrowings/'+id).then((response) =>
           {
             this.borrowing = response.data;
-            this.borrowingStarts = this.borrowing.dateOfBorrowStart;
-            this.borrowingEnds = this.borrowing.dateOfBorrowEnd;
-            this.returnDate = this.borrowing.returnDate != null ? this.setReturnDate(true, this.borrowing.returnDate) : this.setReturnDate(false, null);
+            this.borrowing.returnDate != null ? this.setReturnDate(true) : this.setReturnDate(false);
             if (this.borrowing.exemplar.book == null)
             {
               this.isMagazine = true;
@@ -233,15 +150,11 @@ export default {
             console.log(error);
           })
         },
-        setReturnDate(bool, date)
+        setReturnDate(bool)
         {
           this.isReturned = bool;
-          return date || null;
         },
         submit(){
-          this.borrowing.dateOfBorrowStart = this.borrowingStarts;
-          this.borrowing.dateOfBorrowEnd =  this.borrowingEnds;
-          this.borrowing.returnDate =  this.returnDate;
           ApiConnect.put('/hard-copy-exemplars', JSON.stringify(this.borrowing)).then((response) =>{
             this.makeToast('Borrowing '+this.borrowing.id+' has been updated successfully.')
           }).catch(error => {
@@ -275,10 +188,34 @@ export default {
         autoHideDelay: 5000,
       })
     },
+    check_borrowing_form(){
+
+    },
+    getReaders(){
+      ApiConnect.get('/readers/').then(resp =>{
+        this.readers = resp.data
+      }).catch(error => console.log(error));
+    }
   },
   created() {
-          this.getBorrowing(this.$route.params.id);
+    this.getBorrowing(this.$route.params.id);
+    this.getReaders();
+  },
+  computed: {
+    readerSelection: {
+      get() {
+        if(this.borrowing.reader !== undefined){
+          this.reader = this.borrowing.reader
         }
+        return this.selectedReader
+      },
+      set(newValue) {
+        this.borrowing.reader = undefined
+        this.reader = newValue.reader
+        this.selectedReader = newValue
+      }
+    },
+  }
 }
 </script>
 

@@ -6,6 +6,7 @@
             endpointGet="/readers/"
             endpointEdit="/readers/"
             endpointDel="/readers/"
+            endpoint-create="/createReader/"
             type="readers"
             :fields="fieldsReaders"
             sortBy="fullname"
@@ -51,6 +52,7 @@ export default {
       })
       return data
     },
+
   },
 }
 </script>
