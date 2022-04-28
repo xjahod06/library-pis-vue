@@ -75,7 +75,8 @@ export default {
         borrowing.title = borrowing.exemplar.titleName;
         borrowing.dateOfBorrowStart = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowStart))
         borrowing.dateOfBorrowEnd = Vue.filter('formatDate')(new Date(borrowing.dateOfBorrowEnd))
-        borrowing.returnDate = Vue.filter('formatDate')(new Date(borrowing.returnDate))
+        if(borrowing.returnDate === null) borrowing.returnDate = ''
+        else borrowing.returnDate = Vue.filter('formatDate')(new Date(borrowing.returnDate))
       })
       return data;
     },
