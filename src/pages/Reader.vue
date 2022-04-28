@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <NavbarFinal></NavbarFinal>
     <b-container>
 
       <div v-if="user.hardCopyBorrowings != undefined">
@@ -63,13 +64,15 @@ import BookList from "@/components/user_page/BookList";
 import UserForm from "@/components/user_page/UserForm";
 import ApiConnect from "@/services/ApiConnect";
 import ChangePassword from "@/components/user_page/ChangePassword";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: 'UserPage',
   components: {
     BookList,
     UserForm,
-    ChangePassword
+    ChangePassword,
+    NavbarFinal
   },
   computed: {
     id() {

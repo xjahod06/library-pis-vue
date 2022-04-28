@@ -1,5 +1,6 @@
 <template>
  <div>
+   <NavbarFinal></NavbarFinal>
    <b-container>
      <h1><span v-if="this.$route.query.genres !== undefined">{{ this.$route.query.genres }}</span> Authors:</h1>
      <b-row>
@@ -19,10 +20,11 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import AuthorTile from "@/components/genre_page/AuthorTile";
-
+import NavbarFinal
+  from "@/components/main_page/NavbarFinal";
 export default {
   name: "Authors",
-  components: {AuthorTile},
+  components: {AuthorTile, NavbarFinal},
   data(){
     return {
       authors: [],

@@ -1,5 +1,6 @@
 <template>
   <div id="titles">
+    <NavbarFinal></NavbarFinal>
         <b-tabs content-class="mt-3" fill class="bg-light">
           <b-tab title="Books" active>
             <dataTable
@@ -60,6 +61,7 @@
 <script>
 import dataTable from "@/components/title_list/dataTable";
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 function getNames(data) {
   let string = "";
@@ -87,7 +89,8 @@ Array.prototype.getUnique = function() {
 export default {
   name: "TitleList",
   components: {
-    dataTable
+    dataTable,
+    NavbarFinal
   },
   data() {
     return{

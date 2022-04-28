@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -62,10 +63,12 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Login",
   components: {
+    NavbarFinal
   },
   data() {
     return {

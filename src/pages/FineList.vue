@@ -1,5 +1,6 @@
 <template>
   <div id="fines">
+    <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Fines" active>
         <fine-table
@@ -21,11 +22,13 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import fineTable from "@/components/title_list/fineTable";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "FineList",
   components: {
     fineTable,
+    NavbarFinal
   },
   data() {
     return{

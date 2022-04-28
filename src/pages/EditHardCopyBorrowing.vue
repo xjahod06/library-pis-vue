@@ -1,5 +1,6 @@
 <template>
 <div>
+  <NavbarFinal></NavbarFinal>
       <b-container class="edit_hard-copy-borrowings">
       <b-form @submit.prevent="submit">
         <b-row class="text-left">
@@ -178,13 +179,15 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 library.add(faBookOpen)
 
 export default {
     components: {
         DatePicker,
         BookTitle,
-        BookInfo
+        BookInfo,
+      NavbarFinal
     },
     data() {
         return {

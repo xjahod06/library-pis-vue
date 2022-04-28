@@ -1,5 +1,6 @@
 <template>
   <div id="readers">
+    <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Readers" active>
         <data-table
@@ -21,12 +22,14 @@
 
 <script>
 import dataTable from "@/components/title_list/dataTable";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "ReadersList",
 
   components: {
-    dataTable
+    dataTable,
+    NavbarFinal
   },
 
   data() {

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <NavbarFinal></NavbarFinal>
     <div>
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
@@ -20,12 +21,14 @@
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorSection from "@/components/genre_page/AuthorSection";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: 'App',
   components: {
     MainSection,
-    AuthorSection
+    AuthorSection,
+    NavbarFinal
   },
   data(){
     return {

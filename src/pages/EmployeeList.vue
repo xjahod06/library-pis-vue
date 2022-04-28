@@ -1,5 +1,6 @@
 <template>
   <div id="employees">
+    <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Employees" active>
         <data-table
@@ -20,12 +21,14 @@
 
 <script>
 import dataTable from "@/components/title_list/dataTable";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EmployeeList",
   
   components: {
-    dataTable
+    dataTable,
+    NavbarFinal
   },
 
   data() {

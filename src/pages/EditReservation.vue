@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-container class="edit-reservation-page">
       <b-row v-if="this.reservation.exemplar !== undefined">
         <b-col>
@@ -150,12 +151,14 @@
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import Datepicker from "vuejs-datepicker";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditReservation",
   components: {
     Multiselect,
-    Datepicker
+    Datepicker,
+    NavbarFinal
   },
   data () {
     return {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-container class="edit-book-page">
       <b-form @submit.prevent="submit">
         <b-row>
@@ -42,11 +43,13 @@
 
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditBook",
   components: {
     Multiselect,
+    NavbarFinal
   },
   data () {
     return {

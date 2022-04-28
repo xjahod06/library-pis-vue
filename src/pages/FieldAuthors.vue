@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-container>
       <h1>Authors:</h1>
       <b-row>
@@ -20,10 +21,11 @@
 <script>
 import AuthorTile from "@/components/genre_page/AuthorTile";
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "FieldAuthors",
-  components: {AuthorTile},
+  components: {AuthorTile, NavbarFinal},
   data(){
     return {
       books: [],

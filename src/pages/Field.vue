@@ -1,5 +1,6 @@
 <template>
   <div id="Field">
+    <NavbarFinal></NavbarFinal>
     <div>
       <h1 style="text-align:center">{{ this.field_name.name }}</h1>
     </div>
@@ -20,12 +21,14 @@
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorSection from "@/components/genre_page/AuthorSection";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Field",
   components: {
     AuthorSection,
-    MainSection
+    MainSection,
+    NavbarFinal
   },
 
   data(){

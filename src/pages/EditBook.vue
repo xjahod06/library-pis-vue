@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-container class="edit-book-page">
       <b-row class="text-center">
         <b-col>
@@ -621,6 +622,7 @@ import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
 import Datepicker from "vuejs-datepicker";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditBook",
@@ -628,7 +630,8 @@ export default {
     BookInfo,
     BookTitle,
     Multiselect,
-    Datepicker
+    Datepicker,
+    NavbarFinal
   },
   data () {
     return {

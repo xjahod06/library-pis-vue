@@ -1,5 +1,6 @@
 <template>
     <di id="register_employee">
+      <NavbarFinal></NavbarFinal>
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -220,10 +221,12 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "RegisterEmployee",
   components: {
+    NavbarFinal
   },
   computed: {
     notRegistered : function (){return this.$route.params.id == 0}

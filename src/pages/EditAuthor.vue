@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-btn @click=backToList() class="mt-3">Back to List</b-btn>
     <b-container>
 
@@ -13,11 +14,13 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import AuthorForm from "@/components/authors_edit_page/AuthorForm";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditAuthor.vue",
   components: {
     AuthorForm,
+    NavbarFinal
   },
 
   data() {

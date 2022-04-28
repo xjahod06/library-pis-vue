@@ -1,5 +1,6 @@
 <template>
   <div id="author">
+    <NavBarFinal></NavBarFinal>
     <b-container>
 
       <AuthorBigTile
@@ -49,12 +50,14 @@
 import ApiConnect from "@/services/ApiConnect";
 import MainTile from "@/components/main_page/MainTile";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
+import NavBarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Author",
   components: {
     MainTile,
     AuthorBigTile,
+    NavBarFinal
   },
   data(){
     return {

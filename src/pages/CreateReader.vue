@@ -1,5 +1,6 @@
 <template>
   <div id="register">
+    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -212,9 +213,13 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "CreateReader",
+  components: {
+    NavbarFinal
+  },
 data() {
   return {
     form: {

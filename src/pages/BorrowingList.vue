@@ -1,5 +1,6 @@
 <template>
   <div id="borrowings">
+    <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Hard Copy Borrowings" active>
         <data-table
@@ -35,11 +36,13 @@
 <script>
 import DataTable from "@/components/title_list/dataTable";
 import Vue from "vue";
-
+import NavbarFinal
+  from "@/components/main_page/NavbarFinal";
 export default {
   name: "BorrowingList",
   components: {
     DataTable,
+    NavbarFinal
   },
   data() {
     return{

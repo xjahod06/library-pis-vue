@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavbarFinal></NavbarFinal>
     <b-container class="edit-book-page">
       <b-row class="text-center">
         <b-col>
@@ -583,6 +584,7 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "@/assets/js/file";
+import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "EditBook",
@@ -590,6 +592,7 @@ export default {
     BookInfo,
     BookTitle,
     Multiselect,
+    NavbarFinal
   },
   data () {
     return {
