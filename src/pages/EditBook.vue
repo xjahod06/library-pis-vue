@@ -765,36 +765,32 @@ export default {
 
       return form_check_error;
     },
+    reset_form_state(){
+      this.$refs['title'].state = null;
+      this.$refs['lang'].state=null;
+      this.$refs['publisher'].state=null;
+      this.$refs['isbn'].state=null;
+      this.$refs['publicationDate'].state=null;
+      this.$refs['publicationNumber'].state=null;
+      this.$refs['pages'].state=null;
+      this.$refs['authors'].state=null;
+      this.$refs['genres'].state=null;
+    },
     submit(){
+        this.reset_form_state();
         if (this.check_form()) return;
-
         ApiConnect.put('/books', this.book).then((response) =>{
-          this.$refs['title'].state = null;
-          this.$refs['lang'].state=null;
-          this.$refs['publisher'].state=null;
-          this.$refs['isbn'].state=null;
-          this.$refs['publicationDate'].state=null;
-          this.$refs['publicationNumber'].state=null;
-          this.$refs['pages'].state=null;
-          this.$refs['authors'].state=null;
-          this.$refs['genres'].state=null;
+          this.reset_form_state();
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
         })
     },
     create(){
+      this.reset_form_state();
       if (this.check_form()) return;
         ApiConnect.post('/books', this.book).then((response) =>{
-          this.$refs['title'].state = null;
-          this.$refs['lang'].state=null;
-          this.$refs['publisher'].state=null;
-          this.$refs['isbn'].state=null;
-          this.$refs['publicationDate'].state=null;
-          this.$refs['publicationNumber'].state=null;
-          this.$refs['pages'].state=null;
-          this.$refs['authors'].state=null;
-          this.$refs['genres'].state=null;
+          this.reset_form_state();
           this.makeToast('Book '+this.book.name+' has been created successfully.')
         }).catch(error => {
           console.log(error)

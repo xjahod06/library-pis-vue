@@ -207,6 +207,8 @@ export default {
       return form_check_error;
     },
     submit(){
+      this.$refs['name'].state= null;
+      this.$refs['surname'].state= null;
       if (this.check_author_form()) return;
       ApiConnect.put('/authors', this.form).then((response) =>{
         this.$refs['name'].state= null;
@@ -217,6 +219,8 @@ export default {
       })
     },
     create(){
+      this.$refs['name'].state= null;
+      this.$refs['surname'].state= null;
       if (this.check_author_form()) return;
       ApiConnect.post('/authors', this.form).then((response) =>{
         this.makeToast('Author '+this.form.name+' ' + this.form.surname  +'has been created successfully.')
