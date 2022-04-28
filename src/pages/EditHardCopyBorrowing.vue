@@ -9,28 +9,20 @@
       </b-row>
         <b-row class="text-left">
           <b-col>
-            <b-form-group
-                id="state-label"
-                label="State:"
-                label-class="required"
-                label-for="state"
+            <label class="typo__label required">Reader</label>
+            <multiselect
+                v-model="borrowing.state"
+                :options="options"
+                placeholder="Select state"
+                label="text"
+                track-by="value"
             >
-              <b-form-select
-                  ref="state"
-                  id="state"
-                  v-model="borrowing.state"
-                  :options="options"
-                  type="text"
-                  placeholder="Enter state of reservation"
-                  required
-              ></b-form-select>
-              <b-form-invalid-feedback>
-                Reservation state can not be empty!
-              </b-form-invalid-feedback>
-            </b-form-group>
+            </multiselect>
+            <b-form-invalid-feedback>
+              Reservation state can not be empty!
+            </b-form-invalid-feedback>
           </b-col>
-        </b-row>
-          <b-col>
+           <b-col>
             <label class="typo__label required">Reader</label>
             <multiselect
                 v-model="borrowing.reader"
@@ -45,7 +37,7 @@
               You have to select reader!
             </b-form-invalid-feedback>
           </b-col>
-          </b-row>
+        </b-row>
           <b-row>
           <b-col>
             <b-form-group
@@ -55,7 +47,7 @@
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowing.dateOfBorrowStart" value-type="timestamp" format="DD.MM.yyyy"></date-picker>
+                <date-picker v-model="borrowing.dateOfBorrowStart" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
@@ -68,41 +60,27 @@
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowing.dateOfBorrowEnd" value-type="timestamp" format="DD.MM.yyyy"></date-picker>
+                <date-picker v-model="borrowing.dateOfBorrowEnd" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group
-                v-show="isReturned"
                 id="return-date-label"
                 label="Return date:"
                 label-for="borrowing.returnDate"
+                v-if="borrowing.state.value === 'RETURNED'"
             >
             <div class="box">
               <section>
-                <date-picker v-model="borrowing.returnDate" value-type="timestamp" format="DD.MM.yyyy"></date-picker>
+                <date-picker v-model="borrowing.returnDate" value-type="timestamp" format="DD.MM.YYYY"></date-picker>
               </section>
             </div>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
-        <b-col>
-            <b-form-group
-                id="borrowCounter-label"
-                label="Borrow Counter:"
-                label-for="borrowCounter"
-            >
-              <b-form-input readonly
-                  ref="borrowCounter"
-                  id="borrowCounter"
-                  v-model="borrowing.borrowCounter"
-                  type="number"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
         </b-row>
         <b-col class="text-center mt-4">
           <b-button @click="submit" variant="primary">Update</b-button>
