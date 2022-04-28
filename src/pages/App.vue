@@ -4,6 +4,13 @@
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
       <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/magazines/"></MainSection>
+      <AuthorSection v-if="authors.length"
+                     name="Authors"
+                     :data="authors"
+                     root="/authors/"
+                     fullPage="/authors/">
+
+      </AuthorSection>
     </div>
   </div>
 </template>
@@ -12,11 +19,13 @@
 
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
+import AuthorSection from "@/components/genre_page/AuthorSection";
 
 export default {
   name: 'App',
   components: {
     MainSection,
+    AuthorSection
   },
   data(){
     return {
