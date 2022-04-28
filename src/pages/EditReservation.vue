@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavbarFinal></NavbarFinal>
     <b-container class="edit-reservation-page">
       <b-row v-if="this.reservation.exemplar !== undefined">
         <b-col>
@@ -144,13 +143,10 @@
         </b-row>
       </b-form>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import NavbarFinal from "@/components/main_page/NavbarFinal";
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import Datepicker from "vuejs-datepicker";
@@ -159,8 +155,6 @@ export default {
   name: "EditReservation",
   components: {
     Multiselect,
-    NavbarFinal,
-    MyFooter,
     Datepicker
   },
   data () {

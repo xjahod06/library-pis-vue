@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <NavbarFinal></NavbarFinal>
     <b-container>
 
       <div v-if="user.hardCopyBorrowings != undefined">
@@ -56,23 +55,18 @@
 
       <!--      <BookList type="Borrowings"  name="Harry Potter" date="2022-05-31" state="OK"></BookList>-->
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import BookList from "@/components/user_page/BookList";
 import UserForm from "@/components/user_page/UserForm";
 import ApiConnect from "@/services/ApiConnect";
 import ChangePassword from "@/components/user_page/ChangePassword";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: 'UserPage',
   components: {
-    NavbarFinal,
-    MyFooter,
     BookList,
     UserForm,
     ChangePassword

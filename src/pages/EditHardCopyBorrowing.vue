@@ -1,6 +1,5 @@
 <template>
 <div>
-      <NavbarFinal></NavbarFinal>
       <b-container class="edit_hard-copy-borrowings">
       <b-form @submit.prevent="submit">
         <b-row class="text-left">
@@ -115,7 +114,6 @@
         </b-col>
       </b-form>
     </b-container>
-    <MyFooter></MyFooter>
     <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
       <b-row v-if="isBook">
         <b-col cols="4">
@@ -172,8 +170,6 @@
 </template>
 
 <script>
-import NavbarFinal from "@/components/main_page/NavbarFinal";
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
@@ -186,8 +182,6 @@ library.add(faBookOpen)
 
 export default {
     components: {
-        MyFooter,
-        NavbarFinal,
         DatePicker,
         BookTitle,
         BookInfo

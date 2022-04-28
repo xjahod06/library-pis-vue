@@ -1,6 +1,5 @@
 <template>
   <div id="Field">
-    <NavbarFinal></NavbarFinal>
     <div>
       <h1 style="text-align:center">{{ this.field_name.name }}</h1>
     </div>
@@ -13,24 +12,19 @@
 
     </AuthorSection>
     <h3 style="text-align: center" v-if="! magazines.length && ! authors.length">No magazines and authors for this field.</h3>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 
-import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorSection from "@/components/genre_page/AuthorSection";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Field",
   components: {
     AuthorSection,
-    NavbarFinal,
-    MyFooter,
     MainSection
   },
 

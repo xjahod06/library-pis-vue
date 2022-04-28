@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '@/pages/App.vue'
 import Genre from "@/pages/Genre"
-import About from "@/pages/About"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import User from "@/pages/User";
@@ -42,13 +41,6 @@ const Routes = [
     component: App,
     meta: {
       title: 'Library',
-    }
-  },
-  {
-    path: '/about',
-    component: About,
-    meta: {
-      title: 'About',
     }
   },
   {

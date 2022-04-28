@@ -1,6 +1,5 @@
 <template>
   <div id="Genre">
-    <NavbarFinal></NavbarFinal>
     <div>
       <h1 style="text-align:center">{{this.genre_name.name}}</h1>
     </div>
@@ -13,24 +12,19 @@
 
     </AuthorSection>
     <h3 style="text-align: center" v-if="! books.length && ! authors.length">No books and authors for this genre.</h3>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 
-import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 import ApiConnect from "@/services/ApiConnect";
 import AuthorSection from "@/components/genre_page/AuthorSection";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Genre",
   components: {
     AuthorSection,
-    NavbarFinal,
-    MyFooter,
     MainSection
   },
 
