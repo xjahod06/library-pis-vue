@@ -54,15 +54,16 @@
                 label-class="required"
                 label-for="state"
             >
-              <b-form-select
+              <multiselect
                   ref="state"
                   id="state"
                   v-model="reservation.state"
                   :options="options"
-                  type="text"
+                  label="text"
+                  track-by="text"
                   placeholder="Enter state of reservation"
                   required
-              ></b-form-select>
+              ></multiselect>
               <b-form-invalid-feedback>
                 Reservation state can not be empty!
               </b-form-invalid-feedback>
@@ -190,6 +191,11 @@ export default {
         this.reservation = response.data
         this.reservation.dateFrom = new Date(this.reservation.dateFrom)
         this.reservation.dateUntil = new Date(this.reservation.dateUntil)
+
+        if (this.reservation.state == 'ACTIVE')  this.reservation.state = { value: 'ACTIVE', text: 'Active' } ;
+        if (this.reservation.state == 'PICK_UP')  this.reservation.state = { value: 'PICK_UP', text: 'Can pick up' } ;
+        if (this.reservation.state == 'NOT_ACTIVE')  this.reservation.state = { value: 'NOT_ACTIVE', text: 'Not active' } ;
+
         if(response.data.exemplar.book !== undefined) {
           ApiConnect.get('/books/'+response.data.exemplar.book.id).then(resp =>
             this.selectedBook = resp.data
@@ -253,8 +259,13 @@ export default {
     },
     submit(){
       if ( this.check_reservation_form()) return;
+      this.reservation.state = this.reservation.state.value;
       ApiConnect.put('/reservations', this.reservation).then((response) =>{
         this.showError = false;
+        if (this.reservation.state == 'ACTIVE')  this.reservation.state = { value: 'ACTIVE', text: 'Active' } ;
+        if (this.reservation.state == 'PICK_UP')  this.reservation.state = { value: 'PICK_UP', text: 'Can pick up' } ;
+        if (this.reservation.state == 'NOT_ACTIVE')  this.reservation.state = { value: 'NOT_ACTIVE', text: 'Not active' } ;
+
         this.makeToast('Reservation on book'+this.reservation.exemplar.titleName +' has been updated successfully.')
       }).catch(error => {
         console.log(error)
@@ -262,6 +273,7 @@ export default {
     },
     create(){
       if (this.check_reservation_form()) return;
+      this.reservation.state = this.reservation.state.value;
       ApiConnect.post('/reservations', this.reservation).then((response) =>{
         this.showError = false;
         this.makeToast('Reservation on book '+this.reservation.exemplar.titleName+' has been created successfully.')
@@ -328,7 +340,7 @@ export default {
         dateFrom: new Date(),
         dateUntil: new Date(),
         exemplar: undefined,
-        state: 'ACTIVE'
+        state: { value: 'ACTIVE', text: 'Active' }
       }
     }else {
       this.getReservation(this.$route.params.id);

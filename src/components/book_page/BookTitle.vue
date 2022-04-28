@@ -16,7 +16,7 @@
     </b-row>
     <b-row class="text-left">
       <b-col v-if="loggedUser" offset-md="2">
-        <b-button @click="showModalReservation" variant="info" class="mr-2"> Reserve </b-button>
+        <b-button v-if="hardCopies.length > 0" @click="showModalReservation" variant="info" class="mr-2"> Reserve </b-button>
         <b-button v-if="hasElectronicCopy" @click="borrowEcopy" variant="success">Borrow electronic copy</b-button>
       </b-col>
       <b-col v-if="loggedEmployee && id !== undefined" offset-md="2">
@@ -64,7 +64,12 @@
             <p style="text-align: left" class="form-label required" >Select hard copy:</p>
           </b-col>
           <b-col>
-            <b-form-select v-if="hardCopies" v-model="selectedHardCopy" :options="hardCopiesOptions"></b-form-select>
+            <multiselect v-if="hardCopies"
+                           v-model="selectedHardCopy"
+                           :options="hardCopies"
+                           label="state"
+                           track-by="id">
+            </multiselect>
           </b-col>
         </b-row>
 
@@ -111,11 +116,13 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import Datepicker from 'vuejs-datepicker';
+import Multiselect from "vue-multiselect";
 
 export default {
   name: "BookTitle",
   components: {
-    Datepicker
+    Datepicker,
+    Multiselect
   },
   props: {
     img: undefined,

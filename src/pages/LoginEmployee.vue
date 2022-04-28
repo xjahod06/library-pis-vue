@@ -13,6 +13,7 @@
           <b-form-group
               id="email-label"
               label="Email address:"
+              label-class="required"
               label-for="email"
           >
             <b-form-input
@@ -29,6 +30,7 @@
           <b-form-group
               id="password-label"
               label="Your Name:"
+              label-class="required"
               label-for="password"
           >
             <b-form-input

@@ -269,6 +269,17 @@ export default {
         this.form.password = "";
         this.form.confirmPassword = "";
         form_required_error = true;
+      } else{
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if( ! this.form.email.match(mailformat))
+        {
+          this.$refs['email'].state = false;
+          this.$refs['email'].valueOf = "";
+          this.errMessage = "Please enter valid email address.";
+          this.form.password = "";
+          this.form.confirmPassword = "";
+          form_required_error = true;
+        }
       }
       if (form_required_error) return;
 

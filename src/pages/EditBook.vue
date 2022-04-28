@@ -479,14 +479,17 @@
             label="Books state:"
             label-for="state"
         >
-          <b-form-select
+          <multiselect
               ref="state"
               id="state"
               v-model="hardState"
+              :options = "options"
+              track-by="text"
+              label="text"
               type="text"
               placeholder="Enter exemplar state"
               required
-          ></b-form-select>
+          ></multiselect>
 
           <b-form-invalid-feedback>
             Maximumu number of extention can not be empty.
@@ -545,15 +548,16 @@
             label="Books state:"
             label-for="stateUpdate"
         >
-          <b-form-select
+          <multiselect
               ref="stateUpdate"
               id="stateUpdate"
               v-model="hardCopy.state"
               :options="options"
-              type="text"
+              track-by="text"
+              label="text"
               placeholder="Enter exemplar state"
               required
-          ></b-form-select>
+          ></multiselect>
 
           <b-form-invalid-feedback>
             Maximumu number of extention can not be empty.
@@ -645,7 +649,7 @@ export default {
       electronicExampleFile: null,
       hardExtension: 1,
       hardPeriod: 42,
-      hardState: 'NEW',
+      hardState: { value: 'NEW', text: 'New' },
       coverPhoto: null,
       showError: false,
       errorMessage: '',
@@ -687,7 +691,7 @@ export default {
     getBook(id){
       ApiConnect.get('/books/'+id).then((response) =>{
         this.book = response.data
-        this.book.publicationDate = new Date(this.book.publicationDate).toDateInputValue()
+        this.book.publicationDate = new Date(this.book.publicationDate)
       });
 
     },
@@ -876,7 +880,7 @@ export default {
       hardExample.book = this.book;
       hardExample.borrowPeriod = this.hardPeriod;
       hardExample.maximumNumberOfExtension = this.hardExtension;
-      hardExample.state = this.hardState;
+      hardExample.state = this.hardState.value;
       hardExample.titleName = this.book.name;
       hardExample.id = 0;
       ApiConnect.post('/hard-copy-exemplars',hardExample).then(response => {
@@ -887,6 +891,7 @@ export default {
       })
     },
     editHardExample(){
+      this.hardCopy.state = this.hardCopy.state.value;
       ApiConnect.put('/hard-copy-exemplars',this.hardCopy).then(response => {
         this.makeToast('Hard copy was updated successfully.')
       })
@@ -916,6 +921,9 @@ export default {
     },
     editHardCopy(hardCopy){
       this.hardCopy = hardCopy;
+      if (this.hardCopy.state == 'NEW') this.hardCopy.state ={ value: 'NEW', text: 'New' };
+      if (this.hardCopy.state == 'DAMAGED') this.hardCopy.state ={ value: 'DAMAGED', text: 'Damaged' };
+      if (this.hardCopy.state == 'USED') this.hardCopy.state ={ value: 'USED', text: 'Used' };
       this.$refs.updateHardCopy.show();
     },
     editElectronicCopy(electronicCopy){
