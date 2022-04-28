@@ -87,6 +87,18 @@
         </b-col>
       </b-form>
     </b-container>
+    <fineBorrowTable
+            endpointGet="/fines/"
+            endpointEdit="/edit_fines/"
+            endpointDel="/fines/"
+            type="fines"
+            :fields="fieldsFines"
+            sortBy="state"
+            :parse="parseFines"
+            tableId="tableFines"
+            :borrowingId="borrowing.id"
+        >
+        </fineBorrowTable>
     </div>
 </template>
 
@@ -96,11 +108,13 @@ import * as file from "../assets/js/file.js";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import Multiselect from "vue-multiselect";
+import fineBorrowTable from "@/components/borrowing_page/finesBorrowingTable";
 
 export default {
     components: {
       Multiselect,
-      DatePicker
+      DatePicker,
+      fineBorrowTable
     },
     data() {
         return {
@@ -195,7 +209,20 @@ export default {
       ApiConnect.get('/readers/').then(resp =>{
         this.readers = resp.data
       }).catch(error => console.log(error));
-    }
+    },
+    parseFines(data){
+      data.forEach(fine => {
+        fine.borrowing_name = '';
+        fine.reader = ''})
+      data.forEach(function (fine){
+        ApiConnect.get('/hard-copy-borrowings/'+fine.borrowingId).then((response) => {
+          fine.borrowing_name = response.data.exemplar.titleName;
+          fine.reader = response.data.reader.fullname;
+            }
+        )
+      })
+      return data
+    },
   },
   created() {
     this.getBorrowing(this.$route.params.id);
