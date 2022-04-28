@@ -341,7 +341,15 @@ export default {
         return true;
       }
     },
+    reset_form_state(){
+      this.$refs['fname'].state = null;
+      this.$refs['lname'].state = null;
+      this.$refs['email'].state = null;
+      this.$refs['password'].state = null;
+      this.$refs['confirm-password'].state = null;
+    },
     register(){
+      this.reset_form_state();
       this.form.role = this.selectedRole.value;
       if (this.check_form()) return;
         ApiConnect.post('/employees', JSON.stringify(this.form), ApiConnect.headers).then((response) => 
@@ -373,15 +381,12 @@ export default {
       })
     },
     submit() {
+      this.reset_form_state();
       this.form.role = this.selectedRole.value;
       if (this.check_form()) return;
       ApiConnect.put('/employees', JSON.stringify(this.form), ApiConnect.headers).then((response) =>
       {
-        this.$refs['fname'].state = null;
-        this.$refs['lname'].state = null;
-        this.$refs['email'].state = null;
-        this.$refs['password'].state = null;
-        this.$refs['confirm-password'].state = null;
+        this.reset_form_state();
         this.makeToast('Employee '+this.employee.name+' ' + this.employee.surname + 'has been updated successfully.')
         if (response.data)
         {
