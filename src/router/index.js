@@ -5,7 +5,7 @@ import Genre from "@/pages/Genre"
 import About from "@/pages/About"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
-import User from "@/pages/User";
+import User from "@/pages/Reader";
 import Books from "@/pages/Books";
 import Book from "@/pages/Book";
 import Magazines from "@/pages/Magazines";
