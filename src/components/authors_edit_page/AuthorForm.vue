@@ -60,14 +60,14 @@
           id="dateOfBirth-label"
           label="Date of birth:"
           label-for="dateOfBirth">
-          <datepicker
+          <date-picker
               id="dateOfBirth"
               ref="dateOfBirth"
               v-model="form.dateOfBirth "
               type="date"
               required
               placeholder="Enter date of birth">
-          </datepicker>
+          </date-picker>
           </b-form-group>
         </b-col>
         <b-col>
@@ -75,7 +75,7 @@
               id="dateOfDeath-label"
               label="Date of death:"
               label-for="dateOfDeath">
-          <datepicker
+          <date-picker
               id="dateOfDeath"
               ref="dateOfDeath"
               reset-button
@@ -83,7 +83,7 @@
               v-model="form.dateOfDeath "
               type="date"
               placeholder="Enter date of death">
-          </datepicker>
+          </date-picker>
           </b-form-group>
 
         </b-col>
@@ -161,13 +161,13 @@
 import ApiConnect from "@/services/ApiConnect";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
 import * as file from "@/assets/js/file";
-import Datepicker from "vuejs-datepicker";
+import DatePicker from "vue2-datepicker";
 
 export default {
   name: 'AuthorForm',
   components: {
     AuthorBigTile,
-    Datepicker
+    DatePicker
   },
   data() {
     return {

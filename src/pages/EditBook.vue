@@ -103,14 +103,14 @@
                 label-class="required"
                 label-for="lang"
             >
-              <datepicker
+              <date-picker
                   ref="publicationDate"
                   id="publicationDate"
                   v-model="book.publicationDate"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
-              ></datepicker>
+              ></date-picker>
               <b-form-invalid-feedback>
                 Publication date field can not be empty.
               </b-form-invalid-feedback>
@@ -625,7 +625,7 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
-import Datepicker from "vuejs-datepicker";
+import DatePicker from "vue2-datepicker";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
@@ -634,7 +634,7 @@ export default {
     BookInfo,
     BookTitle,
     Multiselect,
-    Datepicker,
+    DatePicker,
     NavbarFinal
   },
   data () {

@@ -49,12 +49,12 @@
                 {{ successMessage }}</b-alert>
               <b-alert class="mt-2" v-model="showDismissibleAlertError" variant="danger" dismissible>
                 {{errorMessage}}</b-alert>
-              <datepicker id="example-datepicker"
+              <date-picker id="example-datepicker"
                                  v-model="dateToNew"
                                  placeholder="Choose new date"
                                  inline
                                  class="mb-2">
-              </datepicker>            </div>
+              </date-picker>            </div>
             <b-button v-if="!borrowing" class="mt-2" variant="outline-primary" block @click="prolongReservation">Save</b-button>
             <b-button v-else-if="!electronic" class="mt-2" variant="outline-primary" block @click="prolongBorrowing">Save</b-button>
             <b-button v-if="electronic" class="mt-2" variant="outline-primary" block @click="prolongElectronicBorrowing">Save</b-button>
@@ -71,13 +71,13 @@
 import ApiConnect from "@/services/ApiConnect";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faFileArrowDown} from "@fortawesome/free-solid-svg-icons";
-import Datepicker from "vuejs-datepicker";
+import DatePicker from "vue2-datepicker";
 library.add(faFileArrowDown)
 
 export default {
   name: 'BookListItem',
   components: {
-    Datepicker
+    DatePicker
   },
   props: {
     name: String,
