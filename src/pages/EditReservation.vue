@@ -131,9 +131,12 @@
         <b-row v-if="showError">
           <p style="color: red">{{errorMessage}} </p>
         </b-row>
-        <b-row v-if="this.$route.params.id != 0">
-          <b-col class="text-center mt-4">
+        <b-row v-if="this.$route.params.id != 0" align-h="center">
+          <b-col class="text-center mt-4" cols="2">
             <b-button @click="submit" variant="primary">Update</b-button>
+          </b-col>
+          <b-col class="text-center mt-4" cols="2">
+            <b-button @click="convertToBorrowing" variant="secondary">Borrow</b-button>
           </b-col>
         </b-row>
         <b-row v-if="this.$route.params.id == 0">
@@ -150,6 +153,7 @@
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import Datepicker from "vuejs-datepicker";
+import reservationList from "@/pages/ReservationList";
 
 export default {
   name: "EditReservation",
@@ -290,6 +294,28 @@ export default {
       ApiConnect.get('/readers/').then(resp =>{
         this.readers = resp.data
       }).catch(error => console.log(error));
+    },
+    convertToBorrowing(){
+      let borrow = {};
+      borrow.id = 0;
+      borrow.dateOfBorrowStart = new Date().getTime();
+      borrow.reader = this.reservation.reader;
+      borrow.state = 'ACTIVE';
+      borrow.exemplar = this.reservation.exemplar;
+      borrow.exemplar.availability = false;
+      borrow.dateOfBorrowEnd = new Date().getTime() + new Date(this.reservation.exemplar.borrowPeriod).getTime();
+      borrow.returnDate = null
+      console.log(borrow)
+      ApiConnect.delete('/reservations/'+this.reservation.id).then(resp => {
+        console.log(resp)
+        ApiConnect.post('/hard-copy-borrowings',borrow).then(resp => {
+          console.log(resp)
+
+        });
+      });
+
+      this.$router.push('/edit_borrowings');
+
     }
   },
   created() {
