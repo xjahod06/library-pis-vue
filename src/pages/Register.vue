@@ -1,6 +1,5 @@
 <template>
   <div id="register">
-    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -213,21 +212,16 @@
         </b-form>
       </div>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 
 export default {
   name: "Register",
   components: {
-    NavbarFinal,
-    MyFooter
   },
   data() {
     return {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavbarFinal></NavbarFinal>
     <b-container class="edit-book-page">
       <b-row class="text-center">
         <b-col>
@@ -336,8 +335,6 @@
         </b-row>
       </b-form>
     </b-container>
-  <!--<pre class="language-json"><code>{{ selectedCountries  }}</code></pre>-->
-    <MyFooter></MyFooter>
     <b-modal id="modal-preview" title="Preview" size="xl" hide-footer>
       <b-row>
         <b-col cols="4">
@@ -484,7 +481,6 @@
           <b-form-select
               ref="state"
               id="state"
-              disabled
               v-model="hardState"
               type="text"
               placeholder="Enter exemplar state"
@@ -619,8 +615,6 @@
 </template>
 <script>
 
-import NavbarFinal from "@/components/main_page/NavbarFinal";
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
@@ -634,8 +628,6 @@ export default {
     BookInfo,
     BookTitle,
     Multiselect,
-    NavbarFinal,
-    MyFooter,
     Datepicker
   },
   data () {

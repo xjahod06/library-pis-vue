@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavbarFinal></NavbarFinal>
     <b-container>
       <h1>Authors:</h1>
       <b-row>
@@ -15,19 +14,16 @@
         </AuthorTile>
       </b-row>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import AuthorTile from "@/components/genre_page/AuthorTile";
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "FieldAuthors",
-  components: {AuthorTile, MyFooter, NavbarFinal},
+  components: {AuthorTile},
   data(){
     return {
       books: [],

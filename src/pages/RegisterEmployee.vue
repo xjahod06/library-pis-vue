@@ -1,6 +1,5 @@
 <template>
     <di id="register_employee">
-    <NavbarFinal></NavbarFinal>
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
         <b-row>
@@ -216,20 +215,15 @@
         </b-form>
       </div>
     </b-container>
-    <MyFooter></MyFooter>
     </di>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "RegisterEmployee",
   components: {
-    NavbarFinal,
-    MyFooter
   },
   computed: {
     notRegistered : function (){return this.$route.params.id == 0}

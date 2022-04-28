@@ -1,6 +1,5 @@
 <template>
   <div id="Book">
-    <NavbarFinal></NavbarFinal>
     <b-container>
       <b-row>
         <b-col cols="4">
@@ -33,25 +32,20 @@
       </b-row>
 
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
-import MyFooter from "@/components/main_page/MyFooter";
 
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Book",
   components: {
     BookInfo,
     BookTitle,
-    NavbarFinal,
-    MyFooter,
   },
   data(){
     return {

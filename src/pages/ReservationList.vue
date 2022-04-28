@@ -1,6 +1,5 @@
 <template>
   <div id="reservations">
-    <NavbarFinal></NavbarFinal>
     <b-tabs content-class="mt-3" fill class="bg-light">
       <b-tab title="Reservations" active>
         <data-table
@@ -16,22 +15,17 @@
         </data-table>
       </b-tab>
     </b-tabs>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
 import DataTable from "@/components/title_list/dataTable";
-import MyFooter from "@/components/main_page/MyFooter";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Vue from "vue";
 
 export default {
   name: "ReservationList",
   components: {
     DataTable,
-    MyFooter,
-    NavbarFinal
   },
   data() {
     return{

@@ -1,6 +1,5 @@
 <template>
   <div id="books">
-    <NavbarFinal></NavbarFinal>
 
     <b-container>
       <h1><span v-if="this.$route.query.fields !== undefined">{{ this.$route.query.fields }}</span>  Magazines:</h1>
@@ -19,23 +18,18 @@
         </MainTile>
       </b-row>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import MainTile from "@/components/main_page/MainTile";
 
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 
 export default {
   name: "Magazines",
   components: {
-    NavbarFinal,
-    MyFooter,
     MainTile
   },
   data(){

@@ -1,6 +1,5 @@
 <template>
   <div id="author">
-    <NavbarFinal></NavbarFinal>
     <b-container>
 
       <AuthorBigTile
@@ -43,24 +42,19 @@
         </MainTile>
       </b-row>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter";
 import ApiConnect from "@/services/ApiConnect";
 import MainTile from "@/components/main_page/MainTile";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Author",
   components: {
-    MyFooter,
     MainTile,
     AuthorBigTile,
-    NavbarFinal
   },
   data(){
     return {

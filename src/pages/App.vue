@@ -1,29 +1,31 @@
 <template>
   <div id="app">
-    <NavbarFinal></NavbarFinal>
     <div>
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
       <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/magazines/"></MainSection>
-    </div>
+      <AuthorSection v-if="authors.length"
+                     name="Authors"
+                     :data="authors"
+                     root="/authors/"
+                     fullPage="/authors/">
 
-    <MyFooter></MyFooter>
+      </AuthorSection>
+    </div>
   </div>
 </template>
 
 <script>
 
-import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 import ApiConnect from "@/services/ApiConnect";
+import AuthorSection from "@/components/genre_page/AuthorSection";
 
 export default {
   name: 'App',
   components: {
-    MyFooter,
     MainSection,
-    NavbarFinal
+    AuthorSection
   },
   data(){
     return {

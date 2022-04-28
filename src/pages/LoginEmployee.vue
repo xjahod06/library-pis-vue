@@ -1,6 +1,5 @@
 <template>
   <div id="login_employee">
-    <NavbarFinal></NavbarFinal>
     <b-container>
       <div id="login-box" class="mt-4 border border-primary p-5">
         <b-row><h3 class="text-center" style="font-color: black">We see. You are our colleague.</h3></b-row>
@@ -52,20 +51,15 @@
         </b-form>
       </div>
     </b-container>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import MyFooter from "@/components/main_page/MyFooter" ;
 import ApiConnect from "@/services/ApiConnect";
-import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
   name: "Login_Employee",
   components: {
-    NavbarFinal,
-    MyFooter
   },
   data() {
     return {
