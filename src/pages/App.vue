@@ -5,6 +5,13 @@
       <MainSection name="Books" fullPage="/books/" :data="books" root="/books/"></MainSection>
       <!-- <MainSection name="E-Books"></MainSection> -->
       <MainSection name="Magazines" fullPage="/magazines/" :data="magazines" root="/magazines/"></MainSection>
+      <AuthorSection v-if="authors.length"
+                     name="Authors"
+                     :data="authors"
+                     root="/authors/"
+                     fullPage="/authors/">
+
+      </AuthorSection>
     </div>
 
     <MyFooter></MyFooter>
@@ -17,13 +24,15 @@ import MyFooter from "@/components/main_page/MyFooter" ;
 import MainSection from "@/components/main_page/MainSection";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import ApiConnect from "@/services/ApiConnect";
+import AuthorSection from "@/components/genre_page/AuthorSection";
 
 export default {
   name: 'App',
   components: {
     MyFooter,
     MainSection,
-    NavbarFinal
+    NavbarFinal,
+    AuthorSection
   },
   data(){
     return {
