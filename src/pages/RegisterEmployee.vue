@@ -1,5 +1,5 @@
 <template>
-    <di id="register_employee">
+    <div id="register_employee">
       <NavbarFinal></NavbarFinal>
         <b-container>
       <div id="register-box" class="mt-4 border border-primary p-5">
