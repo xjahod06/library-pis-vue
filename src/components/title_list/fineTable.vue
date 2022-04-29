@@ -99,8 +99,6 @@ export default {
           this.makeToast('error:\n'+err,'danger');
         });
       }
-
-
     },
     makeToast(text,variant) {
       this.$bvToast.toast(text, {
@@ -136,7 +134,7 @@ export default {
             console.log(response)
           }
       );
-    },
+    }
   },
   computed: {
     rows() {
