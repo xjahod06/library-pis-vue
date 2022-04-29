@@ -118,7 +118,8 @@ export default {
     components: {
       Multiselect,
       DatePicker,
-      fineBorrowTable
+      fineBorrowTable,
+      NavbarFinal
     },
     data() {
         return {
