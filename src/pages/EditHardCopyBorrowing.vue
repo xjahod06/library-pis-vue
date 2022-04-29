@@ -174,7 +174,8 @@ export default {
           this.isReturned = bool;
         },
         submit(){
-          ApiConnect.put('/hard-copy-exemplars', JSON.stringify(this.borrowing)).then((response) =>{
+          this.borrowing.state = this.borrowing.state.value
+          ApiConnect.put('/hard-copy-borrowings', this.borrowing).then((response) =>{
             this.makeToast('Borrowing '+this.borrowing.id+' has been updated successfully.')
           }).catch(error => {
           console.log(error)

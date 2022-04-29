@@ -78,16 +78,16 @@ export default {
         const items = data.data
         items.forEach(fine =>
         {
-            if (fine.borrowingId == this.borrowingId)
+            if (fine.borrowingId === this.borrowingId)
             {
                 filtrated.push(fine);
             }
         })
-        this.fields = filtrated;
-        this.isBusy = false
+        //this.fields = filtrated;
         this.Count = filtrated.length
         const parsedItems = this.customSort(this.parse(filtrated,this.oldData))
         this.oldData = parsedItems
+        this.isBusy = false
         return (parsedItems.slice((this.currentPageBook-1)*this.perPageBook,this.perPageBook*this.currentPageBook))
       }).catch(error => {
         this.isBusy = false
