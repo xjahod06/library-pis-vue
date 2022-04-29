@@ -174,40 +174,22 @@ export default {
           this.isReturned = bool;
         },
         submit(){
+          let saveFormState = this.borrowing.state;
           this.borrowing.state = this.borrowing.state.value
           ApiConnect.put('/hard-copy-borrowings', this.borrowing).then((response) =>{
             this.makeToast('Borrowing '+this.borrowing.id+' has been updated successfully.')
           }).catch(error => {
           console.log(error)
           })
-        },
-        getExemplar(){
-          if (this.isBook)
-          {
-            ApiConnect.get('/books/'+this.borrowing.exemplar.book.id).then((response) =>
-            {
-              console.log(response);
-              this.exemplar_parent = response.data;
-            }
-            ).catch((error) => console.log(error))
-          }
-          else
-          {
-            ApiConnect.get('/magazines/'+this.borrowing.exemplar.magazine.id).then((response) =>
-            {
-              console.log(response);
-              this.exemplar_parent = response.data;
-            }
-            ).catch((error) => console.log(error))
-          }
+          this.borrowing.state = saveFormState;
         },
         makeToast(text) {
-      this.$bvToast.toast(text, {
-        title: 'Library',
-        variant: 'success',
-        autoHideDelay: 5000,
-      })
-    },
+          this.$bvToast.toast(text, {
+            title: 'Library',
+            variant: 'success',
+            autoHideDelay: 5000,
+          })
+        },
     check_borrowing_form(){
 
     },
