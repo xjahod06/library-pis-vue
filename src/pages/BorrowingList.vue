@@ -18,7 +18,6 @@
       <b-tab title="ElectronicCopyBorrowings">
         <data-table
             endpointGet="/electronic-copy-borrowings/"
-            endpointEdit="/edit_electronic-copy-borrowings/"
             endpointDel="/electronic-copy-borrowings/"
             :endpointCreate="null"
             type="electronic-copy-borrowings"
@@ -63,7 +62,6 @@ export default {
         {key: 'borrowCounter', sortable: true},
         {key: 'reader_name', sortable: true},
         {key: 'title', sortable: true},
-        {key: 'edit', sortable: false},
         {key: 'delete', sortable: false},
       ],
     }
