@@ -103,14 +103,14 @@
                 label-class="required"
                 label-for="lang"
             >
-              <date-picker
+              <datepicker
                   ref="publicationDate"
                   id="publicationDate"
                   v-model="book.publicationDate"
                   type="date"
                   placeholder="Enter date when book was published"
                   required
-              ></date-picker>
+              ></datepicker>
               <b-form-invalid-feedback>
                 Publication date field can not be empty.
               </b-form-invalid-feedback>
@@ -625,7 +625,7 @@ import Multiselect from "vue-multiselect";
 import BookInfo from "@/components/book_page/BookInfo";
 import BookTitle from "@/components/book_page/BookTitle";
 import * as file from "../assets/js/file.js"
-import DatePicker from "vue2-datepicker";
+import Datepicker from "vuejs-datepicker";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 
 export default {
@@ -634,7 +634,7 @@ export default {
     BookInfo,
     BookTitle,
     Multiselect,
-    DatePicker,
+    Datepicker,
     NavbarFinal
   },
   data () {
@@ -765,32 +765,36 @@ export default {
 
       return form_check_error;
     },
-    reset_form_state(){
-      this.$refs['title'].state = null;
-      this.$refs['lang'].state=null;
-      this.$refs['publisher'].state=null;
-      this.$refs['isbn'].state=null;
-      this.$refs['publicationDate'].state=null;
-      this.$refs['publicationNumber'].state=null;
-      this.$refs['pages'].state=null;
-      this.$refs['authors'].state=null;
-      this.$refs['genres'].state=null;
-    },
     submit(){
-        this.reset_form_state();
         if (this.check_form()) return;
+
         ApiConnect.put('/books', this.book).then((response) =>{
-          this.reset_form_state();
+          this.$refs['title'].state = null;
+          this.$refs['lang'].state=null;
+          this.$refs['publisher'].state=null;
+          this.$refs['isbn'].state=null;
+          this.$refs['publicationDate'].state=null;
+          this.$refs['publicationNumber'].state=null;
+          this.$refs['pages'].state=null;
+          this.$refs['authors'].state=null;
+          this.$refs['genres'].state=null;
           this.makeToast('Book '+this.book.name+' has been updated successfully.')
         }).catch(error => {
           console.log(error)
         })
     },
     create(){
-      this.reset_form_state();
       if (this.check_form()) return;
         ApiConnect.post('/books', this.book).then((response) =>{
-          this.reset_form_state();
+          this.$refs['title'].state = null;
+          this.$refs['lang'].state=null;
+          this.$refs['publisher'].state=null;
+          this.$refs['isbn'].state=null;
+          this.$refs['publicationDate'].state=null;
+          this.$refs['publicationNumber'].state=null;
+          this.$refs['pages'].state=null;
+          this.$refs['authors'].state=null;
+          this.$refs['genres'].state=null;
           this.makeToast('Book '+this.book.name+' has been created successfully.')
         }).catch(error => {
           console.log(error)

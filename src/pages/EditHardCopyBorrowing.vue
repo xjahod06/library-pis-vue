@@ -88,18 +88,6 @@
         </b-col>
       </b-form>
     </b-container>
-    <fineBorrowTable
-            endpointGet="/fines/"
-            endpointEdit="/edit_fines/"
-            endpointDel="/fines/"
-            type="fines"
-            :fields="fieldsFines"
-            sortBy="state"
-            :parse="parseFines"
-            tableId="tableFines"
-            :borrowingId="borrowing.id"
-        >
-        </fineBorrowTable>
     </div>
 </template>
 
@@ -112,13 +100,16 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Multiselect from "vue-multiselect";
-import fineBorrowTable from "@/components/borrowing_page/finesBorrowingTable";
+import BookTitle from "@/components/book_page/BookTitle";
+import BookInfo from "@/components/book_page/BookInfo";
+library.add(faBookOpen)
 
 export default {
     components: {
-      Multiselect,
-      DatePicker,
-      fineBorrowTable
+        DatePicker,
+        BookTitle,
+        BookInfo,
+      NavbarFinal
     },
     data() {
         return {
@@ -213,20 +204,7 @@ export default {
       ApiConnect.get('/readers/').then(resp =>{
         this.readers = resp.data
       }).catch(error => console.log(error));
-    },
-    parseFines(data){
-      data.forEach(fine => {
-        fine.borrowing_name = '';
-        fine.reader = ''})
-      data.forEach(function (fine){
-        ApiConnect.get('/hard-copy-borrowings/'+fine.borrowingId).then((response) => {
-          fine.borrowing_name = response.data.exemplar.titleName;
-          fine.reader = response.data.reader.fullname;
-            }
-        )
-      })
-      return data
-    },
+    }
   },
   created() {
     this.getBorrowing(this.$route.params.id);

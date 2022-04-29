@@ -37,12 +37,12 @@
             <p style="text-align: left" class="form-label required" >Select start date:</p>
           </b-col>
           <b-col>
-            <date-picker id="example-datepickerRes"
+            <datepicker id="example-datepickerRes"
                         monday-first
                         v-model="dateFrom"
                         placeholder="Choose new date"
                         class="mb-1 mt-1 ml-0"
-            ></date-picker>
+            ></datepicker>
           </b-col>
         </b-row>
 
@@ -51,12 +51,12 @@
             <p style="text-align: left" class="form-label required" >Select end date:</p>
           </b-col>
           <b-col>
-            <date-picker id="example-datepickerRes2"
+            <datepicker id="example-datepickerRes2"
                         monday-first
                         v-model="dateTo"
                         placeholder="Choose new date"
                         class="mb-1 mt-1 ml-0"
-            ></date-picker>
+            ></datepicker>
           </b-col>
         </b-row>
         <b-row>
@@ -115,13 +115,13 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
-import DatePicker from "vue2-datepicker";
+import Datepicker from 'vuejs-datepicker';
 import Multiselect from "vue-multiselect";
 
 export default {
   name: "BookTitle",
   components: {
-    DatePicker,
+    Datepicker,
     Multiselect
   },
   props: {

@@ -717,31 +717,25 @@ export default {
       }
       return form_check_error;
     },
-    reset_form_state() {
-      this.$refs['title'].state=null;
-      this.$refs['lang'].state=null;
-      this.$refs['publisher'].state=null;
-      this.$refs['issn'].state=null;
-      this.$refs['publicationYear'].state=null;
-      this.showError=false;
-    },
     submit(){
-      this.reset_form_state();
       if (this.check_form()) return;
       ApiConnect.put('/magazines', this.magazine).then((response) =>{
-        this.reset_form_state();
+        this.$refs['title'].state=null;
+        this.$refs['lang'].state=null;
+        this.$refs['publisher'].state=null;
+        this.$refs['issn'].state=null;
+        this.$refs['publicationYear'].state=null;
+        this.showError=false;
         this.makeToast('magazine '+this.magazine.name+' has been updated successfully.')
       }).catch(error => {
         console.log(error)
       })
     },
     create(){
-      this.reset_form_state();
       if (this.check_form()) return;
       console.log(this.magazine);
       ApiConnect.post('/magazines', this.magazine).then((response) =>{
         console.log(response)
-        this.reset_form_state();
         this.makeToast('Magazine '+this.magazine.name+' has been created successfully.')
         ApiConnect.get('/magazines/').then(resp =>{
           this.$router.push('/edit_magazines/'+(resp.data[resp.data.length -1].id+1))

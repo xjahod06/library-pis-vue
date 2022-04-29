@@ -60,14 +60,14 @@
           id="dateOfBirth-label"
           label="Date of birth:"
           label-for="dateOfBirth">
-          <date-picker
+          <datepicker
               id="dateOfBirth"
               ref="dateOfBirth"
               v-model="form.dateOfBirth "
               type="date"
               required
               placeholder="Enter date of birth">
-          </date-picker>
+          </datepicker>
           </b-form-group>
         </b-col>
         <b-col>
@@ -75,7 +75,7 @@
               id="dateOfDeath-label"
               label="Date of death:"
               label-for="dateOfDeath">
-          <date-picker
+          <datepicker
               id="dateOfDeath"
               ref="dateOfDeath"
               reset-button
@@ -83,7 +83,7 @@
               v-model="form.dateOfDeath "
               type="date"
               placeholder="Enter date of death">
-          </date-picker>
+          </datepicker>
           </b-form-group>
 
         </b-col>
@@ -161,13 +161,13 @@
 import ApiConnect from "@/services/ApiConnect";
 import AuthorBigTile from "@/components/author/AuthorBigTile";
 import * as file from "@/assets/js/file";
-import DatePicker from "vue2-datepicker";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: 'AuthorForm',
   components: {
     AuthorBigTile,
-    DatePicker
+    Datepicker
   },
   data() {
     return {
@@ -207,8 +207,6 @@ export default {
       return form_check_error;
     },
     submit(){
-      this.$refs['name'].state= null;
-      this.$refs['surname'].state= null;
       if (this.check_author_form()) return;
       ApiConnect.put('/authors', this.form).then((response) =>{
         this.$refs['name'].state= null;
@@ -219,8 +217,6 @@ export default {
       })
     },
     create(){
-      this.$refs['name'].state= null;
-      this.$refs['surname'].state= null;
       if (this.check_author_form()) return;
       ApiConnect.post('/authors', this.form).then((response) =>{
         this.makeToast('Author '+this.form.name+' ' + this.form.surname  +'has been created successfully.')

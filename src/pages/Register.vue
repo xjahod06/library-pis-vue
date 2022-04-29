@@ -245,15 +245,7 @@ export default {
     };
   },
   methods: {
-    reset_form_state(){
-      this.$refs['fname'].state = null;
-      this.$refs['lname'].state = null;
-      this.$refs['email'].state = null;
-      this.$refs['password'].state = null;
-      this.$refs['confirm-password'].state = null;
-    },
     submit(){
-      this.reset_form_state();
       let form_required_error = false;
       if (!this.form.name) {
         this.$refs['fname'].state = false;

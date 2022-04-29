@@ -16,13 +16,13 @@
                 label-class="required"
                 label-for="dateFrom"
             >
-              <date-picker
+              <datepicker
                   ref="dateFrom"
                   id="dateFrom"
                   v-model="reservation.dateFrom"
                   placeholder="Enter date from of reservation start"
                   required
-              ></date-picker>
+              ></datepicker>
               <b-form-invalid-feedback>
                 Reservation has to have start date!
               </b-form-invalid-feedback>
@@ -35,13 +35,13 @@
                 label-class="required"
                 label-for="dateUntil"
             >
-              <date-picker
+              <datepicker
                   ref="dateUntil"
                   id="dateUntil"
                   v-model="reservation.dateUntil"
                   placeholder="Enter date until end of reservation"
                   required
-              ></date-picker>
+              ></datepicker>
               <b-form-invalid-feedback>
                 Reservation has to have end date!
               </b-form-invalid-feedback>
@@ -154,7 +154,7 @@
 <script>
 import ApiConnect from "@/services/ApiConnect";
 import Multiselect from "vue-multiselect";
-import DatePicker from "vue2-datepicker";
+import Datepicker from "vuejs-datepicker";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import reservationList from "@/pages/ReservationList";
 
@@ -162,7 +162,7 @@ export default {
   name: "EditReservation",
   components: {
     Multiselect,
-    DatePicker,
+    Datepicker,
     NavbarFinal
   },
   data () {
