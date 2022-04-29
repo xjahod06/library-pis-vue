@@ -29,7 +29,7 @@
 
           <b-form-group
               id="password-label"
-              label="Your Name:"
+              label="Your password:"
               label-class="required"
               label-for="password"
           >
