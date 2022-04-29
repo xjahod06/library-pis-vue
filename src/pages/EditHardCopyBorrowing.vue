@@ -4,13 +4,13 @@
       <b-container class="edit_hard-copy-borrowings">
       <b-form @submit.prevent="submit">
         <b-row>
-        <b-col>
-          <h1 class="display-4" >Borrowing on book {{this.borrowing.exemplar.titleName}}</h1>
-        </b-col>
-      </b-row>
-        <b-row class="text-left">
           <b-col>
-            <label class="typo__label required">Reader</label>
+            <h1 class="display-4" >Borrowing on book {{this.borrowing.exemplar.titleName}}</h1>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <label class="typo__label required">State</label>
             <multiselect
                 v-model="borrowing.state"
                 :options="options"
@@ -23,7 +23,7 @@
               Reservation state can not be empty!
             </b-form-invalid-feedback>
           </b-col>
-           <b-col>
+          <b-col>
             <label class="typo__label required">Reader</label>
             <multiselect
                 v-model="borrowing.reader"
@@ -39,7 +39,7 @@
             </b-form-invalid-feedback>
           </b-col>
         </b-row>
-          <b-row>
+        <b-row>
           <b-col>
             <b-form-group
                 id="start-date-label"
@@ -96,7 +96,7 @@
             :fields="fieldsFines"
             sortBy="state"
             :parse="parseFines"
-            tableId="tableFines"
+            tableId="tableBorrow"
             :borrowingId="borrowing.id"
         >
         </fineBorrowTable>
@@ -105,11 +105,8 @@
 
 <script>
 import ApiConnect from "@/services/ApiConnect";
-import * as file from "../assets/js/file.js";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import NavbarFinal from "@/components/main_page/NavbarFinal";
 import Multiselect from "vue-multiselect";
 import fineBorrowTable from "@/components/borrowing_page/finesBorrowingTable";
@@ -151,6 +148,9 @@ export default {
           ApiConnect.get('/hard-copy-borrowings/'+id).then((response) =>
           {
             this.borrowing = response.data;
+            this.options.forEach(state => {
+              if(state.value === response.data.state) this.borrowing.state = state
+            })
             this.borrowing.returnDate != null ? this.setReturnDate(true) : this.setReturnDate(false);
             if (this.borrowing.exemplar.book == null)
             {
@@ -253,7 +253,7 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-.edit-book-page{
+.edit_hard-copy-borrowings{
   color: black;
   text-align: left;
 }

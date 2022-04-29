@@ -27,7 +27,6 @@
         :sort-by.sync="sortByVal"
         :sort-desc.sync="sortDesc"
         striped hover
-        @sort-changed="sortingChanged"
     >
       <template v-slot:cell(pay)="{ item }" >
         <b-button  @click="payFine(item)" variant="success">pay</b-button>
