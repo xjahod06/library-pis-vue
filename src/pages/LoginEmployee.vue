@@ -140,5 +140,6 @@ export default {
   max-width: 500px;
   margin: auto;
   border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 </style>
