@@ -39,7 +39,7 @@
             </b-form-invalid-feedback>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row class="mt-3">
           <b-col>
             <b-form-group
                 id="start-date-label"
@@ -129,19 +129,20 @@ export default {
           exemplar: {},
           readers: [],
           fieldsFines: [
-        {key: 'amount', sortable: true},
-        {key: 'state', sortable: true},
-        {key: 'borrowing_name', sortable: true},
-        {key: 'reader', sortable: true},
-        {key: 'pay', sortable: false},
-        {key: 'delete', sortable: false},
-      ],
-      options: [
-        { value: 'ACTIVE', text: 'Active' },
-        { value: 'CAN_NOT_PROLONG', text: 'Can not prolong' },
-        { value: 'TO_RETURN', text: 'To return' },
-        { value: 'RETURNED', text: 'Returned' }]
-        } 
+            {key: 'amount', sortable: true},
+            {key: 'state', sortable: true},
+            {key: 'borrowing_name', sortable: true},
+            {key: 'reader', sortable: true},
+            {key: 'pay', sortable: false},
+            {key: 'delete', sortable: false},
+          ],
+          options: [
+            { value: 'ACTIVE', text: 'Active' },
+            { value: 'CAN_NOT_PROLONG', text: 'Can not prolong' },
+            { value: 'TO_RETURN', text: 'To return' },
+            { value: 'RETURNED', text: 'Returned' }
+          ]
+        }
     },
     methods: {
         getBorrowing(id){
@@ -178,10 +179,10 @@ export default {
           this.borrowing.state = this.borrowing.state.value
           ApiConnect.put('/hard-copy-borrowings', this.borrowing).then((response) =>{
             this.makeToast('Borrowing '+this.borrowing.id+' has been updated successfully.')
+            this.borrowing.state = saveFormState;
           }).catch(error => {
           console.log(error)
           })
-          this.borrowing.state = saveFormState;
         },
         makeToast(text) {
           this.$bvToast.toast(text, {
