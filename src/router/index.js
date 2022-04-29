@@ -33,6 +33,7 @@ import EditReservation from "@/pages/EditReservation";
 import Field from "@/pages/Field";
 import FieldAuthors from "@/pages/FieldAuthors";
 import CreateReader from "@/pages/CreateReader";
+import CreateBorrowing from "@/pages/CreateBorrowing";
 
 Vue.use(VueRouter)
 
@@ -264,6 +265,14 @@ const Routes = [
     component: EditField,
     meta: {
       title: 'Edit Field',
+      employee: true
+    }
+  },
+  {
+    path: '/edit_hard-copy-borrowings/0',
+    component: CreateBorrowing,
+    meta: {
+      title: 'Create Borrowing',
       employee: true
     }
   },
