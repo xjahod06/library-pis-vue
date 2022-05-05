@@ -792,9 +792,7 @@ export default {
         ApiConnect.post('/books', this.book).then((response) =>{
           this.reset_form_state();
           this.makeToast('Book '+this.book.name+' has been created successfully.')
-          ApiConnect.get('/books/').then(resp =>{
-            this.$router.push('/edit_books/'+(resp.data[resp.data.length -1].id))
-          })
+          this.$router.push('/edit_titles')
         }).catch(error => {
           console.log(error)
         })
