@@ -49,7 +49,7 @@
             <div v-for="field in fields" :key="'field' + field.id">
               <SearchItem :item="field"
                           :id="field.id"
-                          root="/fields/"
+                          root="/field/"
                           type="field">
               </SearchItem>
             </div>

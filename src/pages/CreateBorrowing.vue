@@ -252,7 +252,7 @@ export default {
         this.showError = false;
         this.makeToast('borrow on book '+this.borrow.exemplar.titleName+' has been created successfully.')
         ApiConnect.get('/hard-copy-borrowings/').then(resp =>{
-          this.$router.push('/edit_hard-copy-borrowings/'+(resp.data[resp.data.length -1].id+1))
+          this.$router.push('/edit_hard-copy-borrowings/'+(resp.data[resp.data.length -1].id))
         })
       }).catch(error => {
         console.log(error)

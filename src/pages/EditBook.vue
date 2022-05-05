@@ -792,12 +792,12 @@ export default {
         ApiConnect.post('/books', this.book).then((response) =>{
           this.reset_form_state();
           this.makeToast('Book '+this.book.name+' has been created successfully.')
+          ApiConnect.get('/books/').then(resp =>{
+            this.$router.push('/edit_books/'+(resp.data[resp.data.length -1].id))
+          })
         }).catch(error => {
           console.log(error)
         })
-      ApiConnect.get('/books/').then(resp =>{
-        this.$router.push('/edit_books/'+(resp.data[resp.data.length -1].id+1))
-      })
     },
     makeToast(text) {
       this.$bvToast.toast(text, {
